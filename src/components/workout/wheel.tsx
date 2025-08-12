@@ -161,7 +161,17 @@ export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) 
       if (elapsed >= duration) {
         const finalRotation = targetRotation % (2 * Math.PI);
         currentRotation.value = finalRotation;
-        finishSpin(finalRotation);
+        
+        // Finish spin logic moved inline
+        const numOptions = displayWorkouts.length;
+        const arcSize = (2 * Math.PI) / numOptions;
+        const finalAngle = (2 * Math.PI - (finalRotation % (2 * Math.PI)) + (1.5 * Math.PI)) % (2 * Math.PI);
+        const winnerIndex = Math.floor(finalAngle / arcSize);
+        const winner = displayWorkouts[winnerIndex];
+        
+        announcement.value = `Selected workout: ${winner.name}`;
+        onSpinFinish(winner);
+        isSpinning.value = false;
         return;
       }
       const progress = elapsed / duration;
@@ -171,18 +181,6 @@ export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) 
     };
 
     requestAnimationFrame(animate);
-  });
-
-  const finishSpin = $((finalRotation: number) => {
-    const numOptions = displayWorkouts.length;
-    const arcSize = (2 * Math.PI) / numOptions;
-    const finalAngle = (2 * Math.PI - (finalRotation % (2 * Math.PI)) + (1.5 * Math.PI)) % (2 * Math.PI);
-    const winnerIndex = Math.floor(finalAngle / arcSize);
-    const winner = displayWorkouts[winnerIndex];
-    
-    announcement.value = `Selected workout: ${winner.name}`;
-    onSpinFinish(winner);
-    isSpinning.value = false;
   });
 
   const handleKeyDown = $((e: KeyboardEvent) => {
