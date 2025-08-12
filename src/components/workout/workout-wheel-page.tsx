@@ -94,17 +94,16 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
       
       <WorkoutNavigation />
       
-      <div class="container mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
-        <header class="text-center mb-8 lg:mb-10">
-          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 uppercase">
+      <div class="container mx-auto p-2 md:p-4 lg:p-6 max-w-7xl">
+        <header class="text-center mb-4 lg:mb-6">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 uppercase">
             <span class="block">Wheel</span>
-            <span class="block text-teal-600 -mt-1 sm:-mt-2 md:-mt-3">Of Gains</span>
+            <span class="block text-teal-600 -mt-1 sm:-mt-2">Of Gains</span>
           </h1>
-          <h2 class="text-xl sm:text-2xl font-bold text-slate-700 mt-2">{pageTitle}</h2>
-          <p class="text-slate-500 mt-3 text-base sm:text-lg px-4">{pageDescription}</p>
+          <p class="text-slate-600 mt-2 text-sm sm:text-base">{pageTitle} - {pageDescription}</p>
         </header>
 
-        <main class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6" role="main">
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4" role="main">
           <Wheel displayWorkouts={displayWorkouts.value} onSpinFinish={handleSpinFinish} />
           <WorkoutManager workouts={state.masterWorkouts} setWorkouts={handleWorkoutsChange} />
         </main>

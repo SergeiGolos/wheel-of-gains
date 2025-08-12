@@ -41,12 +41,12 @@ export const WorkoutManager = component$<WorkoutManagerProps>(({ workouts, setWo
   });
 
   return (
-    <section class="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col" aria-labelledby="arsenal-heading">
-      <h2 id="arsenal-heading" class="text-xl sm:text-2xl text-center mb-4 text-slate-800 font-bold uppercase tracking-widest">Workout Arsenal</h2>
+    <section class="bg-white p-2 sm:p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col" aria-labelledby="arsenal-heading">
+      <h2 id="arsenal-heading" class="text-lg sm:text-xl text-center mb-3 text-slate-800 font-bold uppercase tracking-widest">Workout Arsenal</h2>
       
-      <div class="flex-grow overflow-y-auto pr-2 mb-6 max-h-[250px] sm:max-h-[300px] lg:max-h-none workout-list" role="region" aria-label="Workout list" aria-live="polite">
+      <div class="flex-grow overflow-y-auto pr-2 mb-4 max-h-[250px] sm:max-h-[300px] lg:max-h-none workout-list" role="region" aria-label="Workout list" aria-live="polite">
         {workouts.length === 0 ? (
-          <div class="text-center py-8 sm:py-10 border-2 border-dashed border-slate-200 rounded-md">
+          <div class="text-center py-4 sm:py-6 border-2 border-dashed border-slate-200 rounded-md">
             <p class="text-slate-500 text-sm sm:text-base">Your arsenal is empty.</p>
             <p class="text-slate-400 text-xs sm:text-sm">Add a workout below.</p>
           </div>
@@ -79,7 +79,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(({ workouts, setWo
       </div>
 
       <div>
-        <h3 id="add-workout-heading" class="text-lg sm:text-xl text-center mb-4 text-slate-800 font-bold uppercase tracking-widest">Add Challenge</h3>
+        <h3 id="add-workout-heading" class="text-base sm:text-lg text-center mb-3 text-slate-800 font-bold uppercase tracking-widest">Add Challenge</h3>
         <form onSubmit$={addWorkout} class="space-y-3" aria-labelledby="add-workout-heading">
           <label class="block">
             <span class="sr-only">Workout Name</span>

@@ -191,7 +191,7 @@ export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) 
   });
 
   return (
-    <div class="lg:col-span-2 bg-white p-2 sm:p-4 lg:p-6 rounded-lg shadow-sm border border-slate-200">
+    <div class="lg:col-span-2 bg-white p-1 sm:p-2 lg:p-3 rounded-lg shadow-sm border border-slate-200">
       <h2 class="sr-only">Workout Selection Wheel</h2>
       <div class="relative w-full pt-[100%] h-0">
         <div class="absolute left-1/2 top-[-10px] sm:top-[-15px] -translate-x-1/2 w-0 h-0 border-l-[10px] sm:border-l-[15px] border-l-transparent border-r-[10px] sm:border-r-[15px] border-r-transparent border-t-[15px] sm:border-t-[25px] border-t-slate-800 z-10" aria-hidden="true"></div>
