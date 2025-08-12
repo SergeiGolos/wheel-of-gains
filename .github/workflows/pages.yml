@@ -49,8 +49,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the dist directory containing the built QWIK app
-          path: './dist'
+          # Upload the wheel-of-gains subdirectory containing the built QWIK app
+          path: './dist/wheel-of-gains'
 
   # Deployment job
   deploy:
