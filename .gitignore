@@ -5,7 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Temporary files
-/tmp/
+.tmp/
 *.tmp
 
 # IDE files
@@ -21,6 +21,20 @@ Thumbs.db
 # Build artifacts
 dist/
 build/
+server/
+.netlify/
+.vercel/
 
 # Logs
 *.log
+
+# QWIK
+lib/
+lib-types/
+dist-dev/
+
+# TypeScript
+*.tsbuildinfo
+
+# Backup files from conversion
+backup/
