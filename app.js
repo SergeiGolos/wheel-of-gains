@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+const { useState, useEffect, useRef, useMemo } = React;
 
 // --- Helper Functions & Initial Data ---
 
@@ -33,11 +33,10 @@ const COLORS = ["#3b82f6", "#22c55e", "#ef4444", "#f97316", "#8b5cf6", "#d946ef"
 // --- React Components ---
 
 const KettlebellIcon = () => (
-    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M6 9H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1a3 3 0 0 1 3 3v1Zm12 0h-2V8a3 3 0 0 1 3-3h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2Zm-2.92 2h-6.16a5.51 5.51 0 0 0-5.46 6A5.55 5.55 0 0 0 9.01 22a5.67 5.67 0 0 0 5.53-4.59A5.52 5.52 0 0 0 15.08 11Z M9 5a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1h4V5ZM15 5v1h4V5a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1Z"></path>
-    </svg>
+    React.createElement("svg", {className: "w-5 h-5", viewBox: "0 0 24 24", fill: "currentColor"},
+        React.createElement("path", {d: "M6 9H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1a3 3 0 0 1 3 3v1Zm12 0h-2V8a3 3 0 0 1 3-3h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2Zm-2.92 2h-6.16a5.51 5.51 0 0 0-5.46 6A5.55 5.55 0 0 0 9.01 22a5.67 5.67 0 0 0 5.53-4.59A5.52 5.52 0 0 0 15.08 11Z M9 5a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1h4V5ZM15 5v1h4V5a1 1 0 0 0-1-1h-1a1 1 0 0 0-1 1Z"})
+    )
 );
-
 
 const Wheel = ({ displayWorkouts, onSpinFinish }) => {
     const canvasRef = useRef(null);
@@ -194,7 +193,6 @@ const Wheel = ({ displayWorkouts, onSpinFinish }) => {
     );
 };
 
-
 const WorkoutManager = ({ workouts, setWorkouts }) => {
     const addWorkout = (e) => {
         e.preventDefault();
@@ -252,7 +250,6 @@ const WorkoutManager = ({ workouts, setWorkouts }) => {
     );
 };
 
-
 const ResultModal = ({ winner, onClose }) => {
     if (!winner) return null;
 
@@ -270,8 +267,7 @@ const ResultModal = ({ winner, onClose }) => {
     );
 };
 
-
-export default function App() {
+function App() {
     const [masterWorkouts, setMasterWorkouts] = useState(initialMasterWorkouts);
     const [winner, setWinner] = useState(null);
     
@@ -289,31 +285,32 @@ export default function App() {
         return expanded;
     }, [masterWorkouts]);
 
-    return (
-        <div className="min-h-screen bg-slate-100 font-['Inter'] text-slate-800">
-            <style>{`
-                .workout-list::-webkit-scrollbar { width: 8px; }
-                .workout-list::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
-                .workout-list::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
-                .workout-list::-webkit-scrollbar-thumb:hover { background: #64748b; }
-            `}</style>
-            
-            <div className="container mx-auto p-4 md:p-8 max-w-7xl">
-                <header className="text-center mb-10">
-                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 uppercase">
-                        <span className="block">Wheel</span>
-                        <span className="block text-teal-600 -mt-2 md:-mt-3">Of Gains</span>
-                    </h1>
-                    <p className="text-slate-500 mt-3 text-lg">Spin the wheel to choose your path to glory!</p>
-                </header>
+    return React.createElement('div', {className: "min-h-screen bg-slate-100 font-['Inter'] text-slate-800"},
+        React.createElement('style', {}, `
+            .workout-list::-webkit-scrollbar { width: 8px; }
+            .workout-list::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
+            .workout-list::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+            .workout-list::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        `),
+        
+        React.createElement('div', {className: "container mx-auto p-4 md:p-8 max-w-7xl"},
+            React.createElement('header', {className: "text-center mb-10"},
+                React.createElement('h1', {className: "text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 uppercase"},
+                    React.createElement('span', {className: "block"}, "Wheel"),
+                    React.createElement('span', {className: "block text-teal-600 -mt-2 md:-mt-3"}, "Of Gains")
+                ),
+                React.createElement('p', {className: "text-slate-500 mt-3 text-lg"}, "Spin the wheel to choose your path to glory!")
+            ),
 
-                <main className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <Wheel displayWorkouts={displayWorkouts} onSpinFinish={setWinner} />
-                    <WorkoutManager workouts={masterWorkouts} setWorkouts={setMasterWorkouts} />
-                </main>
-            </div>
+            React.createElement('main', {className: "grid grid-cols-1 lg:grid-cols-3 gap-6"},
+                React.createElement(Wheel, {displayWorkouts: displayWorkouts, onSpinFinish: setWinner}),
+                React.createElement(WorkoutManager, {workouts: masterWorkouts, setWorkouts: setMasterWorkouts})
+            )
+        ),
 
-            {winner && <ResultModal winner={winner} onClose={() => setWinner(null)} />}
-        </div>
+        winner && React.createElement(ResultModal, {winner: winner, onClose: () => setWinner(null)})
     );
 }
+
+// Render the app
+ReactDOM.render(React.createElement(App), document.getElementById('root'));
