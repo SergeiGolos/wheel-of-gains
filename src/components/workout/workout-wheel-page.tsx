@@ -2,19 +2,16 @@ import { component$, useStore, useComputed$, useVisibleTask$, $ } from "@builder
 import type { Workout } from "../../utils/workout-utils";
 import { Wheel } from "./wheel";
 import { WorkoutManager } from "./workout-manager";
-import { FilterPanel } from "./filter-panel";
 import { ResultModal } from "../ui/result-modal";
 import { WorkoutNavigation } from "../navigation/workout-navigation";
 import { 
   loadWorkoutsFromStorage, 
-  saveWorkoutsToStorage, 
-  DEFAULT_CATEGORIES
+  saveWorkoutsToStorage
 } from "../../utils/workout-utils";
 
 interface AppState {
   masterWorkouts: Workout[];
   winner: Workout | null;
-  activeFilters: string[];
 }
 
 interface WorkoutWheelPageProps {
@@ -33,7 +30,6 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   const state = useStore<AppState>({
     masterWorkouts: initialWorkouts, // Initialize immediately with the passed workouts
     winner: null,
-    activeFilters: [],
   });
 
   // Try to load from localStorage and override if found
@@ -59,15 +55,9 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   });
 
   const displayWorkouts = useComputed$(() => {
-    // Filter workouts based on active filters inline
-    const filteredWorkouts = state.activeFilters.length === 0 
-      ? state.masterWorkouts 
-      : state.masterWorkouts.filter(workout => 
-          state.activeFilters.includes(workout.category.id)
-        );
-    
+    // No filtering needed since separate pages handle categories
     const expanded: Workout[] = [];
-    filteredWorkouts.forEach(workout => {
+    state.masterWorkouts.forEach(workout => {
       for (let i = 0; i < workout.multiplier; i++) {
         expanded.push(workout);
       }
@@ -83,10 +73,6 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   // Create actions that modify state directly
   const handleSpinFinish = $((winner: Workout) => {
     state.winner = winner;
-  });
-
-  const handleFilterChange = $((filters: string[]) => {
-    state.activeFilters = filters;
   });
 
   const handleWorkoutsChange = $((workouts: Workout[]) => {
@@ -119,13 +105,6 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6" role="main">
-          <div class="lg:col-span-3">
-            <FilterPanel
-              categories={DEFAULT_CATEGORIES}
-              activeFilters={state.activeFilters}
-              onFilterChange={handleFilterChange}
-            />
-          </div>
           <Wheel displayWorkouts={displayWorkouts.value} onSpinFinish={handleSpinFinish} />
           <WorkoutManager workouts={state.masterWorkouts} setWorkouts={handleWorkoutsChange} />
         </main>

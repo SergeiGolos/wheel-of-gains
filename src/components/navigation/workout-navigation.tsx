@@ -2,12 +2,12 @@ import { component$ } from "@builder.io/qwik";
 import { Link, useLocation } from "@builder.io/qwik-city";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Classic Mix", description: "Original collection" },
-  { href: "/beginner/", label: "Beginner", description: "Just starting out" },
-  { href: "/intermediate/", label: "Intermediate", description: "Step it up" },
-  { href: "/advanced/", label: "Advanced", description: "Elite level" },
-  { href: "/cardio/", label: "Cardio", description: "Heart pumping" },
-  { href: "/strength/", label: "Strength", description: "Build muscle" },
+  { href: "/wheel-of-gains/", label: "Classic Mix", description: "Original collection" },
+  { href: "/wheel-of-gains/beginner/", label: "Beginner", description: "Just starting out" },
+  { href: "/wheel-of-gains/intermediate/", label: "Intermediate", description: "Step it up" },
+  { href: "/wheel-of-gains/advanced/", label: "Advanced", description: "Elite level" },
+  { href: "/wheel-of-gains/cardio/", label: "Cardio", description: "Heart pumping" },
+  { href: "/wheel-of-gains/strength/", label: "Strength", description: "Build muscle" },
 ];
 
 export const WorkoutNavigation = component$(() => {
