@@ -17,18 +17,20 @@ export interface Workout {
   category: WorkoutCategory;
 }
 
-export const saveWorkoutsToStorage = (workouts: Workout[]) => {
+export const saveWorkoutsToStorage = (workouts: Workout[], storageKey?: string) => {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(workouts));
+    const key = storageKey || STORAGE_KEY;
+    localStorage.setItem(key, JSON.stringify(workouts));
     localStorage.setItem(STORAGE_VERSION_KEY, CURRENT_VERSION);
   } catch (error) {
     console.warn('Failed to save workouts to localStorage:', error);
   }
 };
 
-export const loadWorkoutsFromStorage = (): Workout[] | null => {
+export const loadWorkoutsFromStorage = (storageKey?: string): Workout[] | null => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const key = storageKey || STORAGE_KEY;
+    const saved = localStorage.getItem(key);
     const version = localStorage.getItem(STORAGE_VERSION_KEY);
     
     if (!saved || version !== CURRENT_VERSION) {
