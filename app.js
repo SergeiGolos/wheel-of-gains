@@ -110,54 +110,6 @@ const CategoryBadge = ({ category }) => (
     }, category.name)
 );
 
-const FilterPanel = ({ categories, activeFilters, onFilterChange }) => {
-    const toggleFilter = (categoryId) => {
-        const newFilters = activeFilters.includes(categoryId) 
-            ? activeFilters.filter(id => id !== categoryId)
-            : [...activeFilters, categoryId];
-        onFilterChange(newFilters);
-    };
-
-    const clearFilters = () => {
-        onFilterChange([]);
-    };
-
-    return React.createElement("section", {
-        className: "bg-white p-4 rounded-lg shadow-sm border border-slate-200 mb-4 lg:mb-6",
-        "aria-labelledby": "filter-heading"
-    },
-        React.createElement("h3", {
-            id: "filter-heading", 
-            className: "text-lg font-bold text-slate-800 mb-3"
-        }, "Filter by Category"),
-        React.createElement("div", {
-            className: "flex flex-wrap gap-2 mb-3",
-            role: "group",
-            "aria-labelledby": "filter-heading"
-        },
-            categories.map(category => 
-                React.createElement("button", {
-                    key: category.id,
-                    onClick: () => toggleFilter(category.id),
-                    "aria-pressed": activeFilters.includes(category.id),
-                    "aria-label": `Filter by ${category.name} category`,
-                    className: `px-3 py-2 rounded-md text-sm font-medium transition-colors min-h-[44px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-                        activeFilters.includes(category.id) 
-                            ? 'text-white shadow-md'
-                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                    }`,
-                    style: activeFilters.includes(category.id) ? { backgroundColor: category.color } : {}
-                }, category.name)
-            )
-        ),
-        activeFilters.length > 0 && React.createElement("button", {
-            onClick: clearFilters,
-            "aria-label": "Clear all category filters",
-            className: "text-sm text-slate-500 hover:text-slate-700 font-medium min-h-[44px] px-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        }, "Clear All Filters")
-    );
-};
-
 const Wheel = ({ displayWorkouts, onSpinFinish }) => {
     const canvasRef = useRef(null);
     const [isSpinning, setIsSpinning] = useState(false);
@@ -530,25 +482,16 @@ function App() {
         return savedWorkouts || initialMasterWorkouts;
     });
     const [winner, setWinner] = useState(null);
-    const [activeFilters, setActiveFilters] = useState([]);
     
     // Save workouts to localStorage whenever they change
     useEffect(() => {
         saveWorkoutsToStorage(masterWorkouts);
     }, [masterWorkouts]);
-
-    // Filter workouts based on active filters
-    const getFilteredWorkouts = (workouts, filters) => {
-        if (filters.length === 0) return workouts;
-        return workouts.filter(workout => 
-            filters.includes(workout.category.id)
-        );
-    };
     
     const displayWorkouts = useMemo(() => {
-        const filteredWorkouts = getFilteredWorkouts(masterWorkouts, activeFilters);
+        // No filtering needed since this is the main page
         const expanded = [];
-        filteredWorkouts.forEach(workout => {
+        masterWorkouts.forEach(workout => {
             for (let i = 0; i < workout.multiplier; i++) {
                 expanded.push(workout);
             }
@@ -558,7 +501,7 @@ function App() {
             [expanded[i], expanded[j]] = [expanded[j], expanded[i]];
         }
         return expanded;
-    }, [masterWorkouts, activeFilters]);
+    }, [masterWorkouts]);
 
     return React.createElement('div', {className: "min-h-screen bg-slate-100 font-['Inter'] text-slate-800"},
         React.createElement('style', {}, `
@@ -578,13 +521,6 @@ function App() {
             ),
 
             React.createElement('main', {className: "grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6", role: "main"},
-                React.createElement('div', {className: "lg:col-span-3"},
-                    React.createElement(FilterPanel, {
-                        categories: DEFAULT_CATEGORIES, 
-                        activeFilters: activeFilters, 
-                        onFilterChange: setActiveFilters
-                    })
-                ),
                 React.createElement(Wheel, {displayWorkouts: displayWorkouts, onSpinFinish: setWinner}),
                 React.createElement(WorkoutManager, {workouts: masterWorkouts, setWorkouts: setMasterWorkouts})
             )
@@ -600,7 +536,7 @@ ReactDOM.render(React.createElement(App), document.getElementById('root'));
 // Register service worker for PWA functionality
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/wheel-of-gains/sw.js')
             .then((registration) => {
                 console.log('[PWA] Service Worker registered successfully:', registration.scope);
             })
