@@ -95,13 +95,10 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
       <WorkoutNavigation />
       
       <div class="container mx-auto p-2 md:p-4 lg:p-6 max-w-7xl">
-        <header class="text-center mb-4 lg:mb-6">
-          <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 uppercase">
-            <span class="block">Wheel</span>
-            <span class="block text-teal-600 -mt-1 sm:-mt-2">Of Gains</span>
-          </h1>
-          <p class="text-slate-600 mt-2 text-sm sm:text-base">{pageTitle} - {pageDescription}</p>
-        </header>
+        {/* Subtle page context indicator */}
+        <div class="text-center mb-3">
+          <p class="text-slate-500 text-sm">{pageTitle} - {pageDescription}</p>
+        </div>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4" role="main">
           <Wheel displayWorkouts={displayWorkouts.value} onSpinFinish={handleSpinFinish} />

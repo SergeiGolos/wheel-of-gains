@@ -13,16 +13,16 @@ export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) 
   const isSpinning = useSignal(false);
   const currentRotation = useSignal(0);
   const announcement = useSignal('');
-  const canvasSize = useSignal(600);
+  const canvasSize = useSignal(500);
 
   // Responsive canvas sizing
   const getCanvasSize = $(() => {
-    if (typeof window === 'undefined') return 600;
+    if (typeof window === 'undefined') return 500;
     const screenWidth = window.innerWidth;
-    if (screenWidth < 640) return 300; // Small mobile
-    if (screenWidth < 768) return 400; // Large mobile
-    if (screenWidth < 1024) return 500; // Tablet
-    return 600; // Desktop
+    if (screenWidth < 640) return 280; // Small mobile - reduced
+    if (screenWidth < 768) return 360; // Large mobile - reduced
+    if (screenWidth < 1024) return 450; // Tablet - reduced
+    return 500; // Desktop - reduced
   });
 
   // Update canvas size on window resize
@@ -191,10 +191,10 @@ export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) 
   });
 
   return (
-    <div class="lg:col-span-2 bg-white p-1 sm:p-2 lg:p-3 rounded-lg shadow-sm border border-slate-200">
+    <div class="lg:col-span-2 bg-white p-1 sm:p-2 lg:p-3 rounded border border-slate-100">
       <h2 class="sr-only">Workout Selection Wheel</h2>
-      <div class="relative w-full pt-[100%] h-0">
-        <div class="absolute left-1/2 top-[-10px] sm:top-[-15px] -translate-x-1/2 w-0 h-0 border-l-[10px] sm:border-l-[15px] border-l-transparent border-r-[10px] sm:border-r-[15px] border-r-transparent border-t-[15px] sm:border-t-[25px] border-t-slate-800 z-10" aria-hidden="true"></div>
+      <div class="relative w-full pt-[100%] h-0 opacity-90">
+        <div class="absolute left-1/2 top-[-8px] sm:top-[-12px] -translate-x-1/2 w-0 h-0 border-l-[8px] sm:border-l-[12px] border-l-transparent border-r-[8px] sm:border-r-[12px] border-r-transparent border-t-[12px] sm:border-t-[18px] border-t-slate-600 z-10" aria-hidden="true"></div>
         <div 
           role="img" 
           aria-label={`Workout wheel with ${displayWorkouts.length} options`}
@@ -217,7 +217,7 @@ export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) 
           disabled={isSpinning.value || displayWorkouts.length === 0}
           aria-label={isSpinning.value ? "Spinning wheel in progress" : displayWorkouts.length === 0 ? "Add workouts before spinning" : "Spin wheel to select workout"}
           aria-describedby="wheel-instructions"
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 text-white border-4 border-white font-semibold cursor-pointer z-20 flex items-center justify-center text-sm sm:text-lg uppercase transition-all ease-in-out shadow-lg hover:not-disabled:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-400 font-['Inter'] tracking-wider min-h-[44px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-slate-700 text-white border-3 border-white font-medium cursor-pointer z-20 flex items-center justify-center text-xs sm:text-sm uppercase transition-all ease-in-out shadow-md hover:not-disabled:bg-slate-600 disabled:cursor-not-allowed disabled:bg-slate-400 font-['Inter'] tracking-wider min-h-[44px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           SPIN
         </button>
