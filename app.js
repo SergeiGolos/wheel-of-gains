@@ -122,14 +122,26 @@ const FilterPanel = ({ categories, activeFilters, onFilterChange }) => {
         onFilterChange([]);
     };
 
-    return React.createElement("div", {className: "bg-white p-4 rounded-lg shadow-sm border border-slate-200 mb-4 lg:mb-6"},
-        React.createElement("h3", {className: "text-lg font-bold text-slate-800 mb-3"}, "Filter by Category"),
-        React.createElement("div", {className: "flex flex-wrap gap-2 mb-3"},
+    return React.createElement("section", {
+        className: "bg-white p-4 rounded-lg shadow-sm border border-slate-200 mb-4 lg:mb-6",
+        "aria-labelledby": "filter-heading"
+    },
+        React.createElement("h3", {
+            id: "filter-heading", 
+            className: "text-lg font-bold text-slate-800 mb-3"
+        }, "Filter by Category"),
+        React.createElement("div", {
+            className: "flex flex-wrap gap-2 mb-3",
+            role: "group",
+            "aria-labelledby": "filter-heading"
+        },
             categories.map(category => 
                 React.createElement("button", {
                     key: category.id,
                     onClick: () => toggleFilter(category.id),
-                    className: `px-3 py-2 rounded-md text-sm font-medium transition-colors min-h-[44px] ${
+                    "aria-pressed": activeFilters.includes(category.id),
+                    "aria-label": `Filter by ${category.name} category`,
+                    className: `px-3 py-2 rounded-md text-sm font-medium transition-colors min-h-[44px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                         activeFilters.includes(category.id) 
                             ? 'text-white shadow-md'
                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -140,7 +152,8 @@ const FilterPanel = ({ categories, activeFilters, onFilterChange }) => {
         ),
         activeFilters.length > 0 && React.createElement("button", {
             onClick: clearFilters,
-            className: "text-sm text-slate-500 hover:text-slate-700 font-medium min-h-[44px] px-2"
+            "aria-label": "Clear all category filters",
+            className: "text-sm text-slate-500 hover:text-slate-700 font-medium min-h-[44px] px-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         }, "Clear All Filters")
     );
 };
@@ -149,6 +162,7 @@ const Wheel = ({ displayWorkouts, onSpinFinish }) => {
     const canvasRef = useRef(null);
     const [isSpinning, setIsSpinning] = useState(false);
     const [currentRotation, setCurrentRotation] = useState(0);
+    const [announcement, setAnnouncement] = useState('');
 
     // Responsive canvas sizing
     const getCanvasSize = () => {
@@ -171,6 +185,14 @@ const Wheel = ({ displayWorkouts, onSpinFinish }) => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+    
+    // Keyboard navigation support
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleSpin();
+        }
+    };
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -273,6 +295,7 @@ const Wheel = ({ displayWorkouts, onSpinFinish }) => {
     const handleSpin = () => {
         if (isSpinning || displayWorkouts.length === 0) return;
         setIsSpinning(true);
+        setAnnouncement('Spinning the wheel...');
 
         const totalRotations = Math.floor(Math.random() * 5) + 8;
         const randomStopAngle = Math.random() * 2 * Math.PI;
@@ -305,22 +328,41 @@ const Wheel = ({ displayWorkouts, onSpinFinish }) => {
         const winnerIndex = Math.floor(finalAngle / arcSize);
         const winner = displayWorkouts[winnerIndex];
         
+        setAnnouncement(`Selected workout: ${winner.name}`);
         onSpinFinish(winner);
         setIsSpinning(false);
     };
 
     return (
         <div className="lg:col-span-2 bg-white p-2 sm:p-4 lg:p-6 rounded-lg shadow-sm border border-slate-200">
+            <h2 className="sr-only">Workout Selection Wheel</h2>
             <div className="relative w-full pt-[100%] h-0">
-                <div className="absolute left-1/2 top-[-10px] sm:top-[-15px] -translate-x-1/2 w-0 h-0 border-l-[10px] sm:border-l-[15px] border-l-transparent border-r-[10px] sm:border-r-[15px] border-r-transparent border-t-[15px] sm:border-t-[25px] border-t-slate-800 z-10"></div>
-                <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className="absolute top-0 left-0 w-full h-full"></canvas>
+                <div className="absolute left-1/2 top-[-10px] sm:top-[-15px] -translate-x-1/2 w-0 h-0 border-l-[10px] sm:border-l-[15px] border-l-transparent border-r-[10px] sm:border-r-[15px] border-r-transparent border-t-[15px] sm:border-t-[25px] border-t-slate-800 z-10" aria-hidden="true"></div>
+                <div 
+                    role="img" 
+                    aria-label={`Workout wheel with ${displayWorkouts.length} options`}
+                    aria-describedby="wheel-instructions"
+                >
+                    <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className="absolute top-0 left-0 w-full h-full"></canvas>
+                </div>
+                <p id="wheel-instructions" className="sr-only">
+                    Click the spin button to randomly select a workout from your collection. 
+                    {displayWorkouts.length === 0 ? "Add workouts to your arsenal first." : `${displayWorkouts.length} workouts available.`}
+                </p>
                 <button 
                     onClick={handleSpin} 
-                    disabled={isSpinning}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 text-white border-4 border-white font-semibold cursor-pointer z-20 flex items-center justify-center text-sm sm:text-lg uppercase transition-all ease-in-out shadow-lg hover:not-disabled:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-400 font-['Inter'] tracking-wider min-h-[44px] min-w-[44px]"
+                    onKeyDown={handleKeyDown}
+                    disabled={isSpinning || displayWorkouts.length === 0}
+                    aria-label={isSpinning ? "Spinning wheel in progress" : displayWorkouts.length === 0 ? "Add workouts before spinning" : "Spin wheel to select workout"}
+                    aria-describedby="wheel-instructions"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-800 text-white border-4 border-white font-semibold cursor-pointer z-20 flex items-center justify-center text-sm sm:text-lg uppercase transition-all ease-in-out shadow-lg hover:not-disabled:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-400 font-['Inter'] tracking-wider min-h-[44px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                     SPIN
                 </button>
+                {/* Live region for screen reader announcements */}
+                <div aria-live="polite" aria-atomic="true" className="sr-only">
+                    {announcement}
+                </div>
             </div>
         </div>
     );
@@ -355,65 +397,126 @@ const WorkoutManager = ({ workouts, setWorkouts }) => {
     };
 
     return (
-        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col">
-            <h2 className="text-xl sm:text-2xl text-center mb-4 text-slate-800 font-bold uppercase tracking-widest">Workout Arsenal</h2>
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col" aria-labelledby="arsenal-heading">
+            <h2 id="arsenal-heading" className="text-xl sm:text-2xl text-center mb-4 text-slate-800 font-bold uppercase tracking-widest">Workout Arsenal</h2>
             
-            <div className="flex-grow overflow-y-auto pr-2 mb-6 max-h-[250px] sm:max-h-[300px] lg:max-h-none workout-list">
+            <div className="flex-grow overflow-y-auto pr-2 mb-6 max-h-[250px] sm:max-h-[300px] lg:max-h-none workout-list" role="region" aria-label="Workout list" aria-live="polite">
                 {workouts.length === 0 ? (
                     <div className="text-center py-8 sm:py-10 border-2 border-dashed border-slate-200 rounded-md">
                       <p className="text-slate-500 text-sm sm:text-base">Your arsenal is empty.</p>
                       <p className="text-slate-400 text-xs sm:text-sm">Add a workout below.</p>
                     </div>
                 ) : (
-                    <div className="space-y-2">
+                    <ul className="space-y-2" role="list">
                         {workouts.map((workout) => (
-                            <div key={workout.id} className="flex items-center justify-between bg-slate-50 p-2 sm:p-3 rounded-md border border-slate-200">
-                                <div className="flex-grow truncate pr-2">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <CategoryBadge category={workout.category} />
-                                        <span className="font-medium text-slate-700 text-sm sm:text-base truncate">{workout.name} <span className="text-slate-500 text-xs font-semibold">(x{workout.multiplier})</span></span>
-                                    </div>
-                                </div>
-                                <button onClick={() => deleteWorkout(workout.id)} className="flex-shrink-0 text-slate-400 hover:text-red-500 transition-colors p-2 sm:p-1 rounded-full min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clipRule="evenodd" /></svg>
-                                </button>
-                            </div>
+                            React.createElement("li", {key: workout.id, className: "flex items-center justify-between bg-slate-50 p-2 sm:p-3 rounded-md border border-slate-200"},
+                                React.createElement("div", {className: "flex-grow truncate pr-2"},
+                                    React.createElement("div", {className: "flex items-center gap-2 mb-1"},
+                                        React.createElement(CategoryBadge, {category: workout.category}),
+                                        React.createElement("span", {className: "font-medium text-slate-700 text-sm sm:text-base truncate"}, 
+                                            workout.name + " ", 
+                                            React.createElement("span", {className: "text-slate-500 text-xs font-semibold"}, `(x${workout.multiplier})`)
+                                        )
+                                    )
+                                ),
+                                React.createElement("button", {
+                                    onClick: () => deleteWorkout(workout.id),
+                                    "aria-label": `Delete ${workout.name} workout`,
+                                    className: "flex-shrink-0 text-slate-400 hover:text-red-500 transition-colors p-2 sm:p-1 rounded-full min-h-[44px] min-w-[44px] sm:min-h-auto sm:min-w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                },
+                                    React.createElement("svg", {xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5", viewBox: "0 0 20 20", fill: "currentColor", "aria-hidden": "true"},
+                                        React.createElement("path", {fillRule: "evenodd", d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z", clipRule: "evenodd"})
+                                    )
+                                )
+                            )
                         ))}
-                    </div>
+                    </ul>
                 )}
             </div>
 
             <div>
-                <h3 className="text-lg sm:text-xl text-center mb-4 text-slate-800 font-bold uppercase tracking-widest">Add Challenge</h3>
-                <form onSubmit={addWorkout} className="space-y-3">
-                    <input type="text" name="workoutName" placeholder="Workout Name" required className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]" />
-                    <input type="url" name="workoutUrl" placeholder="Workout URL" required className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]" />
-                    <input type="number" name="workoutMultiplier" defaultValue="1" min="1" step="1" required title="Repetitions on Wheel" className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]" />
-                    <select name="workoutCategory" defaultValue={DEFAULT_CATEGORIES[0].id} className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]">
-                        {DEFAULT_CATEGORIES.map(category => 
-                            React.createElement("option", {key: category.id, value: category.id}, category.name)
-                        )}
-                    </select>
+                <h3 id="add-workout-heading" className="text-lg sm:text-xl text-center mb-4 text-slate-800 font-bold uppercase tracking-widest">Add Challenge</h3>
+                <form onSubmit={addWorkout} className="space-y-3" aria-labelledby="add-workout-heading">
+                    <label className="block">
+                        <span className="sr-only">Workout Name</span>
+                        <input type="text" name="workoutName" placeholder="Workout Name" required aria-required="true" className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]" />
+                    </label>
+                    <label className="block">
+                        <span className="sr-only">Workout URL</span>
+                        <input type="url" name="workoutUrl" placeholder="Workout URL" required aria-required="true" className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]" />
+                    </label>
+                    <label className="block">
+                        <span className="sr-only">Workout Multiplier (Repetitions on Wheel)</span>
+                        <input type="number" name="workoutMultiplier" defaultValue="1" min="1" step="1" required aria-required="true" title="Repetitions on Wheel" aria-label="Workout multiplier - how many times this workout appears on the wheel" className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]" />
+                    </label>
+                    <label className="block">
+                        <span className="sr-only">Workout Category</span>
+                        <select name="workoutCategory" defaultValue={DEFAULT_CATEGORIES[0].id} aria-label="Select workout category" className="mt-1 block w-full bg-slate-50 border border-slate-300 rounded-md shadow-sm py-3 sm:py-2 px-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 min-h-[44px]">
+                            {DEFAULT_CATEGORIES.map(category => 
+                                React.createElement("option", {key: category.id, value: category.id}, category.name)
+                            )}
+                        </select>
+                    </label>
                     <button type="submit" className="w-full flex justify-center items-center gap-2 py-3 sm:py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-semibold text-white bg-slate-800 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-colors min-h-[44px]">
                         <KettlebellIcon /> Add to Arsenal
                     </button>
                 </form>
             </div>
-        </div>
+        </section>
     );
 };
 
 const ResultModal = ({ winner, onClose }) => {
+    const modalRef = useRef(null);
+    
+    // Focus management for modal
+    useEffect(() => {
+        if (winner && modalRef.current) {
+            const firstButton = modalRef.current.querySelector('button');
+            firstButton?.focus();
+        }
+    }, [winner]);
+    
+    // Keyboard navigation for modal
+    const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+            onClose();
+        }
+    };
+
     if (!winner) return null;
 
     return (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300">
-            <div className="bg-white rounded-lg shadow-2xl p-6 sm:p-8 text-center max-w-md w-full transform transition-all scale-100">
-                <h2 className="text-xs sm:text-sm font-bold text-teal-600 uppercase tracking-widest">Your Destiny Awaits...</h2>
-                <p className="text-2xl sm:text-4xl font-bold text-slate-800 my-3 break-words">{winner.name}</p>
+        <div 
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+            onKeyDown={handleKeyDown}
+        >
+            <div 
+                ref={modalRef}
+                className="bg-white rounded-lg shadow-2xl p-6 sm:p-8 text-center max-w-md w-full transform transition-all scale-100"
+                role="document"
+            >
+                <h2 id="modal-title" className="text-xs sm:text-sm font-bold text-teal-600 uppercase tracking-widest">Your Destiny Awaits...</h2>
+                <p id="modal-description" className="text-2xl sm:text-4xl font-bold text-slate-800 my-3 break-words">{winner.name}</p>
                 <div className="mt-6 flex flex-col gap-3 justify-center">
-                    <button onClick={() => { window.open(winner.url, '_blank'); onClose(); }} className="w-full py-3 sm:py-2.5 px-6 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 min-h-[44px]">Start Workout!</button>
-                    <button onClick={onClose} className="w-full py-3 sm:py-2.5 px-6 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-md transition-colors focus:outline-none min-h-[44px]">Spin Again</button>
+                    <button 
+                        onClick={() => { window.open(winner.url, '_blank'); onClose(); }} 
+                        className="w-full py-3 sm:py-2.5 px-6 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 min-h-[44px]"
+                        aria-label={`Start ${winner.name} workout - opens in new tab`}
+                    >
+                        Start Workout!
+                    </button>
+                    <button 
+                        onClick={onClose} 
+                        className="w-full py-3 sm:py-2.5 px-6 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 min-h-[44px]"
+                        aria-label="Close modal and spin again"
+                    >
+                        Spin Again
+                    </button>
                 </div>
             </div>
         </div>
@@ -474,7 +577,7 @@ function App() {
                 React.createElement('p', {className: "text-slate-500 mt-3 text-base sm:text-lg px-4"}, "Spin the wheel to choose your path to glory!")
             ),
 
-            React.createElement('main', {className: "grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6"},
+            React.createElement('main', {className: "grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6", role: "main"},
                 React.createElement('div', {className: "lg:col-span-3"},
                     React.createElement(FilterPanel, {
                         categories: DEFAULT_CATEGORIES, 
@@ -493,3 +596,39 @@ function App() {
 
 // Render the app
 ReactDOM.render(React.createElement(App), document.getElementById('root'));
+
+// Register service worker for PWA functionality
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('[PWA] Service Worker registered successfully:', registration.scope);
+            })
+            .catch((registrationError) => {
+                console.log('[PWA] Service Worker registration failed:', registrationError);
+            });
+    });
+}
+
+// PWA install prompt handling
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('[PWA] Install prompt available');
+    e.preventDefault();
+    deferredPrompt = e;
+    // Could show custom install UI here
+});
+
+window.addEventListener('appinstalled', (e) => {
+    console.log('[PWA] App was installed');
+    deferredPrompt = null;
+});
+
+// Network status handling
+window.addEventListener('online', () => {
+    console.log('[PWA] Back online');
+});
+
+window.addEventListener('offline', () => {
+    console.log('[PWA] Working offline');
+});
