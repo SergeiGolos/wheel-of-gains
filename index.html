@@ -20,8 +20,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Favicon and meta tags for better SEO -->
+    <link rel="icon" type="image/png" href="icons/icon-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="icons/icon-180.png" sizes="180x180">
     <meta name="keywords" content="workout, fitness, exercise, random, wheel, gains, training">
     <meta name="author" content="Wheel of Gains">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Meta tags for PWA -->
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Wheel of Gains">
+    
+    <!-- Open Graph tags -->
     <meta property="og:title" content="Wheel of Gains - Random Workout Selector">
     <meta property="og:description" content="Spin the wheel to randomly select your next workout challenge!">
     <meta property="og:type" content="website">
@@ -29,6 +42,54 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+        
+        /* Screen reader only content */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Focus indicators */
+        .focus-visible {
+            outline: 2px solid #0ea5e9;
+            outline-offset: 2px;
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .wheel-animation {
+                animation: none;
+            }
+            
+            .spin-button {
+                transition: none;
+            }
+            
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High contrast support */
+        @media (prefers-contrast: high) {
+            .workout-item {
+                border: 2px solid #000;
+            }
+            
+            .wheel-segment {
+                stroke: #000;
+                stroke-width: 2px;
+            }
         }
     </style>
 </head>
