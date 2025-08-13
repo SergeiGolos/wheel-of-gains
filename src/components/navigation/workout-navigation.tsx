@@ -1,5 +1,5 @@
-import { component$ } from "@builder.io/qwik";
-import { Link, useLocation } from "@builder.io/qwik-city";
+import { component$, $ } from "@builder.io/qwik";
+import { useLocation, useNavigate } from "@builder.io/qwik-city";
 
 const NAV_ITEMS = [
   { href: "/wheel-of-gains/", label: "Classic Mix" },
@@ -12,46 +12,59 @@ const NAV_ITEMS = [
 
 export const WorkoutNavigation = component$(() => {
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.url.pathname;
+
+  // Find the current active item
+  const currentItem = NAV_ITEMS.find(item => item.href === currentPath) || NAV_ITEMS[0];
+
+  const handleNavigationChange = $((event: Event) => {
+    const target = event.target as HTMLSelectElement;
+    const selectedHref = target.value;
+    if (selectedHref) {
+      navigate(selectedHref);
+    }
+  });
 
   return (
     <header class="bg-white shadow-sm border-b border-slate-200 mb-3">
       <div class="container mx-auto px-4">
-        {/* Title and description */}
-        <div class="text-center py-3 border-b border-slate-100">
-          <h1 class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-slate-900 uppercase">
+        {/* Compact header with navigation dropdown on left and title on right */}
+        <div class="flex items-center justify-between py-2">
+          {/* Navigation Dropdown */}
+          <div class="flex items-center gap-3">
+            <label for="workout-navigation" class="text-sm font-medium text-slate-700 sr-only">
+              Workout Category
+            </label>
+            <select
+              id="workout-navigation"
+              value={currentItem.href}
+              onChange$={handleNavigationChange}
+              class="
+                bg-white border border-slate-300 rounded-md px-3 py-2 text-sm font-medium
+                text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 
+                focus:ring-offset-2 focus:ring-teal-500 focus:border-teal-500
+                min-w-[140px]
+              "
+              aria-label="Select workout category"
+            >
+              {NAV_ITEMS.map((item) => (
+                <option key={item.href} value={item.href}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            <span class="text-xs text-slate-500 hidden sm:inline">
+              Spin the wheel to choose your path to glory!
+            </span>
+          </div>
+
+          {/* Title on the right */}
+          <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 uppercase">
             <span class="text-teal-600">Wheel</span>
             <span class="text-slate-900"> Of Gains</span>
           </h1>
-          <p class="text-slate-500 text-xs sm:text-sm mt-1">Spin the wheel to choose your path to glory!</p>
         </div>
-        
-        {/* Navigation */}
-        <nav class="py-2" aria-label="Workout Categories">
-          <div class="flex flex-wrap justify-center gap-1">
-            {NAV_ITEMS.map((item) => {
-              const isActive = currentPath === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  class={`
-                    px-3 py-2 rounded-md text-sm font-medium transition-all duration-200
-                    min-h-[44px] flex items-center justify-center text-center
-                    ${isActive 
-                      ? 'bg-teal-600 text-white shadow-md' 
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900'
-                    }
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500
-                  `}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  <span class="font-semibold">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
       </div>
     </header>
   );
