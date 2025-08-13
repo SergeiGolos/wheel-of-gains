@@ -3,7 +3,7 @@ import type { Workout, SpinResult } from "../../utils/workout-utils";
 import { Wheel } from "./wheel";
 import { WorkoutManager } from "./workout-manager";
 import { PreviousResults } from "./previous-results";
-import { ResultModal } from "../ui/result-modal";
+import { ResultDisplay } from "../ui/result-display";
 import { WorkoutNavigation } from "../navigation/workout-navigation";
 import { 
   loadWorkoutsFromStorage, 
@@ -99,8 +99,15 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
     state.masterWorkouts = workouts;
   });
 
-  const handleCloseModal = $(() => {
+  const handleCloseResult = $(() => {
     state.winner = null;
+  });
+
+  const handleStartWorkout = $(() => {
+    if (state.winner) {
+      window.open(state.winner.url, '_blank');
+      state.winner = null;
+    }
   });
 
   const toggleEditMode = $(() => {
@@ -125,17 +132,23 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
         </div>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4" role="main">
-          <Wheel displayWorkouts={displayWorkouts.value} onSpinFinish={handleSpinFinish} />
-          
+          {/* Wheel or Edit Mode */}
           {state.isEditMode ? (
-            <WorkoutManager 
-              workouts={state.masterWorkouts} 
-              setWorkouts={handleWorkoutsChange}
-              onDone={toggleEditMode}
-            />
+            <div class="lg:col-span-2">
+              <WorkoutManager 
+                workouts={state.masterWorkouts} 
+                setWorkouts={handleWorkoutsChange}
+                onDone={toggleEditMode}
+              />
+            </div>
           ) : (
-            <div class="space-y-3">
-              {/* Edit button */}
+            <Wheel displayWorkouts={displayWorkouts.value} onSpinFinish={handleSpinFinish} />
+          )}
+          
+          {/* Right Column */}
+          <div class="space-y-3">
+            {/* Edit button - only show when not in edit mode */}
+            {!state.isEditMode && (
               <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 text-center">
                 <button
                   onClick$={toggleEditMode}
@@ -145,15 +158,20 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
                   Edit Workouts
                 </button>
               </div>
-              
-              {/* Previous Results */}
-              <PreviousResults spinHistory={state.spinHistory} />
-            </div>
-          )}
+            )}
+            
+            {/* Result Display */}
+            <ResultDisplay 
+              winner={state.winner} 
+              onStartWorkout={handleStartWorkout}
+              onSpinAgain={handleCloseResult}
+            />
+            
+            {/* Previous Results */}
+            <PreviousResults spinHistory={state.spinHistory} />
+          </div>
         </main>
       </div>
-
-      <ResultModal winner={state.winner} onClose={handleCloseModal} />
     </div>
   );
 });
