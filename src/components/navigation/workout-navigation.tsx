@@ -54,9 +54,7 @@ export const WorkoutNavigation = component$(() => {
                 </option>
               ))}
             </select>
-            <span class="text-xs text-slate-500 hidden sm:inline">
-              Spin the wheel to choose your path to glory!
-            </span>
+
           </div>
 
           {/* Title on the right */}

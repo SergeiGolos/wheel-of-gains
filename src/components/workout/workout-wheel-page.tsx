@@ -29,8 +29,10 @@ interface WorkoutWheelPageProps {
 
 export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({ 
   initialWorkouts, 
-  pageTitle, 
-  pageDescription,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  pageTitle: _pageTitle, 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  pageDescription: _pageDescription,
   storageKey
 }) => {
   const state = useStore<AppState>({
@@ -85,14 +87,6 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   // Create actions that modify state directly
   const handleSpinFinish = $((winner: Workout) => {
     state.winner = winner;
-    
-    // Add to spin history
-    state.spinHistory = addSpinResult(winner, state.spinHistory);
-    
-    // Save updated history to localStorage
-    if (storageKey) {
-      saveSpinHistory(state.spinHistory, storageKey);
-    }
   });
 
   const handleWorkoutsChange = $((workouts: Workout[]) => {
@@ -100,12 +94,31 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   });
 
   const handleCloseResult = $(() => {
+    // Add to spin history before clearing winner
+    if (state.winner) {
+      state.spinHistory = addSpinResult(state.winner, state.spinHistory);
+      
+      // Save updated history to localStorage
+      if (storageKey) {
+        saveSpinHistory(state.spinHistory, storageKey);
+      }
+    }
+    
     state.winner = null;
   });
 
   const handleStartWorkout = $(() => {
     if (state.winner) {
       window.open(state.winner.url, '_blank');
+      
+      // Add to spin history before clearing winner
+      state.spinHistory = addSpinResult(state.winner, state.spinHistory);
+      
+      // Save updated history to localStorage
+      if (storageKey) {
+        saveSpinHistory(state.spinHistory, storageKey);
+      }
+      
       state.winner = null;
     }
   });
@@ -126,10 +139,7 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
       <WorkoutNavigation />
       
       <div class="container mx-auto p-2 md:p-4 lg:p-6 max-w-7xl">
-        {/* Subtle page context indicator */}
-        <div class="text-center mb-3">
-          <p class="text-slate-500 text-sm">{pageTitle} - {pageDescription}</p>
-        </div>
+
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4" role="main">
           {/* Wheel or Edit Mode */}
@@ -160,12 +170,14 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
               </div>
             )}
             
-            {/* Result Display */}
-            <ResultDisplay 
-              winner={state.winner} 
-              onStartWorkout={handleStartWorkout}
-              onSpinAgain={handleCloseResult}
-            />
+            {/* Result Display - only show when not in edit mode */}
+            {!state.isEditMode && (
+              <ResultDisplay 
+                winner={state.winner} 
+                onStartWorkout={handleStartWorkout}
+                onSpinAgain={handleCloseResult}
+              />
+            )}
             
             {/* Previous Results */}
             <PreviousResults spinHistory={state.spinHistory} />
