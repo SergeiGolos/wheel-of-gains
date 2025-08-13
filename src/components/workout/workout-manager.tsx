@@ -46,6 +46,13 @@ export const WorkoutManager = component$<WorkoutManagerProps>(({
     setWorkouts(workouts.filter(w => w.id !== id));
   });
 
+  const updateWorkoutMultiplier = $((id: string, newMultiplier: number) => {
+    const validMultiplier = Math.max(1, Math.floor(newMultiplier)) || 1;
+    setWorkouts(workouts.map(w => 
+      w.id === id ? { ...w, multiplier: validMultiplier } : w
+    ));
+  });
+
   return (
     <section class="bg-white p-2 sm:p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col" aria-labelledby="arsenal-heading">
       {/* Header */}
@@ -67,9 +74,28 @@ export const WorkoutManager = component$<WorkoutManagerProps>(({
                   <div class="flex items-center gap-2 mb-1">
                     <CategoryBadge category={workout.category} />
                     <span class="font-medium text-slate-700 text-sm sm:text-base truncate">
-                      {workout.name}{' '}
-                      <span class="text-slate-500 text-xs font-semibold">(x{workout.multiplier})</span>
+                      {workout.name}
                     </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <div class="flex items-center gap-1">
+                    <span class="text-slate-500 text-xs font-semibold">x</span>
+                    <input
+                      type="number"
+                      value={workout.multiplier}
+                      min="1"
+                      step="1"
+                      onInput$={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        const newValue = parseInt(target.value, 10);
+                        if (!isNaN(newValue)) {
+                          updateWorkoutMultiplier(workout.id, newValue);
+                        }
+                      }}
+                      class="w-12 text-center text-xs border border-slate-300 rounded px-1 py-0.5 bg-white focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500"
+                      aria-label={`Multiplier for ${workout.name} workout`}
+                    />
                   </div>
                 </div>
                 <button
