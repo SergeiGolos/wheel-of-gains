@@ -18,6 +18,7 @@ interface AppState {
   winner: Workout | null;
   isEditMode: boolean;
   spinHistory: SpinResult[];
+  isSpinning: boolean;
 }
 
 interface WorkoutWheelPageProps {
@@ -40,6 +41,7 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
     winner: null,
     isEditMode: false,
     spinHistory: [],
+    isSpinning: false,
   });
 
   // Try to load from localStorage and override if found
@@ -85,40 +87,32 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   });
 
   // Create actions that modify state directly
+  const handleSpinStart = $(() => {
+    state.isSpinning = true;
+  });
+
   const handleSpinFinish = $((winner: Workout) => {
     state.winner = winner;
+    state.isSpinning = false;
+    
+    // Record spin to history immediately when spin finishes
+    state.spinHistory = addSpinResult(winner, state.spinHistory);
+    
+    // Save updated history to localStorage
+    if (storageKey) {
+      saveSpinHistory(state.spinHistory, storageKey);
+    }
   });
 
   const handleWorkoutsChange = $((workouts: Workout[]) => {
     state.masterWorkouts = workouts;
   });
 
-  const handleCloseResult = $(() => {
-    // Add to spin history before clearing winner
-    if (state.winner) {
-      state.spinHistory = addSpinResult(state.winner, state.spinHistory);
-      
-      // Save updated history to localStorage
-      if (storageKey) {
-        saveSpinHistory(state.spinHistory, storageKey);
-      }
-    }
-    
-    state.winner = null;
-  });
-
   const handleStartWorkout = $(() => {
     if (state.winner) {
       window.open(state.winner.url, '_blank');
       
-      // Add to spin history before clearing winner
-      state.spinHistory = addSpinResult(state.winner, state.spinHistory);
-      
-      // Save updated history to localStorage
-      if (storageKey) {
-        saveSpinHistory(state.spinHistory, storageKey);
-      }
-      
+      // Just clear the winner, history already recorded in handleSpinFinish
       state.winner = null;
     }
   });
@@ -152,7 +146,7 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
               />
             </div>
           ) : (
-            <Wheel displayWorkouts={displayWorkouts.value} onSpinFinish={handleSpinFinish} />
+            <Wheel displayWorkouts={displayWorkouts.value} onSpinStart={handleSpinStart} onSpinFinish={handleSpinFinish} />
           )}
           
           {/* Right Column */}
@@ -187,8 +181,8 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
             {!state.isEditMode && (
               <ResultDisplay 
                 winner={state.winner} 
+                isSpinning={state.isSpinning}
                 onStartWorkout={handleStartWorkout}
-                onSpinAgain={handleCloseResult}
               />
             )}
             

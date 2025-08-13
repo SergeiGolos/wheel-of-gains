@@ -5,10 +5,11 @@ import { COLORS } from "../../utils/workout-utils";
 
 interface WheelProps {
   displayWorkouts: Workout[];
+  onSpinStart: QRL<() => void>;
   onSpinFinish: QRL<(winner: Workout) => void>;
 }
 
-export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) => {
+export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinStart, onSpinFinish }) => {
   const canvasRef = useSignal<HTMLCanvasElement>();
   const isSpinning = useSignal(false);
   const currentRotation = useSignal(0);
@@ -148,6 +149,9 @@ export const Wheel = component$<WheelProps>(({ displayWorkouts, onSpinFinish }) 
     if (isSpinning.value || displayWorkouts.length === 0) return;
     isSpinning.value = true;
     announcement.value = 'Spinning the wheel...';
+    
+    // Notify parent that spinning started
+    onSpinStart();
 
     const totalRotations = Math.floor(Math.random() * 5) + 8;
     const randomStopAngle = Math.random() * 2 * Math.PI;
