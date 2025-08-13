@@ -88,6 +88,16 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
 
   // Create actions that modify state directly
   const handleSpinStart = $(() => {
+    // Add previous winner to history before starting new spin
+    if (state.winner) {
+      state.spinHistory = addSpinResult(state.winner, state.spinHistory);
+      
+      // Save updated history to localStorage
+      if (storageKey) {
+        saveSpinHistory(state.spinHistory, storageKey);
+      }
+    }
+    
     state.isSpinning = true;
   });
 
@@ -95,13 +105,7 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
     state.winner = winner;
     state.isSpinning = false;
     
-    // Record spin to history immediately when spin finishes
-    state.spinHistory = addSpinResult(winner, state.spinHistory);
-    
-    // Save updated history to localStorage
-    if (storageKey) {
-      saveSpinHistory(state.spinHistory, storageKey);
-    }
+    // Do not add to history immediately - only add when spinning again
   });
 
   const handleWorkoutsChange = $((workouts: Workout[]) => {
