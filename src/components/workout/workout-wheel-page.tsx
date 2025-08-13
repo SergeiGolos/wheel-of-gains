@@ -170,6 +170,19 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
               </div>
             )}
             
+            {/* Done button - only show when in edit mode */}
+            {state.isEditMode && (
+              <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 text-center">
+                <button
+                  onClick$={toggleEditMode}
+                  class="w-full py-2.5 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                  aria-label="Exit edit mode"
+                >
+                  Done
+                </button>
+              </div>
+            )}
+            
             {/* Result Display - only show when not in edit mode */}
             {!state.isEditMode && (
               <ResultDisplay 
