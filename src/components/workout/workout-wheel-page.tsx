@@ -1,17 +1,23 @@
 import { component$, useStore, useComputed$, useVisibleTask$, $ } from "@builder.io/qwik";
-import type { Workout } from "../../utils/workout-utils";
+import type { Workout, SpinResult } from "../../utils/workout-utils";
 import { Wheel } from "./wheel";
 import { WorkoutManager } from "./workout-manager";
+import { PreviousResults } from "./previous-results";
 import { ResultModal } from "../ui/result-modal";
 import { WorkoutNavigation } from "../navigation/workout-navigation";
 import { 
   loadWorkoutsFromStorage, 
-  saveWorkoutsToStorage
+  saveWorkoutsToStorage,
+  loadSpinHistory,
+  saveSpinHistory,
+  addSpinResult
 } from "../../utils/workout-utils";
 
 interface AppState {
   masterWorkouts: Workout[];
   winner: Workout | null;
+  isEditMode: boolean;
+  spinHistory: SpinResult[];
 }
 
 interface WorkoutWheelPageProps {
@@ -30,6 +36,8 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   const state = useStore<AppState>({
     masterWorkouts: initialWorkouts, // Initialize immediately with the passed workouts
     winner: null,
+    isEditMode: false,
+    spinHistory: [],
   });
 
   // Try to load from localStorage and override if found
@@ -40,6 +48,10 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
       if (savedWorkouts) {
         state.masterWorkouts = savedWorkouts;
       }
+      
+      // Load spin history
+      const savedHistory = loadSpinHistory(storageKey);
+      state.spinHistory = savedHistory;
     }
   });
 
@@ -73,6 +85,14 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
   // Create actions that modify state directly
   const handleSpinFinish = $((winner: Workout) => {
     state.winner = winner;
+    
+    // Add to spin history
+    state.spinHistory = addSpinResult(winner, state.spinHistory);
+    
+    // Save updated history to localStorage
+    if (storageKey) {
+      saveSpinHistory(state.spinHistory, storageKey);
+    }
   });
 
   const handleWorkoutsChange = $((workouts: Workout[]) => {
@@ -81,6 +101,10 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
 
   const handleCloseModal = $(() => {
     state.winner = null;
+  });
+
+  const toggleEditMode = $(() => {
+    state.isEditMode = !state.isEditMode;
   });
 
   return (
@@ -102,7 +126,30 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(({
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4" role="main">
           <Wheel displayWorkouts={displayWorkouts.value} onSpinFinish={handleSpinFinish} />
-          <WorkoutManager workouts={state.masterWorkouts} setWorkouts={handleWorkoutsChange} />
+          
+          {state.isEditMode ? (
+            <WorkoutManager 
+              workouts={state.masterWorkouts} 
+              setWorkouts={handleWorkoutsChange}
+              onDone={toggleEditMode}
+            />
+          ) : (
+            <div class="space-y-3">
+              {/* Edit button */}
+              <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 text-center">
+                <button
+                  onClick$={toggleEditMode}
+                  class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                  aria-label="Edit workout arsenal"
+                >
+                  Edit Workouts
+                </button>
+              </div>
+              
+              {/* Previous Results */}
+              <PreviousResults spinHistory={state.spinHistory} />
+            </div>
+          )}
         </main>
       </div>
 

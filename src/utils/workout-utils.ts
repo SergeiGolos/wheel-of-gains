@@ -17,6 +17,12 @@ export interface Workout {
   category: WorkoutCategory;
 }
 
+export interface SpinResult {
+  id: string;
+  workout: Workout;
+  timestamp: number;
+}
+
 export const saveWorkoutsToStorage = (workouts: Workout[], storageKey?: string) => {
   try {
     const key = storageKey || STORAGE_KEY;
@@ -105,3 +111,68 @@ export const initialMasterWorkouts: Workout[] = initialWorkoutStrings.map(str =>
 
 // Updated color palette for a more classic, bright look
 export const COLORS = ["#3b82f6", "#22c55e", "#ef4444", "#f97316", "#8b5cf6", "#d946ef", "#14b8a6", "#eab308"];
+
+// Spin history storage functions
+export const SPIN_HISTORY_KEY = 'wheelOfGains_spinHistory';
+
+export const saveSpinHistory = (history: SpinResult[], storageKey?: string) => {
+  try {
+    const key = storageKey ? `${storageKey}_history` : SPIN_HISTORY_KEY;
+    localStorage.setItem(key, JSON.stringify(history));
+  } catch (error) {
+    console.warn('Failed to save spin history to localStorage:', error);
+  }
+};
+
+export const loadSpinHistory = (storageKey?: string): SpinResult[] => {
+  try {
+    const key = storageKey ? `${storageKey}_history` : SPIN_HISTORY_KEY;
+    const saved = localStorage.getItem(key);
+    
+    if (!saved) {
+      return [];
+    }
+    
+    const history = JSON.parse(saved);
+    
+    // Validate data structure
+    if (!Array.isArray(history)) {
+      return [];
+    }
+    
+    return history;
+  } catch (error) {
+    console.warn('Failed to load spin history from localStorage:', error);
+    return [];
+  }
+};
+
+export const addSpinResult = (workout: Workout, existingHistory: SpinResult[]): SpinResult[] => {
+  const newResult: SpinResult = {
+    id: crypto.randomUUID(),
+    workout,
+    timestamp: Date.now()
+  };
+  
+  // Keep only the last 50 results to avoid storage bloat
+  const updatedHistory = [newResult, ...existingHistory].slice(0, 50);
+  return updatedHistory;
+};
+
+export const formatSpinTimestamp = (timestamp: number): string => {
+  const date = new Date(timestamp);
+  const now = new Date();
+  const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+  
+  if (diffInMinutes < 1) {
+    return 'Just now';
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}m ago`;
+  } else if (diffInMinutes < 24 * 60) {
+    const hours = Math.floor(diffInMinutes / 60);
+    return `${hours}h ago`;
+  } else {
+    const days = Math.floor(diffInMinutes / (24 * 60));
+    return `${days}d ago`;
+  }
+};

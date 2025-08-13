@@ -8,9 +8,10 @@ import { KettlebellIcon } from "../icons/kettlebell-icon";
 interface WorkoutManagerProps {
   workouts: Workout[];
   setWorkouts: QRL<(workouts: Workout[]) => void>;
+  onDone?: QRL<() => void>;
 }
 
-export const WorkoutManager = component$<WorkoutManagerProps>(({ workouts, setWorkouts }) => {
+export const WorkoutManager = component$<WorkoutManagerProps>(({ workouts, setWorkouts, onDone }) => {
   const addWorkout = $((e: SubmitEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -42,7 +43,19 @@ export const WorkoutManager = component$<WorkoutManagerProps>(({ workouts, setWo
 
   return (
     <section class="bg-white p-2 sm:p-4 rounded-lg shadow-sm border border-slate-200 flex flex-col" aria-labelledby="arsenal-heading">
-      <h2 id="arsenal-heading" class="text-lg sm:text-xl text-center mb-3 text-slate-800 font-bold uppercase tracking-widest">Workout Arsenal</h2>
+      {/* Header with Done button */}
+      <div class="flex items-center justify-between mb-3">
+        <h2 id="arsenal-heading" class="text-lg sm:text-xl text-slate-800 font-bold uppercase tracking-widest">Workout Arsenal</h2>
+        {onDone && (
+          <button
+            onClick$={onDone}
+            class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+            aria-label="Exit edit mode"
+          >
+            Done
+          </button>
+        )}
+      </div>
       
       <div class="flex-grow overflow-y-auto pr-2 mb-4 max-h-[250px] sm:max-h-[300px] lg:max-h-none workout-list" role="region" aria-label="Workout list" aria-live="polite">
         {workouts.length === 0 ? (
