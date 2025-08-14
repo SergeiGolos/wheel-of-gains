@@ -5,7 +5,7 @@ import { WORKOUT_COLLECTIONS } from "../../../utils/workout-collections";
 
 export default component$(() => {
   return (
-    <WorkoutEditPage 
+    <WorkoutEditPage
       initialWorkouts={WORKOUT_COLLECTIONS.cardio.workouts}
       pageTitle={`Edit ${WORKOUT_COLLECTIONS.cardio.title}`}
       pageDescription={`Edit and manage your ${WORKOUT_COLLECTIONS.cardio.title} workouts`}
