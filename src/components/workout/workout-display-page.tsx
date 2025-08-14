@@ -1,16 +1,21 @@
-import { component$, useStore, useComputed$, useVisibleTask$, $ } from "@builder.io/qwik";
-import { useLocation, useNavigate } from "@builder.io/qwik-city";
+import {
+  component$,
+  useStore,
+  useComputed$,
+  useVisibleTask$,
+  $,
+} from "@builder.io/qwik";
 import type { Workout, SpinResult } from "../../utils/workout-utils";
 import { Wheel } from "./wheel";
 import { PreviousResults } from "./previous-results";
 import { ResultDisplay } from "../ui/result-display";
 import { WorkoutNavigation } from "../navigation/workout-navigation";
-import { 
-  loadWorkoutsFromStorage, 
+import {
+  loadWorkoutsFromStorage,
   saveWorkoutsToStorage,
   loadSpinHistory,
   saveSpinHistory,
-  addSpinResult
+  addSpinResult,
 } from "../../utils/workout-utils";
 
 interface AppState {
@@ -27,153 +32,131 @@ interface WorkoutDisplayPageProps {
   storageKey?: string;
 }
 
-export const WorkoutDisplayPage = component$<WorkoutDisplayPageProps>(({ 
-  initialWorkouts, 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  pageTitle: _pageTitle, 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  pageDescription: _pageDescription,
-  storageKey
-}) => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const state = useStore<AppState>({
-    masterWorkouts: initialWorkouts,
-    winner: null,
-    spinHistory: [],
-    isSpinning: false,
-  });
+export const WorkoutDisplayPage = component$<WorkoutDisplayPageProps>(
+  ({
+    initialWorkouts,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    pageTitle: _pageTitle,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    pageDescription: _pageDescription,
+    storageKey,
+  }) => {
+    const state = useStore<AppState>({
+      masterWorkouts: initialWorkouts,
+      winner: null,
+      spinHistory: [],
+      isSpinning: false,
+    });
 
-  // Try to load from localStorage and override if found
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(() => {
-    if (storageKey) {
-      const savedWorkouts = loadWorkoutsFromStorage(storageKey);
-      if (savedWorkouts) {
-        state.masterWorkouts = savedWorkouts;
-      }
-      
-      // Load spin history
-      const savedHistory = loadSpinHistory(storageKey);
-      state.spinHistory = savedHistory;
-    }
-  });
+    // Try to load from localStorage and override if found
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(() => {
+      if (storageKey) {
+        const savedWorkouts = loadWorkoutsFromStorage(storageKey);
+        if (savedWorkouts) {
+          state.masterWorkouts = savedWorkouts;
+        }
 
-  // Save workouts to localStorage whenever they change
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(({ track }) => {
-    track(() => state.masterWorkouts.length);
-    track(() => state.masterWorkouts);
-    
-    if (state.masterWorkouts.length > 0 && storageKey) {
-      saveWorkoutsToStorage(state.masterWorkouts, storageKey);
-    }
-  });
-
-  const displayWorkouts = useComputed$(() => {
-    // No filtering needed since separate pages handle categories
-    const expanded: Workout[] = [];
-    state.masterWorkouts.forEach(workout => {
-      for (let i = 0; i < workout.multiplier; i++) {
-        expanded.push(workout);
+        // Load spin history
+        const savedHistory = loadSpinHistory(storageKey);
+        state.spinHistory = savedHistory;
       }
     });
-    // Shuffle array
-    for (let i = expanded.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [expanded[i], expanded[j]] = [expanded[j], expanded[i]];
-    }
-    return expanded;
-  });
 
-  // Create actions that modify state directly
-  const handleSpinStart = $(() => {
-    // Add previous winner to history before starting new spin
-    if (state.winner) {
-      state.spinHistory = addSpinResult(state.winner, state.spinHistory);
-      
-      // Save updated history to localStorage
-      if (storageKey) {
-        saveSpinHistory(state.spinHistory, storageKey);
+    // Save workouts to localStorage whenever they change
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(({ track }) => {
+      track(() => state.masterWorkouts.length);
+      track(() => state.masterWorkouts);
+
+      if (state.masterWorkouts.length > 0 && storageKey) {
+        saveWorkoutsToStorage(state.masterWorkouts, storageKey);
       }
-    }
-    
-    state.isSpinning = true;
-  });
+    });
 
-  const handleSpinFinish = $((winner: Workout) => {
-    state.winner = winner;
-    state.isSpinning = false;
-  });
+    const displayWorkouts = useComputed$(() => {
+      // No filtering needed since separate pages handle categories
+      const expanded: Workout[] = [];
+      state.masterWorkouts.forEach((workout) => {
+        for (let i = 0; i < workout.multiplier; i++) {
+          expanded.push(workout);
+        }
+      });
+      // Shuffle array
+      for (let i = expanded.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [expanded[i], expanded[j]] = [expanded[j], expanded[i]];
+      }
+      return expanded;
+    });
 
-  const handleStartWorkout = $(() => {
-    if (state.winner) {
-      window.open(state.winner.url, '_blank');
-      state.winner = null;
-    }
-  });
+    // Create actions that modify state directly
+    const handleSpinStart = $(() => {
+      // Add previous winner to history before starting new spin
+      if (state.winner) {
+        state.spinHistory = addSpinResult(state.winner, state.spinHistory);
 
-  const handleEditWorkouts = $(() => {
-    const currentPath = location.url.pathname;
-    const editUrl = currentPath === "/wheel-of-gains/" ? "/wheel-of-gains/edit/" : `${currentPath}edit/`;
-    navigate(editUrl);
-  });
+        // Save updated history to localStorage
+        if (storageKey) {
+          saveSpinHistory(state.spinHistory, storageKey);
+        }
+      }
 
-  return (
-    <div class="min-h-screen bg-slate-100 font-['Inter'] text-slate-800">
-      <style dangerouslySetInnerHTML={`
+      state.isSpinning = true;
+    });
+
+    const handleSpinFinish = $((winner: Workout) => {
+      state.winner = winner;
+      state.isSpinning = false;
+    });
+
+    const handleStartWorkout = $(() => {
+      if (state.winner) {
+        window.open(state.winner.url, "_blank");
+        state.winner = null;
+      }
+    });
+
+    return (
+      <div class="min-h-screen bg-slate-100 font-['Inter'] text-slate-800">
+        <style
+          dangerouslySetInnerHTML={`
         .workout-list::-webkit-scrollbar { width: 8px; }
         .workout-list::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
         .workout-list::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
         .workout-list::-webkit-scrollbar-thumb:hover { background: #64748b; }
-      `} />
-      
-      <WorkoutNavigation />
-      
-      <div class="container mx-auto p-2 md:p-4 lg:p-6 max-w-7xl">
-        <main class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4" role="main">
-          {/* Wheel Display */}
-          <Wheel displayWorkouts={displayWorkouts.value} onSpinStart={handleSpinStart} onSpinFinish={handleSpinFinish} />
-          
-          {/* Right Column */}
-          <div class="space-y-3">
-            {/* Edit Button */}
-            <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 text-center">
-              <button
-                onClick$={handleEditWorkouts}
-                class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-                aria-label="Edit workout arsenal"
-              >
-                Edit Workouts
-              </button>
-            </div>
-            
-            {/* Result Display */}
-            <ResultDisplay 
-              winner={state.winner} 
-              isSpinning={state.isSpinning}
-              onStartWorkout={handleStartWorkout}
+      `}
+        />
+
+        <WorkoutNavigation />
+
+        <div class="container mx-auto max-w-7xl p-2 md:p-4 lg:p-6">
+          <main
+            class="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-4"
+            role="main"
+          >
+            {/* Wheel Display */}
+            <Wheel
+              displayWorkouts={displayWorkouts.value}
+              onSpinStart={handleSpinStart}
+              onSpinFinish={handleSpinFinish}
             />
-            
-            {/* Previous Results */}
-            <PreviousResults spinHistory={state.spinHistory} />
-            
-            {/* Add New Button */}
-            <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 text-center">
-              <button
-                onClick$={handleEditWorkouts}
-                class="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 flex items-center justify-center gap-2"
-                aria-label="Add new workouts"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                Add New Workout
-              </button>
+
+            {/* Right Column */}
+            <div class="space-y-3">
+              {/* Result Display */}
+              <ResultDisplay
+                winner={state.winner}
+                isSpinning={state.isSpinning}
+                onStartWorkout={handleStartWorkout}
+              />
+
+              {/* Previous Results */}
+              <PreviousResults spinHistory={state.spinHistory} />
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
