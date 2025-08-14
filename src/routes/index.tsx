@@ -1,11 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { WorkoutWheelPage } from "../components/workout/workout-wheel-page";
+import { WorkoutDisplayPage } from "../components/workout/workout-display-page";
 import { WORKOUT_COLLECTIONS } from "../utils/workout-collections";
 
 export default component$(() => {
   return (
-    <WorkoutWheelPage 
+    <WorkoutDisplayPage 
       initialWorkouts={WORKOUT_COLLECTIONS.classic.workouts}
       pageTitle={WORKOUT_COLLECTIONS.classic.title}
       pageDescription={WORKOUT_COLLECTIONS.classic.description}
