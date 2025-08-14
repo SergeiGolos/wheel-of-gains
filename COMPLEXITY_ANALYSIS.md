@@ -1,6 +1,6 @@
 # Wheel of Gains - Complexity Analysis Report
 
-*Generated on: 2025-08-14T21:50:27.426Z*
+_Generated on: 2025-08-14T21:50:27.426Z_
 
 ## Executive Summary
 
@@ -17,17 +17,18 @@ This document provides a comprehensive complexity analysis of the Wheel of Gains
 ### Complexity Distribution
 
 | Complexity Level | Count | Percentage |
-|-----------------|-------|------------|
-| SIMPLE | 7 | 23.3% |
-| MEDIUM | 18 | 60.0% |
-| COMPLEX | 4 | 13.3% |
-| HIGH COMPLEXITY | 1 | 3.3% |
+| ---------------- | ----- | ---------- |
+| SIMPLE           | 7     | 23.3%      |
+| MEDIUM           | 18    | 60.0%      |
+| COMPLEX          | 4     | 13.3%      |
+| HIGH COMPLEXITY  | 1     | 3.3%       |
 
 ## High Priority Areas for Refactoring
 
 The following files have high complexity and should be prioritized for refactoring:
 
 ### components/workout/workout-manager.tsx
+
 - **Complexity Score**: 697
 - **Lines of Code**: 493
 - **Functions**: 11
@@ -37,6 +38,7 @@ The following files have high complexity and should be prioritized for refactori
 - **JSX Elements**: 72
 
 ### components/workout/wheel.tsx
+
 - **Complexity Score**: 288
 - **Lines of Code**: 213
 - **Functions**: 6
@@ -46,6 +48,7 @@ The following files have high complexity and should be prioritized for refactori
 - **JSX Elements**: 11
 
 ### components/navigation/workout-navigation.tsx
+
 - **Complexity Score**: 270
 - **Lines of Code**: 210
 - **Functions**: 2
@@ -55,6 +58,7 @@ The following files have high complexity and should be prioritized for refactori
 - **JSX Elements**: 30
 
 ### components/workout/workout-wheel-page.tsx
+
 - **Complexity Score**: 250
 - **Lines of Code**: 177
 - **Functions**: 5
@@ -64,6 +68,7 @@ The following files have high complexity and should be prioritized for refactori
 - **JSX Elements**: 17
 
 ### utils/workout-utils.ts
+
 - **Complexity Score**: 227
 - **Lines of Code**: 173
 - **Functions**: 8
@@ -76,38 +81,38 @@ The following files have high complexity and should be prioritized for refactori
 
 The following table shows all files sorted by complexity score:
 
-| File | Complexity Level | Score | Lines | Functions | Components | Dependencies |
-|------|-----------------|-------|--------|-----------|------------|-------------|
-| `components/workout/workout-manager.tsx` | HIGH_COMPLEXITY | 697 | 493 | 11 | 1 | 3 |
-| `components/workout/wheel.tsx` | COMPLEX | 288 | 213 | 6 | 1 | 2 |
-| `components/navigation/workout-navigation.tsx` | COMPLEX | 270 | 210 | 2 | 1 | 2 |
-| `components/workout/workout-wheel-page.tsx` | COMPLEX | 250 | 177 | 5 | 1 | 7 |
-| `utils/workout-utils.ts` | COMPLEX | 227 | 173 | 8 | 0 | 0 |
-| `components/workout/workout-display-page.tsx` | MEDIUM | 188 | 132 | 3 | 1 | 6 |
-| `utils/workout-collections.ts` | MEDIUM | 153 | 144 | 1 | 0 | 1 |
-| `components/workout/workout-edit-page.tsx` | MEDIUM | 121 | 81 | 2 | 1 | 5 |
-| `components/ui/result-display.tsx` | MEDIUM | 102 | 68 | 1 | 1 | 3 |
-| `components/workout/previous-results.tsx` | MEDIUM | 101 | 69 | 1 | 1 | 3 |
-| `components/workout/filter-panel.tsx` | MEDIUM | 85 | 66 | 2 | 1 | 2 |
-| `routes/index.tsx` | MEDIUM | 75 | 65 | 0 | 0 | 4 |
-| `components/router-head/router-head.tsx` | SIMPLE | 64 | 43 | 0 | 1 | 2 |
-| `root.tsx` | SIMPLE | 58 | 29 | 0 | 0 | 3 |
-| `routes/advanced/index.tsx` | MEDIUM | 36 | 24 | 0 | 0 | 4 |
-| `routes/beginner/index.tsx` | MEDIUM | 36 | 24 | 0 | 0 | 4 |
-| `routes/advanced/edit/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/beginner/edit/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/cardio/edit/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/cardio/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/edit/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/intermediate/edit/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/intermediate/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/strength/edit/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `routes/strength/index.tsx` | MEDIUM | 34 | 24 | 0 | 0 | 4 |
-| `entry.ssr.tsx` | SIMPLE | 23 | 17 | 0 | 0 | 2 |
-| `components/ui/category-badge.tsx` | SIMPLE | 22 | 15 | 0 | 1 | 2 |
-| `components/icons/kettlebell-icon.tsx` | SIMPLE | 13 | 8 | 0 | 1 | 1 |
-| `entry.preview.tsx` | SIMPLE | 12 | 4 | 0 | 0 | 3 |
-| `entry.dev.tsx` | SIMPLE | 11 | 5 | 0 | 0 | 2 |
+| File                                           | Complexity Level | Score | Lines | Functions | Components | Dependencies |
+| ---------------------------------------------- | ---------------- | ----- | ----- | --------- | ---------- | ------------ |
+| `components/workout/workout-manager.tsx`       | HIGH_COMPLEXITY  | 697   | 493   | 11        | 1          | 3            |
+| `components/workout/wheel.tsx`                 | COMPLEX          | 288   | 213   | 6         | 1          | 2            |
+| `components/navigation/workout-navigation.tsx` | COMPLEX          | 270   | 210   | 2         | 1          | 2            |
+| `components/workout/workout-wheel-page.tsx`    | COMPLEX          | 250   | 177   | 5         | 1          | 7            |
+| `utils/workout-utils.ts`                       | COMPLEX          | 227   | 173   | 8         | 0          | 0            |
+| `components/workout/workout-display-page.tsx`  | MEDIUM           | 188   | 132   | 3         | 1          | 6            |
+| `utils/workout-collections.ts`                 | MEDIUM           | 153   | 144   | 1         | 0          | 1            |
+| `components/workout/workout-edit-page.tsx`     | MEDIUM           | 121   | 81    | 2         | 1          | 5            |
+| `components/ui/result-display.tsx`             | MEDIUM           | 102   | 68    | 1         | 1          | 3            |
+| `components/workout/previous-results.tsx`      | MEDIUM           | 101   | 69    | 1         | 1          | 3            |
+| `components/workout/filter-panel.tsx`          | MEDIUM           | 85    | 66    | 2         | 1          | 2            |
+| `routes/index.tsx`                             | MEDIUM           | 75    | 65    | 0         | 0          | 4            |
+| `components/router-head/router-head.tsx`       | SIMPLE           | 64    | 43    | 0         | 1          | 2            |
+| `root.tsx`                                     | SIMPLE           | 58    | 29    | 0         | 0          | 3            |
+| `routes/advanced/index.tsx`                    | MEDIUM           | 36    | 24    | 0         | 0          | 4            |
+| `routes/beginner/index.tsx`                    | MEDIUM           | 36    | 24    | 0         | 0          | 4            |
+| `routes/advanced/edit/index.tsx`               | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/beginner/edit/index.tsx`               | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/cardio/edit/index.tsx`                 | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/cardio/index.tsx`                      | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/edit/index.tsx`                        | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/intermediate/edit/index.tsx`           | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/intermediate/index.tsx`                | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/strength/edit/index.tsx`               | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `routes/strength/index.tsx`                    | MEDIUM           | 34    | 24    | 0         | 0          | 4            |
+| `entry.ssr.tsx`                                | SIMPLE           | 23    | 17    | 0         | 0          | 2            |
+| `components/ui/category-badge.tsx`             | SIMPLE           | 22    | 15    | 0         | 1          | 2            |
+| `components/icons/kettlebell-icon.tsx`         | SIMPLE           | 13    | 8     | 0         | 1          | 1            |
+| `entry.preview.tsx`                            | SIMPLE           | 12    | 4     | 0         | 0          | 3            |
+| `entry.dev.tsx`                                | SIMPLE           | 11    | 5     | 0         | 0          | 2            |
 
 ## Detailed Component Analysis
 
@@ -116,6 +121,7 @@ The following table shows all files sorted by complexity score:
 These files contain React components and represent the core UI logic:
 
 #### `components/workout/workout-manager.tsx`
+
 - **Complexity Level**: HIGH_COMPLEXITY
 - **Complexity Score**: 697
 - **Analysis**:
@@ -128,6 +134,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 3
 
 #### `components/workout/wheel.tsx`
+
 - **Complexity Level**: COMPLEX
 - **Complexity Score**: 288
 - **Analysis**:
@@ -140,6 +147,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 2
 
 #### `components/navigation/workout-navigation.tsx`
+
 - **Complexity Level**: COMPLEX
 - **Complexity Score**: 270
 - **Analysis**:
@@ -152,6 +160,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 2
 
 #### `components/workout/workout-wheel-page.tsx`
+
 - **Complexity Level**: COMPLEX
 - **Complexity Score**: 250
 - **Analysis**:
@@ -164,6 +173,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 7
 
 #### `components/workout/workout-display-page.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Complexity Score**: 188
 - **Analysis**:
@@ -176,6 +186,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 6
 
 #### `components/workout/workout-edit-page.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Complexity Score**: 121
 - **Analysis**:
@@ -188,6 +199,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 5
 
 #### `components/ui/result-display.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Complexity Score**: 102
 - **Analysis**:
@@ -200,6 +212,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 3
 
 #### `components/workout/previous-results.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Complexity Score**: 101
 - **Analysis**:
@@ -212,6 +225,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 3
 
 #### `components/workout/filter-panel.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Complexity Score**: 85
 - **Analysis**:
@@ -224,6 +238,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 2
 
 #### `components/router-head/router-head.tsx`
+
 - **Complexity Level**: SIMPLE
 - **Complexity Score**: 64
 - **Analysis**:
@@ -236,6 +251,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 2
 
 #### `components/ui/category-badge.tsx`
+
 - **Complexity Level**: SIMPLE
 - **Complexity Score**: 22
 - **Analysis**:
@@ -248,6 +264,7 @@ These files contain React components and represent the core UI logic:
   - Dependencies: 2
 
 #### `components/icons/kettlebell-icon.tsx`
+
 - **Complexity Level**: SIMPLE
 - **Complexity Score**: 13
 - **Analysis**:
@@ -264,12 +281,14 @@ These files contain React components and represent the core UI logic:
 Core business logic and utility functions:
 
 #### `utils/workout-utils.ts`
+
 - **Complexity Level**: COMPLEX
 - **Functions**: 8
 - **Lines**: 173
 - **Dependencies**: 0
 
 #### `utils/workout-collections.ts`
+
 - **Complexity Level**: MEDIUM
 - **Functions**: 1
 - **Lines**: 144
@@ -280,61 +299,73 @@ Core business logic and utility functions:
 Page-level components and routing:
 
 #### `routes/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 75
 - **Lines**: 65
 
 #### `routes/advanced/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 36
 - **Lines**: 24
 
 #### `routes/beginner/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 36
 - **Lines**: 24
 
 #### `routes/advanced/edit/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/beginner/edit/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/cardio/edit/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/cardio/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/edit/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/intermediate/edit/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/intermediate/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/strength/edit/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
 
 #### `routes/strength/index.tsx`
+
 - **Complexity Level**: MEDIUM
 - **Score**: 34
 - **Lines**: 24
@@ -357,6 +388,7 @@ Based on this analysis, here are key recommendations for improving code maintain
 - **`components/navigation/workout-navigation.tsx`**: Monitor for growth, consider refactoring if complexity increases
 - **`components/workout/workout-wheel-page.tsx`**: Monitor for growth, consider refactoring if complexity increases
 - **`utils/workout-utils.ts`**: Monitor for growth, consider refactoring if complexity increases
+
 ### General Recommendations
 
 1. **Component Decomposition**: Large components should be broken into smaller, focused components
@@ -387,10 +419,10 @@ This analysis uses the following metrics to calculate complexity:
 ### Complexity Levels
 
 - **SIMPLE**: ≤50 lines, ≤5 functions, ≤3 dependencies
-- **MEDIUM**: ≤150 lines, ≤15 functions, ≤8 dependencies  
+- **MEDIUM**: ≤150 lines, ≤15 functions, ≤8 dependencies
 - **COMPLEX**: ≤300 lines, ≤25 functions, ≤15 dependencies
 - **HIGH_COMPLEXITY**: Exceeds complex thresholds
 
 ---
 
-*This analysis was generated automatically. For questions or suggestions about the methodology, please open an issue.*
+_This analysis was generated automatically. For questions or suggestions about the methodology, please open an issue._
