@@ -24,6 +24,7 @@ build/
 server/
 .netlify/
 .vercel/
+storybook-static/
 
 # Logs
 *.log
