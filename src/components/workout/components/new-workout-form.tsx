@@ -1,7 +1,10 @@
 import { component$, $ } from "@builder.io/qwik";
 import type { QRL } from "@builder.io/qwik";
 import type { Workout } from "../../../utils/workout-utils";
-import { DEFAULT_CATEGORIES, createWorkoutUrl } from "../../../utils/workout-utils";
+import {
+  DEFAULT_CATEGORIES,
+  createWorkoutUrl,
+} from "../../../utils/workout-utils";
 import { CategoryBadge } from "../../ui/category-badge";
 import { validateNewWorkoutForm } from "../utils/workout-validation";
 
@@ -42,7 +45,10 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
     // Handle URL auto-generation when name changes
     const handleNameChangeWithUrl = $((value: string) => {
       onNameChange(value);
-      if (!newWorkoutUrl || newWorkoutUrl === createWorkoutUrl(newWorkoutName)) {
+      if (
+        !newWorkoutUrl ||
+        newWorkoutUrl === createWorkoutUrl(newWorkoutName)
+      ) {
         onUrlChange(createWorkoutUrl(value));
       }
     });
@@ -51,23 +57,27 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
       const validation = validateNewWorkoutForm(
         newWorkoutName,
         newWorkoutMultiplier,
-        workouts
+        workouts,
       );
-      
+
       if (validation.isValid) {
         onSave();
       }
     });
 
-    const currentCategory = DEFAULT_CATEGORIES.find(cat => cat.id === newWorkoutCategory) || DEFAULT_CATEGORIES[0];
+    const currentCategory =
+      DEFAULT_CATEGORIES.find((cat) => cat.id === newWorkoutCategory) ||
+      DEFAULT_CATEGORIES[0];
 
     return (
-      <tr class="bg-teal-50 border-2 border-teal-200">
+      <tr class="border-2 border-teal-200 bg-teal-50">
         <td class="border border-slate-200 px-3 py-2">
           <div class="space-y-1">
             <select
               value={newWorkoutCategory}
-              onChange$={(e) => onCategoryChange((e.target as HTMLSelectElement).value)}
+              onChange$={(e) =>
+                onCategoryChange((e.target as HTMLSelectElement).value)
+              }
               class="w-full rounded border border-slate-300 px-2 py-1 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none"
               aria-label="Select workout category"
             >
@@ -85,7 +95,9 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
             <input
               type="text"
               value={newWorkoutName}
-              onChange$={(e) => handleNameChangeWithUrl((e.target as HTMLInputElement).value)}
+              onChange$={(e) =>
+                handleNameChangeWithUrl((e.target as HTMLInputElement).value)
+              }
               placeholder="Workout name"
               class={`w-full rounded border px-2 py-1 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none ${
                 showValidationErrors && nameError
@@ -97,7 +109,9 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
             <input
               type="url"
               value={newWorkoutUrl}
-              onChange$={(e) => onUrlChange((e.target as HTMLInputElement).value)}
+              onChange$={(e) =>
+                onUrlChange((e.target as HTMLInputElement).value)
+              }
               placeholder="YouTube URL (optional)"
               class="w-full rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 focus:ring-2 focus:ring-teal-500 focus:outline-none"
               aria-label="New workout URL"
@@ -112,7 +126,9 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
               value={newWorkoutMultiplier}
               min="1"
               step="1"
-              onChange$={(e) => onMultiplierChange((e.target as HTMLInputElement).value)}
+              onChange$={(e) =>
+                onMultiplierChange((e.target as HTMLInputElement).value)
+              }
               class={`w-16 rounded border px-2 py-1 text-center text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none ${
                 showValidationErrors && multiplierError
                   ? "border-red-300 bg-red-50"
@@ -166,5 +182,5 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
         </td>
       </tr>
     );
-  }
+  },
 );

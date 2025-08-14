@@ -1,14 +1,20 @@
 import { component$, $, useSignal } from "@builder.io/qwik";
 import type { QRL } from "@builder.io/qwik";
 import type { Workout } from "../../utils/workout-utils";
-import { DEFAULT_CATEGORIES, createWorkoutUrl } from "../../utils/workout-utils";
+import {
+  DEFAULT_CATEGORIES,
+  createWorkoutUrl,
+} from "../../utils/workout-utils";
 import { useWorkoutForm } from "./hooks/use-workout-form";
 import { useWorkoutChangeTracking } from "./hooks/use-workout-change-tracking";
 import { NewWorkoutForm } from "./components/new-workout-form";
 import { WorkoutListItem } from "./components/workout-list-item";
 import { ActionButtons } from "./components/action-buttons";
 import { ValidationErrors } from "./components/validation-errors";
-import { validateNewWorkoutForm, correctMultiplier } from "./utils/workout-validation";
+import {
+  validateNewWorkoutForm,
+  correctMultiplier,
+} from "./utils/workout-validation";
 
 interface WorkoutManagerProps {
   workouts: Workout[];
@@ -21,7 +27,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
     // Use custom hooks for state management
     const workoutForm = useWorkoutForm();
     const changeTracking = useWorkoutChangeTracking(workouts);
-    
+
     // Additional state that wasn't moved to hooks
     const invalidMultipliers = useSignal(new Set<string>());
 
@@ -37,7 +43,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
         DEFAULT_CATEGORIES[0];
 
       const validation = validateNewWorkoutForm(name, rawMultiplier, workouts);
-      
+
       if (!validation.isValid) {
         workoutForm.showValidationErrors.value = true;
         workoutForm.nameError.value = validation.errors.name;
@@ -101,11 +107,10 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       invalidMultipliers.value = currentInvalid;
 
       // Update immediately with corrected value
-      setWorkouts(
-        workouts.map((w) =>
-          w.id === id ? { ...w, multiplier: correctedValue } : w,
-        ),
+      const updatedWorkouts = workouts.map((w) =>
+        w.id === id ? { ...w, multiplier: correctedValue } : w,
       );
+      setWorkouts(updatedWorkouts);
 
       // Clear validation error after a short delay if the value was corrected
       if (!isValid) {
@@ -124,10 +129,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       >
         {/* Header */}
         <div class="mb-3">
-          <h2
-            id="arsenal-heading"
-            class="text-lg font-semibold text-slate-700"
-          >
+          <h2 id="arsenal-heading" class="text-lg font-semibold text-slate-700">
             Manage Your Workout Arsenal ({workouts.length})
           </h2>
           <p class="text-sm text-slate-600">
@@ -139,10 +141,13 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
         {/* Validation Errors */}
         <ValidationErrors
           show={workoutForm.showValidationErrors.value}
-          errors={[
-            workoutForm.nameError.value && "Workout name is required",
-            workoutForm.multiplierError.value && "Multiplier must be at least 1",
-          ].filter(Boolean) as string[]}
+          errors={
+            [
+              workoutForm.nameError.value && "Workout name is required",
+              workoutForm.multiplierError.value &&
+                "Multiplier must be at least 1",
+            ].filter(Boolean) as string[]
+          }
         />
 
         {/* Table */}
@@ -192,7 +197,9 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                     <WorkoutListItem
                       key={workout.id}
                       workout={workout}
-                      isInvalidMultiplier={invalidMultipliers.value.has(workout.id)}
+                      isInvalidMultiplier={invalidMultipliers.value.has(
+                        workout.id,
+                      )}
                       onMultiplierChange={updateWorkoutMultiplier}
                       onDelete={deleteWorkout}
                     />

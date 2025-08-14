@@ -29,12 +29,12 @@ export const ValidationErrors = component$<ValidationErrorsProps>(
             Please fix the following errors:
           </span>
         </div>
-        <ul class="mt-2 list-disc list-inside text-sm text-red-700">
+        <ul class="mt-2 list-inside list-disc text-sm text-red-700">
           {errors.map((error, index) => (
             <li key={index}>{error}</li>
           ))}
         </ul>
       </div>
     );
-  }
+  },
 );

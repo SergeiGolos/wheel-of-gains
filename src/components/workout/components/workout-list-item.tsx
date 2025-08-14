@@ -37,7 +37,12 @@ export const WorkoutListItem = component$<WorkoutListItemProps>(
               value={workout.multiplier}
               min="1"
               step="1"
-              onChange$={(e) => handleMultiplierChange((e.target as HTMLInputElement).value)}
+              onInput$={(e) =>
+                handleMultiplierChange((e.target as HTMLInputElement).value)
+              }
+              onChange$={(e) =>
+                handleMultiplierChange((e.target as HTMLInputElement).value)
+              }
               class={`w-16 rounded border px-2 py-1 text-center text-sm transition-colors focus:ring-2 focus:ring-teal-500 focus:outline-none ${
                 isInvalidMultiplier
                   ? "border-red-300 bg-red-50"
@@ -70,5 +75,5 @@ export const WorkoutListItem = component$<WorkoutListItemProps>(
         </td>
       </tr>
     );
-  }
+  },
 );

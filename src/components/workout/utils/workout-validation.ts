@@ -17,11 +17,14 @@ export const validateMultiplier = (multiplier: number): boolean => {
 /**
  * Validates if a workout name is unique in the list
  */
-export const isWorkoutNameUnique = (name: string, workouts: Workout[], excludeId?: string): boolean => {
+export const isWorkoutNameUnique = (
+  name: string,
+  workouts: Workout[],
+  excludeId?: string,
+): boolean => {
   const trimmedName = name.trim().toLowerCase();
-  return !workouts.some(w => 
-    w.id !== excludeId && 
-    w.name.toLowerCase() === trimmedName
+  return !workouts.some(
+    (w) => w.id !== excludeId && w.name.toLowerCase() === trimmedName,
   );
 };
 
@@ -41,7 +44,7 @@ export const correctMultiplier = (value: number): number => {
 export const validateNewWorkoutForm = (
   name: string,
   multiplier: number,
-  workouts: Workout[]
+  workouts: Workout[],
 ) => {
   const errors = {
     name: false,
