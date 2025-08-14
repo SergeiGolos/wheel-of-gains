@@ -107,11 +107,10 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       invalidMultipliers.value = currentInvalid;
 
       // Update immediately with corrected value
-      setWorkouts(
-        workouts.map((w) =>
-          w.id === id ? { ...w, multiplier: correctedValue } : w,
-        ),
+      const updatedWorkouts = workouts.map((w) =>
+        w.id === id ? { ...w, multiplier: correctedValue } : w,
       );
+      setWorkouts(updatedWorkouts);
 
       // Explicitly trigger change detection
       setTimeout(() => changeTracking.checkForChanges(), 0);

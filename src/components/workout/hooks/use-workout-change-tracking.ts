@@ -28,7 +28,13 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
         category: w.category,
       })),
     );
+    console.log('checkForChanges called:', { 
+      current: currentSerialized.substring(0, 200) + '...', 
+      original: originalSerialized.substring(0, 200) + '...', 
+      equal: currentSerialized === originalSerialized 
+    });
     hasUnsavedChanges.value = currentSerialized !== originalSerialized;
+    console.log('hasUnsavedChanges set to:', hasUnsavedChanges.value);
   });
 
   // Initialize original workouts and track changes
@@ -47,9 +53,10 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
       ),
     );
 
-    // Initialize original workouts on first load
-    if (originalWorkouts.value.length === 0) {
+    // Initialize original workouts ONLY on first load (when length is 0)
+    if (originalWorkouts.value.length === 0 && workouts.length > 0) {
       originalWorkouts.value = [...workouts];
+      console.log('Original workouts set:', originalWorkouts.value.map(w => ({ id: w.id, multiplier: w.multiplier })));
     }
 
     // Check for changes whenever workouts change
