@@ -8,7 +8,7 @@ interface CategoryBadgeProps {
 export const CategoryBadge = component$<CategoryBadgeProps>(({ category }) => {
   return (
     <div
-      class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium text-white mr-2"
+      class="mr-2 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-white"
       style={`background-color: ${category.color}`}
     >
       {category.name}

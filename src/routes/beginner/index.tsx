@@ -5,7 +5,7 @@ import { WORKOUT_COLLECTIONS } from "../../utils/workout-collections";
 
 export default component$(() => {
   return (
-    <WorkoutDisplayPage 
+    <WorkoutDisplayPage
       initialWorkouts={WORKOUT_COLLECTIONS.beginner.workouts}
       pageTitle={WORKOUT_COLLECTIONS.beginner.title}
       pageDescription={WORKOUT_COLLECTIONS.beginner.description}
@@ -19,7 +19,8 @@ export const head: DocumentHead = {
   meta: [
     {
       name: "description",
-      content: "Perfect workouts for beginners starting their fitness journey. Spin the wheel to discover your next exercise!",
+      content:
+        "Perfect workouts for beginners starting their fitness journey. Spin the wheel to discover your next exercise!",
     },
   ],
 };
