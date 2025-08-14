@@ -44,7 +44,8 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
     const saveNewWorkout = $(() => {
       const name = newWorkoutName.value.trim();
       const url = newWorkoutUrl.value.trim();
-      const multiplier = newWorkoutMultiplier.value || 1;
+      const rawMultiplier = newWorkoutMultiplier.value || 1;
+      const multiplier = Math.max(1, Math.floor(rawMultiplier)); // Auto-correct when saving
       const categoryId = newWorkoutCategory.value;
       const category =
         DEFAULT_CATEGORIES.find((cat) => cat.id === categoryId) ||
@@ -52,7 +53,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
 
       // Validate inputs
       const isNameValid = name.length > 0;
-      const isMultiplierValid = multiplier >= 1;
+      const isMultiplierValid = rawMultiplier >= 1;
       
       nameError.value = !isNameValid;
       multiplierError.value = !isMultiplierValid;
@@ -107,7 +108,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
     const updateWorkoutMultiplier = $((id: string, newMultiplier: number) => {
       const isValid = newMultiplier >= 1 && !isNaN(newMultiplier);
       
-      // Update validation state
+      // Update validation state for visual feedback
       const currentInvalid = new Set(invalidMultipliers.value);
       if (!isValid) {
         currentInvalid.add(id);
@@ -116,13 +117,24 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       }
       invalidMultipliers.value = currentInvalid;
       
-      // Auto-correct the value and update
+      // Auto-correct the value and update (with slight delay for visual feedback)
       const validMultiplier = Math.max(1, Math.floor(newMultiplier)) || 1;
+      
+      // Update immediately but keep the validation state for visual feedback
       setWorkouts(
         workouts.map((w) =>
           w.id === id ? { ...w, multiplier: validMultiplier } : w,
         ),
       );
+      
+      // Clear validation error after a short delay if the value was corrected
+      if (!isValid) {
+        setTimeout(() => {
+          const newInvalid = new Set(invalidMultipliers.value);
+          newInvalid.delete(id);
+          invalidMultipliers.value = newInvalid;
+        }, 1000); // Show red outline for 1 second
+      }
     });
 
     // Validation handlers for new workout form
@@ -134,10 +146,11 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
     });
 
     const handleMultiplierChange = $((value: string) => {
-      const numValue = parseInt(value, 10) || 1;
-      newWorkoutMultiplier.value = numValue;
+      const numValue = parseInt(value, 10);
+      // Allow invalid values to be stored for validation feedback
+      newWorkoutMultiplier.value = numValue || 0;
       if (showValidationErrors.value) {
-        multiplierError.value = numValue < 1;
+        multiplierError.value = (numValue || 0) < 1;
       }
     });
 
