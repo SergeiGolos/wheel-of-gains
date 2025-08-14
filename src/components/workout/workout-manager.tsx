@@ -1,7 +1,7 @@
 import { component$, $, useSignal } from "@builder.io/qwik";
 import type { QRL } from "@builder.io/qwik";
 import type { Workout } from "../../utils/workout-utils";
-import { DEFAULT_CATEGORIES } from "../../utils/workout-utils";
+import { DEFAULT_CATEGORIES, createWorkoutUrl } from "../../utils/workout-utils";
 import { CategoryBadge } from "../ui/category-badge";
 
 interface WorkoutManagerProps {
@@ -22,6 +22,12 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
     const newWorkoutUrl = useSignal("");
     const newWorkoutMultiplier = useSignal(1);
     const newWorkoutCategory = useSignal(DEFAULT_CATEGORIES[0].id);
+    
+    // Validation state
+    const nameError = useSignal(false);
+    const multiplierError = useSignal(false);
+    const showValidationErrors = useSignal(false);
+    const invalidMultipliers = useSignal(new Set<string>());
 
     const addNewRow = $(() => {
       isAddingNew.value = true;
@@ -29,6 +35,10 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       newWorkoutUrl.value = "";
       newWorkoutMultiplier.value = 1;
       newWorkoutCategory.value = DEFAULT_CATEGORIES[0].id;
+      // Reset validation state
+      nameError.value = false;
+      multiplierError.value = false;
+      showValidationErrors.value = false;
     });
 
     const saveNewWorkout = $(() => {
@@ -40,25 +50,42 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
         DEFAULT_CATEGORIES.find((cat) => cat.id === categoryId) ||
         DEFAULT_CATEGORIES[0];
 
-      if (name && url) {
-        setWorkouts([
-          ...workouts,
-          {
-            id: crypto.randomUUID(),
-            name,
-            url,
-            multiplier,
-            category,
-          },
-        ]);
-
-        // Reset form
-        isAddingNew.value = false;
-        newWorkoutName.value = "";
-        newWorkoutUrl.value = "";
-        newWorkoutMultiplier.value = 1;
-        newWorkoutCategory.value = DEFAULT_CATEGORIES[0].id;
+      // Validate inputs
+      const isNameValid = name.length > 0;
+      const isMultiplierValid = multiplier >= 1;
+      
+      nameError.value = !isNameValid;
+      multiplierError.value = !isMultiplierValid;
+      
+      // Show validation errors if any field is invalid
+      if (!isNameValid || !isMultiplierValid) {
+        showValidationErrors.value = true;
+        return;
       }
+
+      // If URL is empty, auto-generate Google search URL
+      const finalUrl = url || createWorkoutUrl(name);
+
+      setWorkouts([
+        ...workouts,
+        {
+          id: crypto.randomUUID(),
+          name,
+          url: finalUrl,
+          multiplier,
+          category,
+        },
+      ]);
+
+      // Reset form and validation state
+      isAddingNew.value = false;
+      newWorkoutName.value = "";
+      newWorkoutUrl.value = "";
+      newWorkoutMultiplier.value = 1;
+      newWorkoutCategory.value = DEFAULT_CATEGORIES[0].id;
+      nameError.value = false;
+      multiplierError.value = false;
+      showValidationErrors.value = false;
     });
 
     const cancelNewWorkout = $(() => {
@@ -67,6 +94,10 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       newWorkoutUrl.value = "";
       newWorkoutMultiplier.value = 1;
       newWorkoutCategory.value = DEFAULT_CATEGORIES[0].id;
+      // Reset validation state
+      nameError.value = false;
+      multiplierError.value = false;
+      showValidationErrors.value = false;
     });
 
     const deleteWorkout = $((id: string) => {
@@ -74,12 +105,40 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
     });
 
     const updateWorkoutMultiplier = $((id: string, newMultiplier: number) => {
+      const isValid = newMultiplier >= 1 && !isNaN(newMultiplier);
+      
+      // Update validation state
+      const currentInvalid = new Set(invalidMultipliers.value);
+      if (!isValid) {
+        currentInvalid.add(id);
+      } else {
+        currentInvalid.delete(id);
+      }
+      invalidMultipliers.value = currentInvalid;
+      
+      // Auto-correct the value and update
       const validMultiplier = Math.max(1, Math.floor(newMultiplier)) || 1;
       setWorkouts(
         workouts.map((w) =>
           w.id === id ? { ...w, multiplier: validMultiplier } : w,
         ),
       );
+    });
+
+    // Validation handlers for new workout form
+    const handleNameChange = $((value: string) => {
+      newWorkoutName.value = value;
+      if (showValidationErrors.value) {
+        nameError.value = value.trim().length === 0;
+      }
+    });
+
+    const handleMultiplierChange = $((value: string) => {
+      const numValue = parseInt(value, 10) || 1;
+      newWorkoutMultiplier.value = numValue;
+      if (showValidationErrors.value) {
+        multiplierError.value = numValue < 1;
+      }
     });
 
     return (
@@ -183,7 +242,11 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                                 ),
                               )
                             }
-                            class="w-16 rounded border border-slate-300 px-2 py-1 text-center text-sm focus:border-slate-500 focus:ring-2 focus:ring-slate-500 focus:outline-none"
+                            class={`w-16 rounded border px-2 py-1 text-center text-sm focus:ring-2 focus:outline-none ${
+                              invalidMultipliers.value.has(workout.id)
+                                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                : "border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                            }`}
                             aria-label={`Multiplier for ${workout.name} workout`}
                           />
                         </div>
@@ -237,12 +300,16 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                             type="text"
                             value={newWorkoutName.value}
                             onChange$={(e) =>
-                              (newWorkoutName.value = (
-                                e.target as HTMLInputElement
-                              ).value)
+                              handleNameChange(
+                                (e.target as HTMLInputElement).value,
+                              )
                             }
                             placeholder="Workout Name"
-                            class="w-full rounded border border-slate-300 px-2 py-1 text-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                            class={`w-full rounded border px-2 py-1 text-sm focus:ring-2 focus:outline-none ${
+                              nameError.value
+                                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                : "border-slate-300 focus:border-teal-500 focus:ring-teal-500"
+                            }`}
                             aria-label="Workout name"
                           />
                           <input
@@ -253,10 +320,13 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                                 e.target as HTMLInputElement
                               ).value)
                             }
-                            placeholder="Workout URL"
+                            placeholder="Workout URL (optional)"
                             class="w-full rounded border border-slate-300 px-2 py-1 text-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:outline-none"
                             aria-label="Workout URL"
                           />
+                          <p class="text-xs text-slate-500 mt-1">
+                            Leave empty to auto-generate Google search
+                          </p>
                         </div>
                       </td>
                       <td class="border border-slate-200 px-3 py-2 text-center">
@@ -266,15 +336,17 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                             type="number"
                             value={newWorkoutMultiplier.value}
                             onChange$={(e) =>
-                              (newWorkoutMultiplier.value =
-                                parseInt(
-                                  (e.target as HTMLInputElement).value,
-                                  10,
-                                ) || 1)
+                              handleMultiplierChange(
+                                (e.target as HTMLInputElement).value,
+                              )
                             }
                             min="1"
                             step="1"
-                            class="w-16 rounded border border-slate-300 px-2 py-1 text-center text-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                            class={`w-16 rounded border px-2 py-1 text-center text-sm focus:ring-2 focus:outline-none ${
+                              multiplierError.value
+                                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                : "border-slate-300 focus:border-teal-500 focus:ring-teal-500"
+                            }`}
                             aria-label="Workout multiplier"
                           />
                         </div>
@@ -319,6 +391,26 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                               />
                             </svg>
                           </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+
+                  {/* Validation Error Messages */}
+                  {showValidationErrors.value && (nameError.value || multiplierError.value) && (
+                    <tr>
+                      <td colSpan={4} class="border border-slate-200 px-3 py-2">
+                        <div class="rounded-md bg-red-50 border border-red-200 p-3">
+                          <div class="flex items-center gap-2">
+                            <svg class="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span class="text-sm font-medium text-red-800">Please fix the following errors:</span>
+                          </div>
+                          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                            {nameError.value && <li>Workout name is required</li>}
+                            {multiplierError.value && <li>Multiplier must be at least 1</li>}
+                          </ul>
                         </div>
                       </td>
                     </tr>
