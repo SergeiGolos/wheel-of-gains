@@ -3,7 +3,7 @@ import type { Workout } from "../../../utils/workout-utils";
 
 /**
  * Custom hook for tracking changes to workouts
- * Following Qwik best practices: using useStore for reactive state management
+ * Following Qwik best practices: using useStore for complex state management
  */
 export const useWorkoutChangeTracking = (workouts: Workout[]) => {
   // Use useStore for reactive state management as recommended by Qwik rules
@@ -11,44 +11,53 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
     originalWorkouts: [] as Workout[],
     isInitialized: false,
   });
-  
+
   const hasUnsavedChanges = useSignal(false);
 
   // Helper function to check if workouts have changed
   const checkForChanges = $(() => {
     if (!state.isInitialized || state.originalWorkouts.length === 0) {
-      hasUnsavedChanges.value = false;
       return;
     }
 
-    // Inline signature creation to avoid lexical scope issues
-    const currentSignature = workouts
-      .map(w => `${w.id}:${w.name}:${w.multiplier}:${w.category.id}`)
-      .sort()
-      .join('|');
-    const originalSignature = state.originalWorkouts
-      .map(w => `${w.id}:${w.name}:${w.multiplier}:${w.category.id}`)
-      .sort()
-      .join('|');
-    
-    const hasChanges = currentSignature !== originalSignature;
+    // Inline serialization to avoid lexical scope issues with Qwik
+    const currentSerialized = JSON.stringify(
+      workouts.map((w) => ({
+        id: w.id,
+        name: w.name,
+        url: w.url,
+        multiplier: w.multiplier,
+        category: w.category.id,
+      })),
+    );
+    const originalSerialized = JSON.stringify(
+      state.originalWorkouts.map((w) => ({
+        id: w.id,
+        name: w.name,
+        url: w.url,
+        multiplier: w.multiplier,
+        category: w.category.id,
+      })),
+    );
+
+    const hasChanges = currentSerialized !== originalSerialized;
     hasUnsavedChanges.value = hasChanges;
   });
 
   // Initialize original workouts and track changes using Qwik's reactive system
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(({ track }) => {
-    // Track the workouts array and specific properties that matter for change detection
+    // Track workouts array for changes
+    track(() => workouts);
     track(() => workouts.length);
-    track(() => workouts.map(w => w.multiplier).join(','));
-    track(() => workouts.map(w => w.id).join(','));
+    track(() => workouts.map((w) => w.multiplier).join(","));
 
-    // Initialize original workouts on first mount when we have data
+    // Initialize original workouts on first mount
     if (!state.isInitialized && workouts.length > 0) {
       // Deep clone the workouts to avoid reference issues
-      state.originalWorkouts = workouts.map(w => ({ 
-        ...w, 
-        category: { ...w.category } 
+      state.originalWorkouts = workouts.map((w) => ({
+        ...w,
+        category: { ...w.category },
       }));
       state.isInitialized = true;
       hasUnsavedChanges.value = false;
@@ -64,9 +73,9 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
   // Reset changes flag and update original workouts
   const markAsSaved = $(() => {
     if (workouts.length > 0) {
-      state.originalWorkouts = workouts.map(w => ({ 
-        ...w, 
-        category: { ...w.category } 
+      state.originalWorkouts = workouts.map((w) => ({
+        ...w,
+        category: { ...w.category },
       }));
     }
     hasUnsavedChanges.value = false;
