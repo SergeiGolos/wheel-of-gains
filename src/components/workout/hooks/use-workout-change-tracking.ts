@@ -17,7 +17,7 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
         url: w.url,
         multiplier: w.multiplier,
         category: w.category,
-      }))
+      })),
     );
     const originalSerialized = JSON.stringify(
       originalWorkouts.value.map((w) => ({
@@ -26,7 +26,7 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
         url: w.url,
         multiplier: w.multiplier,
         category: w.category,
-      }))
+      })),
     );
     hasUnsavedChanges.value = currentSerialized !== originalSerialized;
   });

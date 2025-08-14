@@ -67,7 +67,7 @@ export const useWorkoutForm = () => {
     nameError,
     multiplierError,
     showValidationErrors,
-    
+
     // Actions
     startNewWorkout,
     cancelNewWorkout,

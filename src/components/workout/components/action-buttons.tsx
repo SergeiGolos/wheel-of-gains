@@ -54,5 +54,5 @@ export const ActionButtons = component$<ActionButtonsProps>(
         </div>
       </div>
     );
-  }
+  },
 );
