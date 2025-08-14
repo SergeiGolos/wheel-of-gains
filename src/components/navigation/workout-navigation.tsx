@@ -149,7 +149,6 @@ export const WorkoutNavigation = component$(() => {
                     </button>
                   </div>
                 </li>
-                </li>
               ))}
             </ul>
             
