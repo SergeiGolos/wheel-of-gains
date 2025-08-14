@@ -1,7 +1,10 @@
-import { component$, $, useSignal } from "@builder.io/qwik";
+import { component$, $, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type { QRL } from "@builder.io/qwik";
 import type { Workout } from "../../utils/workout-utils";
-import { DEFAULT_CATEGORIES, createWorkoutUrl } from "../../utils/workout-utils";
+import {
+  DEFAULT_CATEGORIES,
+  createWorkoutUrl,
+} from "../../utils/workout-utils";
 import { CategoryBadge } from "../ui/category-badge";
 
 interface WorkoutManagerProps {
@@ -11,23 +14,60 @@ interface WorkoutManagerProps {
 }
 
 export const WorkoutManager = component$<WorkoutManagerProps>(
-  ({
-    workouts,
-    setWorkouts,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onDone: _onDone,
-  }) => {
+  ({ workouts, setWorkouts, onDone }) => {
     const isAddingNew = useSignal(false);
     const newWorkoutName = useSignal("");
     const newWorkoutUrl = useSignal("");
     const newWorkoutMultiplier = useSignal(1);
     const newWorkoutCategory = useSignal(DEFAULT_CATEGORIES[0].id);
-    
+
+    // Change tracking state
+    const originalWorkouts = useSignal<Workout[]>([...workouts]);
+    const hasUnsavedChanges = useSignal(false);
+
     // Validation state
     const nameError = useSignal(false);
     const multiplierError = useSignal(false);
     const showValidationErrors = useSignal(false);
     const invalidMultipliers = useSignal(new Set<string>());
+
+    // Helper function to check if workouts have changed
+    const checkForChanges = $(() => {
+      const currentSerialized = JSON.stringify(
+        workouts.map((w) => ({
+          id: w.id,
+          name: w.name,
+          url: w.url,
+          multiplier: w.multiplier,
+          category: w.category,
+        })),
+      );
+      const originalSerialized = JSON.stringify(
+        originalWorkouts.value.map((w) => ({
+          id: w.id,
+          name: w.name,
+          url: w.url,
+          multiplier: w.multiplier,
+          category: w.category,
+        })),
+      );
+      hasUnsavedChanges.value = currentSerialized !== originalSerialized;
+    });
+
+    // Initialize original workouts and track changes
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(({ track }) => {
+      track(() => workouts.length);
+      track(() => workouts);
+
+      // Initialize original workouts on first load
+      if (originalWorkouts.value.length === 0) {
+        originalWorkouts.value = [...workouts];
+      }
+
+      // Check for changes whenever workouts change
+      checkForChanges();
+    });
 
     const addNewRow = $(() => {
       isAddingNew.value = true;
@@ -54,10 +94,10 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       // Validate inputs
       const isNameValid = name.length > 0;
       const isMultiplierValid = rawMultiplier >= 1;
-      
+
       nameError.value = !isNameValid;
       multiplierError.value = !isMultiplierValid;
-      
+
       // Show validation errors if any field is invalid
       if (!isNameValid || !isMultiplierValid) {
         showValidationErrors.value = true;
@@ -77,6 +117,9 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
           category,
         },
       ]);
+
+      // Check for changes after adding new workout
+      checkForChanges();
 
       // Reset form and validation state
       isAddingNew.value = false;
@@ -101,13 +144,40 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
       showValidationErrors.value = false;
     });
 
+    const handleSave = $(() => {
+      if (onDone) {
+        onDone();
+      }
+    });
+
+    const handleCancel = $(() => {
+      // Revert to original workouts
+      setWorkouts([...originalWorkouts.value]);
+      hasUnsavedChanges.value = false;
+
+      // Cancel any pending new workout
+      isAddingNew.value = false;
+      newWorkoutName.value = "";
+      newWorkoutUrl.value = "";
+      newWorkoutMultiplier.value = 1;
+      newWorkoutCategory.value = DEFAULT_CATEGORIES[0].id;
+      nameError.value = false;
+      multiplierError.value = false;
+      showValidationErrors.value = false;
+
+      if (onDone) {
+        onDone();
+      }
+    });
+
     const deleteWorkout = $((id: string) => {
       setWorkouts(workouts.filter((w) => w.id !== id));
+      checkForChanges();
     });
 
     const updateWorkoutMultiplier = $((id: string, newMultiplier: number) => {
       const isValid = newMultiplier >= 1 && !isNaN(newMultiplier);
-      
+
       // Update validation state for visual feedback
       const currentInvalid = new Set(invalidMultipliers.value);
       if (!isValid) {
@@ -116,17 +186,20 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
         currentInvalid.delete(id);
       }
       invalidMultipliers.value = currentInvalid;
-      
+
       // Auto-correct the value and update (with slight delay for visual feedback)
       const validMultiplier = Math.max(1, Math.floor(newMultiplier)) || 1;
-      
+
       // Update immediately but keep the validation state for visual feedback
       setWorkouts(
         workouts.map((w) =>
           w.id === id ? { ...w, multiplier: validMultiplier } : w,
         ),
       );
-      
+
+      // Check for changes after updating
+      checkForChanges();
+
       // Clear validation error after a short delay if the value was corrected
       if (!isValid) {
         setTimeout(() => {
@@ -160,33 +233,13 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
         aria-labelledby="arsenal-heading"
       >
         {/* Header */}
-        <div class="mb-3 flex items-center justify-between">
+        <div class="mb-3">
           <h2
             id="arsenal-heading"
             class="text-lg font-bold tracking-widest text-slate-800 uppercase sm:text-xl"
           >
             Workout Arsenal
           </h2>
-          <button
-            onClick$={addNewRow}
-            class="flex items-center gap-2 rounded-md bg-teal-600 px-3 py-2 font-medium text-white transition-colors hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
-            aria-label="Add new workout"
-          >
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Add New
-          </button>
         </div>
 
         {/* Editable Grid */}
@@ -337,7 +390,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                             class="w-full rounded border border-slate-300 px-2 py-1 text-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:outline-none"
                             aria-label="Workout URL"
                           />
-                          <p class="text-xs text-slate-500 mt-1">
+                          <p class="mt-1 text-xs text-slate-500">
                             Leave empty to auto-generate Google search
                           </p>
                         </div>
@@ -410,28 +463,90 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                   )}
 
                   {/* Validation Error Messages */}
-                  {showValidationErrors.value && (nameError.value || multiplierError.value) && (
-                    <tr>
-                      <td colSpan={4} class="border border-slate-200 px-3 py-2">
-                        <div class="rounded-md bg-red-50 border border-red-200 p-3">
-                          <div class="flex items-center gap-2">
-                            <svg class="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="text-sm font-medium text-red-800">Please fix the following errors:</span>
+                  {showValidationErrors.value &&
+                    (nameError.value || multiplierError.value) && (
+                      <tr>
+                        <td
+                          colSpan={4}
+                          class="border border-slate-200 px-3 py-2"
+                        >
+                          <div class="rounded-md border border-red-200 bg-red-50 p-3">
+                            <div class="flex items-center gap-2">
+                              <svg
+                                class="h-4 w-4 text-red-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                              <span class="text-sm font-medium text-red-800">
+                                Please fix the following errors:
+                              </span>
+                            </div>
+                            <ul class="mt-2 list-inside list-disc text-sm text-red-700">
+                              {nameError.value && (
+                                <li>Workout name is required</li>
+                              )}
+                              {multiplierError.value && (
+                                <li>Multiplier must be at least 1</li>
+                              )}
+                            </ul>
                           </div>
-                          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
-                            {nameError.value && <li>Workout name is required</li>}
-                            {multiplierError.value && <li>Multiplier must be at least 1</li>}
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+                        </td>
+                      </tr>
+                    )}
                 </>
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Action buttons - positioned after the table */}
+        <div class="mt-4 flex items-center justify-between gap-3 border-t border-slate-200 pt-3">
+          <button
+            onClick$={addNewRow}
+            class="flex items-center gap-2 rounded-md bg-teal-600 px-3 py-2 font-medium text-white transition-colors hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
+            aria-label="Add new workout"
+          >
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Add New
+          </button>
+
+          <div class="flex items-center gap-2">
+            <button
+              onClick$={handleCancel}
+              class="rounded-md border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 transition-colors hover:bg-slate-50 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none"
+              aria-label="Cancel changes and return to wheel"
+            >
+              Cancel
+            </button>
+
+            {hasUnsavedChanges.value && (
+              <button
+                onClick$={handleSave}
+                class="rounded-md bg-green-600 px-4 py-2 font-medium text-white transition-colors hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none"
+                aria-label="Save changes and return to wheel"
+              >
+                Save
+              </button>
+            )}
+          </div>
         </div>
       </section>
     );
