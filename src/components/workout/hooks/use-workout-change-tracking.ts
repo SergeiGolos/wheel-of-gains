@@ -11,7 +11,7 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
     originalWorkouts: [] as Workout[],
     isInitialized: false,
   });
-  
+
   const hasUnsavedChanges = useSignal(false);
 
   // Helper function to check if workouts have changed
@@ -23,14 +23,14 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
 
     // Inline signature creation to avoid lexical scope issues
     const currentSignature = workouts
-      .map(w => `${w.id}:${w.name}:${w.multiplier}:${w.category.id}`)
+      .map((w) => `${w.id}:${w.name}:${w.multiplier}:${w.category.id}`)
       .sort()
-      .join('|');
+      .join("|");
     const originalSignature = state.originalWorkouts
-      .map(w => `${w.id}:${w.name}:${w.multiplier}:${w.category.id}`)
+      .map((w) => `${w.id}:${w.name}:${w.multiplier}:${w.category.id}`)
       .sort()
-      .join('|');
-    
+      .join("|");
+
     const hasChanges = currentSignature !== originalSignature;
     hasUnsavedChanges.value = hasChanges;
   });
@@ -40,15 +40,15 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
   useVisibleTask$(({ track }) => {
     // Track the workouts array and specific properties that matter for change detection
     track(() => workouts.length);
-    track(() => workouts.map(w => w.multiplier).join(','));
-    track(() => workouts.map(w => w.id).join(','));
+    track(() => workouts.map((w) => w.multiplier).join(","));
+    track(() => workouts.map((w) => w.id).join(","));
 
     // Initialize original workouts on first mount when we have data
     if (!state.isInitialized && workouts.length > 0) {
       // Deep clone the workouts to avoid reference issues
-      state.originalWorkouts = workouts.map(w => ({ 
-        ...w, 
-        category: { ...w.category } 
+      state.originalWorkouts = workouts.map((w) => ({
+        ...w,
+        category: { ...w.category },
       }));
       state.isInitialized = true;
       hasUnsavedChanges.value = false;
@@ -64,9 +64,9 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
   // Reset changes flag and update original workouts
   const markAsSaved = $(() => {
     if (workouts.length > 0) {
-      state.originalWorkouts = workouts.map(w => ({ 
-        ...w, 
-        category: { ...w.category } 
+      state.originalWorkouts = workouts.map((w) => ({
+        ...w,
+        category: { ...w.category },
       }));
     }
     hasUnsavedChanges.value = false;
