@@ -5,7 +5,7 @@ import { WORKOUT_COLLECTIONS } from "../../utils/workout-collections";
 
 export default component$(() => {
   return (
-    <WorkoutWheelPage 
+    <WorkoutWheelPage
       initialWorkouts={WORKOUT_COLLECTIONS.cardio.workouts}
       pageTitle={WORKOUT_COLLECTIONS.cardio.title}
       pageDescription={WORKOUT_COLLECTIONS.cardio.description}
@@ -19,7 +19,8 @@ export const head: DocumentHead = {
   meta: [
     {
       name: "description",
-      content: "High-intensity cardio workouts to get your heart pumping. Burn calories and build endurance!",
+      content:
+        "High-intensity cardio workouts to get your heart pumping. Burn calories and build endurance!",
     },
   ],
 };

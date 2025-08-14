@@ -5,7 +5,7 @@ import { WORKOUT_COLLECTIONS } from "../../utils/workout-collections";
 
 export default component$(() => {
   return (
-    <WorkoutWheelPage 
+    <WorkoutWheelPage
       initialWorkouts={WORKOUT_COLLECTIONS.strength.workouts}
       pageTitle={WORKOUT_COLLECTIONS.strength.title}
       pageDescription={WORKOUT_COLLECTIONS.strength.description}
@@ -19,7 +19,8 @@ export const head: DocumentHead = {
   meta: [
     {
       name: "description",
-      content: "Build muscle and power with strength-focused exercises. Get stronger every day!",
+      content:
+        "Build muscle and power with strength-focused exercises. Get stronger every day!",
     },
   ],
 };

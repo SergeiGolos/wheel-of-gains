@@ -17,7 +17,8 @@ export const WorkoutNavigation = component$(() => {
   const isMenuOpen = useSignal(false);
 
   // Find the current active item
-  const currentItem = NAV_ITEMS.find(item => item.href === currentPath) || NAV_ITEMS[0];
+  const currentItem =
+    NAV_ITEMS.find((item) => item.href === currentPath) || NAV_ITEMS[0];
 
   const handleNavigationChange = $((href: string) => {
     navigate(href);
@@ -29,12 +30,12 @@ export const WorkoutNavigation = component$(() => {
   });
 
   return (
-    <header class="bg-white shadow-sm border-b border-slate-200 mb-3">
+    <header class="mb-3 border-b border-slate-200 bg-white shadow-sm">
       <div class="container mx-auto px-4">
         {/* Header with logo on left and hamburger menu on right */}
         <div class="flex items-center justify-between py-2">
           {/* Logo on the left */}
-          <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 uppercase">
+          <h1 class="text-lg font-bold tracking-tight text-slate-900 uppercase sm:text-xl">
             <span class="text-teal-600">Wheel</span>
             <span class="text-slate-900"> Of Gains</span>
           </h1>
@@ -42,32 +43,32 @@ export const WorkoutNavigation = component$(() => {
           {/* Hamburger Menu Button on the right */}
           <button
             onClick$={toggleMenu}
-            class="p-2 rounded-md text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+            class="rounded-md p-2 text-slate-700 hover:bg-slate-100 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
             aria-label="Toggle navigation menu"
             aria-expanded={isMenuOpen.value}
           >
-            <svg 
-              class="w-6 h-6" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
               {isMenuOpen.value ? (
                 // X icon when menu is open
-                <path 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round" 
-                  stroke-width="2" 
-                  d="M6 18L18 6M6 6l12 12" 
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
                 />
               ) : (
                 // Hamburger icon when menu is closed
-                <path 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round" 
-                  stroke-width="2" 
-                  d="M4 6h16M4 12h16M4 18h16" 
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
                 />
               )}
             </svg>
@@ -76,49 +77,61 @@ export const WorkoutNavigation = component$(() => {
       </div>
 
       {/* Slide-out Navigation Panel */}
-      <div 
-        class={`fixed inset-0 z-50 ${isMenuOpen.value ? 'pointer-events-auto' : 'pointer-events-none'}`}
+      <div
+        class={`fixed inset-0 z-50 ${isMenuOpen.value ? "pointer-events-auto" : "pointer-events-none"}`}
         aria-hidden={!isMenuOpen.value}
       >
         {/* Overlay */}
-        <div 
+        <div
           class={`fixed inset-0 bg-black transition-opacity duration-300 ${
-            isMenuOpen.value ? 'opacity-50' : 'opacity-0'
+            isMenuOpen.value ? "opacity-50" : "opacity-0"
           }`}
           onClick$={toggleMenu}
         />
-        
+
         {/* Slide-out panel */}
-        <nav 
-          class={`fixed top-0 right-0 h-full w-80 max-w-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
-            isMenuOpen.value ? 'translate-x-0' : 'translate-x-full'
+        <nav
+          class={`fixed top-0 right-0 h-full w-80 max-w-full transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+            isMenuOpen.value ? "translate-x-0" : "translate-x-full"
           }`}
           role="navigation"
           aria-label="Workout navigation"
         >
           <div class="p-6">
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-lg font-semibold text-slate-900">Workout Categories</h2>
+            <div class="mb-6 flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-slate-900">
+                Workout Categories
+              </h2>
               <button
                 onClick$={toggleMenu}
-                class="p-2 rounded-md text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                class="rounded-md p-2 text-slate-700 hover:bg-slate-100 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
                 aria-label="Close navigation menu"
               >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
-            
+
             <ul class="space-y-2">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <button
                     onClick$={() => handleNavigationChange(item.href)}
-                    class={`w-full text-left px-4 py-3 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
-                      currentItem.href === item.href 
-                        ? 'bg-teal-100 text-teal-800 font-medium'
-                        : 'text-slate-700 hover:bg-slate-100'
+                    class={`w-full rounded-md px-4 py-3 text-left transition-colors focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none ${
+                      currentItem.href === item.href
+                        ? "bg-teal-100 font-medium text-teal-800"
+                        : "text-slate-700 hover:bg-slate-100"
                     }`}
                   >
                     {item.label}
