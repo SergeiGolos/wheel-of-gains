@@ -133,6 +133,22 @@ Simply visit the [live application](https://SergeiGolos.github.io/wheel-of-gains
    npm run preview
    ```
 
+### 📊 Code Complexity Analysis
+
+This project includes automated complexity analysis to help maintain code quality:
+
+```bash
+npm run analyze
+```
+
+This generates a comprehensive `COMPLEXITY_ANALYSIS.md` report that identifies:
+
+- High complexity components that may need refactoring
+- Detailed metrics for each file (lines of code, functions, dependencies)
+- Recommendations for improving code maintainability
+
+The analysis is particularly useful for this "heavily vibe coded" project to identify technical debt and prioritize refactoring efforts.
+
 ## 🤝 Contributing
 
 We welcome contributions! This project is designed to be beginner-friendly with well-defined issues.
