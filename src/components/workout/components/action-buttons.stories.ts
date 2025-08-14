@@ -1,19 +1,21 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from "@storybook/html";
 
 const meta: Meta = {
-  title: 'Workout Components/ActionButtons',
+  title: "Workout Components/ActionButtons",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'Action buttons for workout management - Add New, Save, and Cancel functionality.',
+        component:
+          "Action buttons for workout management - Add New, Save, and Cancel functionality.",
       },
     },
   },
   argTypes: {
     hasUnsavedChanges: {
-      control: { type: 'boolean' },
-      description: 'Whether there are unsaved changes (controls Save button visibility)',
+      control: { type: "boolean" },
+      description:
+        "Whether there are unsaved changes (controls Save button visibility)",
     },
   },
 };
@@ -57,7 +59,9 @@ const renderActionButtons = (args: any) => {
           Cancel
         </button>
 
-        ${hasUnsavedChanges ? `
+        ${
+          hasUnsavedChanges
+            ? `
         <button 
           class="rounded-md bg-green-600 px-4 py-2 font-medium text-white transition-colors hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none"
           aria-label="Save changes and return to wheel"
@@ -65,7 +69,9 @@ const renderActionButtons = (args: any) => {
         >
           Save
         </button>
-        ` : ''}
+        `
+            : ""
+        }
       </div>
     </div>
   `;
@@ -79,7 +85,7 @@ export const NoUnsavedChanges: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Default state with no unsaved changes - Save button is hidden.',
+        story: "Default state with no unsaved changes - Save button is hidden.",
       },
     },
   },
@@ -93,7 +99,8 @@ export const WithUnsavedChanges: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'State with unsaved changes - Save button is visible and highlighted in green.',
+        story:
+          "State with unsaved changes - Save button is visible and highlighted in green.",
       },
     },
   },
@@ -107,7 +114,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive example - toggle the "hasUnsavedChanges" control to see the Save button appear/disappear.',
+        story:
+          'Interactive example - toggle the "hasUnsavedChanges" control to see the Save button appear/disappear.',
       },
     },
   },
@@ -132,7 +140,7 @@ export const ButtonStates: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Comparison showing both states side by side.',
+        story: "Comparison showing both states side by side.",
       },
     },
   },

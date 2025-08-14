@@ -6,7 +6,22 @@ This project uses [Storybook](https://storybook.js.org/) to develop, test, and d
 
 ## Quick Start
 
-### Running Storybook
+### Live Storybook Access
+
+The Storybook is automatically deployed to GitHub Pages alongside the main application:
+
+- **Live Storybook**: https://sergeigolos.github.io/wheel-of-gains/storybook/
+- **Main Application**: https://sergeigolos.github.io/wheel-of-gains/wheel-of-gains/
+- **Project Hub**: https://sergeigolos.github.io/wheel-of-gains/
+
+The deployment includes:
+
+- **Automated builds** via GitHub Actions on every push to main
+- **Component documentation** accessible to all stakeholders
+- **Visual regression testing** capabilities
+- **Interactive component playground** for design validation
+
+### Running Storybook Locally
 
 ```bash
 # Start development server
@@ -47,16 +62,17 @@ src/
 ### ✅ Implemented Stories
 
 #### Icons
+
 - **KettlebellIcon** (6 stories)
   - Default, Small, Large, XL sizes
   - Color variations
   - Size comparison overview
 
-#### UI Components  
+#### UI Components
+
 - **CategoryBadge** (7 stories)
   - All 6 workout categories (Classic, Beginner, Intermediate, Advanced, Cardio, Strength)
   - All categories overview
-  
 - **ResultDisplay** (7 stories)
   - No result state
   - Spinning state
@@ -64,6 +80,7 @@ src/
   - Interactive controls
 
 #### Workout Components
+
 - **ActionButtons** (4 stories)
   - No unsaved changes state
   - With unsaved changes state (shows Save button)
@@ -73,15 +90,18 @@ src/
 ### 🚧 Planned Stories
 
 #### Workflow Components (Medium Complexity)
+
 - [ ] NewWorkoutForm
-- [ ] WorkoutListItem  
+- [ ] WorkoutListItem
 - [ ] PreviousResults
 - [ ] FilterPanel
 
 #### Navigation Components
+
 - [ ] WorkoutNavigation
 
 #### High-Complexity Components
+
 - [ ] Wheel (Canvas-based spinning wheel)
 - [ ] WorkoutManager (Complex form handling)
 - [ ] WorkoutWheelPage (Full page component)
@@ -102,15 +122,15 @@ This Storybook setup uses the **HTML-Vite framework** to support Qwik components
 Each story file follows this pattern:
 
 ```typescript
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from "@storybook/html";
 
 const meta: Meta = {
-  title: 'Category/ComponentName',
+  title: "Category/ComponentName",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'Component description...',
+        component: "Component description...",
       },
     },
   },
@@ -128,7 +148,9 @@ const renderComponent = (args: any) => {
 };
 
 export const DefaultStory: Story = {
-  args: { /* default props */ },
+  args: {
+    /* default props */
+  },
   render: renderComponent,
 };
 ```
@@ -139,15 +161,15 @@ Stories use consistent mock data defined in each story file:
 
 ```typescript
 const mockCategories = {
-  classic: { id: 'classic', name: 'Classic Mix', color: '#64748b' },
+  classic: { id: "classic", name: "Classic Mix", color: "#64748b" },
   // ... other categories
 };
 
 const mockWorkouts = {
   pushUps: {
-    id: '1',
-    name: 'Push Ups',
-    url: 'https://example.com/pushups',
+    id: "1",
+    name: "Push Ups",
+    url: "https://example.com/pushups",
     multiplier: 1,
     category: mockCategories.classic,
   },
@@ -160,14 +182,16 @@ const mockWorkouts = {
 ### Interactive Controls
 
 All stories include Storybook controls for:
+
 - **Boolean properties**: Toggle switches
-- **Select properties**: Dropdown selections  
+- **Select properties**: Dropdown selections
 - **Color properties**: Color pickers
 - **Custom mappings**: Complex object selections
 
 ### Accessibility Testing
 
 The `@storybook/addon-a11y` addon provides:
+
 - Automated accessibility checks
 - ARIA compliance validation
 - Color contrast verification
@@ -176,6 +200,7 @@ The `@storybook/addon-a11y` addon provides:
 ### Visual Regression Testing
 
 Storybook enables:
+
 - **Screenshot testing**: Visual comparison between versions
 - **Responsive testing**: Multiple viewport sizes
 - **Theme testing**: Light/dark mode variations
@@ -194,8 +219,9 @@ Storybook enables:
 ### Story Categories
 
 Stories are organized by component type:
+
 - **Icons**: Simple SVG components
-- **UI Components**: Reusable interface elements  
+- **UI Components**: Reusable interface elements
 - **Workout Components**: Fitness-specific functionality
 - **Navigation Components**: Application navigation
 - **Page Components**: Full page layouts
@@ -244,20 +270,56 @@ npm run build && npm run build-storybook
 
 ### Deployment
 
-Static Storybook builds can be deployed alongside the main application:
+**GitHub Pages Integration**: The Storybook is automatically deployed with the main application via GitHub Actions:
+
+```yaml
+# .github/workflows/pages.yml includes:
+- name: Build Storybook
+  run: npm run build-storybook
+
+- name: Integrate Storybook with main app
+  run: |
+    mkdir -p ./dist/wheel-of-gains/storybook
+    cp -r ./storybook-static/* ./dist/wheel-of-gains/storybook/
+```
+
+**Deployment Structure**:
 
 ```
-dist/               # Main application
-storybook-static/   # Storybook build (excluded from git)
+https://sergeigolos.github.io/wheel-of-gains/
+├── index.html                  # Project hub with navigation
+├── wheel-of-gains/            # Main Qwik application
+│   ├── index.html
+│   ├── beginner/
+│   ├── advanced/
+│   └── storybook/             # Storybook deployment
+│       ├── index.html
+│       ├── iframe.html
+│       └── ...
 ```
+
+**Benefits**:
+
+- **Single deployment pipeline**: No separate hosting needed
+- **Stakeholder access**: Live component documentation for all team members
+- **Visual regression testing**: Screenshots and component validation in production environment
+- **Documentation hosting**: Always up-to-date component library
 
 ### Automated Testing
 
-Future CI/CD integration can include:
-- Visual regression testing with Chromatic
-- Accessibility testing automation  
-- Performance monitoring
-- Snapshot testing
+**Current CI/CD Integration**:
+
+- ✅ **Automated Storybook builds** on every push to main
+- ✅ **GitHub Pages deployment** with main application
+- ✅ **Live component documentation** accessible to stakeholders
+- ✅ **Build validation** ensures Storybook stories compile correctly
+
+**Available for Future Enhancement**:
+
+- Visual regression testing with Chromatic or Percy
+- Accessibility testing automation with axe-core
+- Performance monitoring for component rendering
+- Snapshot testing for component consistency
 
 ## Configuration
 
@@ -266,16 +328,16 @@ Future CI/CD integration can include:
 ```typescript
 // .storybook/main.ts
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-docs',
-    '@storybook/addon-controls', 
-    '@storybook/addon-actions',
-    '@storybook/addon-a11y',
+    "@storybook/addon-essentials",
+    "@storybook/addon-docs",
+    "@storybook/addon-controls",
+    "@storybook/addon-actions",
+    "@storybook/addon-a11y",
   ],
   framework: {
-    name: '@storybook/html-vite',
+    name: "@storybook/html-vite",
     options: {},
   },
   // ...
@@ -287,7 +349,7 @@ const config: StorybookConfig = {
 Tailwind CSS is imported globally in `.storybook/preview.ts`:
 
 ```typescript
-import '../src/global.css';
+import "../src/global.css";
 ```
 
 ## Troubleshooting
@@ -311,7 +373,7 @@ import '../src/global.css';
 
 1. Create component story file alongside component
 2. Follow existing naming conventions
-3. Include comprehensive prop coverage  
+3. Include comprehensive prop coverage
 4. Add interactive controls where appropriate
 5. Document complex behaviors
 6. Test accessibility compliance
@@ -329,7 +391,7 @@ import '../src/global.css';
 
 - [ ] **Component playground**: Interactive component builder
 - [ ] **Design tokens**: Centralized theme management
-- [ ] **Animation testing**: Motion and transition verification  
+- [ ] **Animation testing**: Motion and transition verification
 - [ ] **Performance monitoring**: Bundle size and rendering metrics
 - [ ] **Integration testing**: Cross-component interaction testing
 

@@ -1,32 +1,32 @@
-import type { Meta, StoryObj } from '@storybook/html';
-import { CategoryBadge } from './category-badge';
+import type { Meta, StoryObj } from "@storybook/html";
 
 // Mock workout categories for testing
 const mockCategories = {
-  classic: { name: 'Classic Mix', color: '#64748b' },
-  beginner: { name: 'Beginner', color: '#10b981' },
-  intermediate: { name: 'Intermediate', color: '#f59e0b' },
-  advanced: { name: 'Advanced', color: '#ef4444' },
-  cardio: { name: 'Cardio', color: '#8b5cf6' },
-  strength: { name: 'Strength', color: '#06b6d4' },
+  classic: { name: "Classic Mix", color: "#64748b" },
+  beginner: { name: "Beginner", color: "#10b981" },
+  intermediate: { name: "Intermediate", color: "#f59e0b" },
+  advanced: { name: "Advanced", color: "#ef4444" },
+  cardio: { name: "Cardio", color: "#8b5cf6" },
+  strength: { name: "Strength", color: "#06b6d4" },
 };
 
 const meta: Meta = {
-  title: 'UI Components/CategoryBadge',
+  title: "UI Components/CategoryBadge",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'A badge component that displays workout categories with color-coded styling.',
+        component:
+          "A badge component that displays workout categories with color-coded styling.",
       },
     },
   },
   argTypes: {
     category: {
-      control: { type: 'select' },
+      control: { type: "select" },
       options: Object.keys(mockCategories),
       mapping: mockCategories,
-      description: 'The workout category to display',
+      description: "The workout category to display",
     },
   },
 };
@@ -103,9 +103,9 @@ export const Strength: Story = {
 export const AllCategories: Story = {
   render: () => {
     const badges = Object.values(mockCategories)
-      .map(category => renderCategoryBadge(category))
-      .join(' ');
-    
+      .map((category) => renderCategoryBadge(category))
+      .join(" ");
+
     return `
       <div class="flex flex-wrap gap-2 p-4">
         ${badges}
@@ -115,7 +115,7 @@ export const AllCategories: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Display all available workout category badges together.',
+        story: "Display all available workout category badges together.",
       },
     },
   },

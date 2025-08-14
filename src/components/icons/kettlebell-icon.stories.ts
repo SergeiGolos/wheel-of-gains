@@ -1,24 +1,25 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from "@storybook/html";
 
 const meta: Meta = {
-  title: 'Icons/KettlebellIcon',
+  title: "Icons/KettlebellIcon",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'A kettlebell SVG icon used throughout the application to represent fitness and workouts.',
+        component:
+          "A kettlebell SVG icon used throughout the application to represent fitness and workouts.",
       },
     },
   },
   argTypes: {
     size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large', 'xl'],
-      description: 'Size of the icon',
+      control: { type: "select" },
+      options: ["small", "medium", "large", "xl"],
+      description: "Size of the icon",
     },
     color: {
-      control: { type: 'color' },
-      description: 'Color of the icon (uses currentColor by default)',
+      control: { type: "color" },
+      description: "Color of the icon (uses currentColor by default)",
     },
   },
 };
@@ -28,16 +29,17 @@ type Story = StoryObj;
 
 // Helper function to render the kettlebell icon
 const renderKettlebellIcon = (args: any) => {
-  const { size = 'medium', color = 'currentColor' } = args;
-  
+  const { size = "medium", color = "currentColor" } = args;
+
   const sizeClasses = {
-    small: 'h-4 w-4',
-    medium: 'h-5 w-5', 
-    large: 'h-8 w-8',
-    xl: 'h-12 w-12',
+    small: "h-4 w-4",
+    medium: "h-5 w-5",
+    large: "h-8 w-8",
+    xl: "h-12 w-12",
   };
 
-  const sizeClass = sizeClasses[size as keyof typeof sizeClasses] || sizeClasses.medium;
+  const sizeClass =
+    sizeClasses[size as keyof typeof sizeClasses] || sizeClasses.medium;
 
   return `
     <svg 
@@ -53,14 +55,14 @@ const renderKettlebellIcon = (args: any) => {
 
 export const Default: Story = {
   args: {
-    size: 'medium',
-    color: 'currentColor',
+    size: "medium",
+    color: "currentColor",
   },
   render: renderKettlebellIcon,
   parameters: {
     docs: {
       description: {
-        story: 'Default kettlebell icon with medium size.',
+        story: "Default kettlebell icon with medium size.",
       },
     },
   },
@@ -68,14 +70,14 @@ export const Default: Story = {
 
 export const Small: Story = {
   args: {
-    size: 'small',
-    color: '#64748b',
+    size: "small",
+    color: "#64748b",
   },
   render: renderKettlebellIcon,
   parameters: {
     docs: {
       description: {
-        story: 'Small kettlebell icon (16x16px).',
+        story: "Small kettlebell icon (16x16px).",
       },
     },
   },
@@ -83,14 +85,14 @@ export const Small: Story = {
 
 export const Large: Story = {
   args: {
-    size: 'large',
-    color: '#0f172a',
+    size: "large",
+    color: "#0f172a",
   },
   render: renderKettlebellIcon,
   parameters: {
     docs: {
       description: {
-        story: 'Large kettlebell icon (32x32px).',
+        story: "Large kettlebell icon (32x32px).",
       },
     },
   },
@@ -98,14 +100,14 @@ export const Large: Story = {
 
 export const ExtraLarge: Story = {
   args: {
-    size: 'xl',
-    color: '#059669',
+    size: "xl",
+    color: "#059669",
   },
   render: renderKettlebellIcon,
   parameters: {
     docs: {
       description: {
-        story: 'Extra large kettlebell icon (48x48px) in green.',
+        story: "Extra large kettlebell icon (48x48px) in green.",
       },
     },
   },
@@ -114,20 +116,23 @@ export const ExtraLarge: Story = {
 export const ColorVariations: Story = {
   render: () => {
     const colors = [
-      { name: 'Slate', color: '#64748b' },
-      { name: 'Red', color: '#ef4444' },
-      { name: 'Green', color: '#10b981' },
-      { name: 'Blue', color: '#3b82f6' },
-      { name: 'Purple', color: '#8b5cf6' },
-      { name: 'Orange', color: '#f59e0b' },
+      { name: "Slate", color: "#64748b" },
+      { name: "Red", color: "#ef4444" },
+      { name: "Green", color: "#10b981" },
+      { name: "Blue", color: "#3b82f6" },
+      { name: "Purple", color: "#8b5cf6" },
+      { name: "Orange", color: "#f59e0b" },
     ];
 
-    const icons = colors.map(({ name, color }) => 
-      `<div class="flex flex-col items-center gap-2 p-2">
-        ${renderKettlebellIcon({ size: 'large', color })}
+    const icons = colors
+      .map(
+        ({ name, color }) =>
+          `<div class="flex flex-col items-center gap-2 p-2">
+        ${renderKettlebellIcon({ size: "large", color })}
         <span class="text-xs text-slate-600">${name}</span>
-      </div>`
-    ).join('');
+      </div>`,
+      )
+      .join("");
 
     return `
       <div class="flex flex-wrap gap-4 p-4">
@@ -138,7 +143,7 @@ export const ColorVariations: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Kettlebell icon in various colors to show versatility.',
+        story: "Kettlebell icon in various colors to show versatility.",
       },
     },
   },
@@ -147,18 +152,21 @@ export const ColorVariations: Story = {
 export const SizeComparison: Story = {
   render: () => {
     const sizes = [
-      { name: 'Small', size: 'small' },
-      { name: 'Medium', size: 'medium' },
-      { name: 'Large', size: 'large' },
-      { name: 'XL', size: 'xl' },
+      { name: "Small", size: "small" },
+      { name: "Medium", size: "medium" },
+      { name: "Large", size: "large" },
+      { name: "XL", size: "xl" },
     ];
 
-    const icons = sizes.map(({ name, size }) => 
-      `<div class="flex flex-col items-center gap-2 p-4">
-        ${renderKettlebellIcon({ size, color: '#64748b' })}
+    const icons = sizes
+      .map(
+        ({ name, size }) =>
+          `<div class="flex flex-col items-center gap-2 p-4">
+        ${renderKettlebellIcon({ size, color: "#64748b" })}
         <span class="text-xs text-slate-600">${name}</span>
-      </div>`
-    ).join('');
+      </div>`,
+      )
+      .join("");
 
     return `
       <div class="flex items-end gap-4 p-4">
@@ -169,7 +177,7 @@ export const SizeComparison: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Size comparison showing all available icon sizes.',
+        story: "Size comparison showing all available icon sizes.",
       },
     },
   },

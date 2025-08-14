@@ -1,48 +1,48 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from "@storybook/html";
 
 // Mock data for testing
 const mockCategories = {
-  classic: { id: 'classic', name: 'Classic Mix', color: '#64748b' },
-  beginner: { id: 'beginner', name: 'Beginner', color: '#10b981' },
-  intermediate: { id: 'intermediate', name: 'Intermediate', color: '#f59e0b' },
-  advanced: { id: 'advanced', name: 'Advanced', color: '#ef4444' },
-  cardio: { id: 'cardio', name: 'Cardio', color: '#8b5cf6' },
-  strength: { id: 'strength', name: 'Strength', color: '#06b6d4' },
+  classic: { id: "classic", name: "Classic Mix", color: "#64748b" },
+  beginner: { id: "beginner", name: "Beginner", color: "#10b981" },
+  intermediate: { id: "intermediate", name: "Intermediate", color: "#f59e0b" },
+  advanced: { id: "advanced", name: "Advanced", color: "#ef4444" },
+  cardio: { id: "cardio", name: "Cardio", color: "#8b5cf6" },
+  strength: { id: "strength", name: "Strength", color: "#06b6d4" },
 };
 
 const mockWorkouts = {
   pushUps: {
-    id: '1',
-    name: 'Push Ups',
-    url: 'https://example.com/pushups',
+    id: "1",
+    name: "Push Ups",
+    url: "https://example.com/pushups",
     multiplier: 1,
     category: mockCategories.classic,
   },
   burpees: {
-    id: '2',
-    name: 'Burpees', 
-    url: 'https://example.com/burpees',
+    id: "2",
+    name: "Burpees",
+    url: "https://example.com/burpees",
     multiplier: 1,
     category: mockCategories.cardio,
   },
   deadlifts: {
-    id: '3',
-    name: 'Deadlifts',
-    url: 'https://example.com/deadlifts',
+    id: "3",
+    name: "Deadlifts",
+    url: "https://example.com/deadlifts",
     multiplier: 1,
     category: mockCategories.strength,
   },
   squats: {
-    id: '4',
-    name: 'Bodyweight Squats',
-    url: 'https://example.com/squats',
+    id: "4",
+    name: "Bodyweight Squats",
+    url: "https://example.com/squats",
     multiplier: 1,
     category: mockCategories.beginner,
   },
   pullUps: {
-    id: '5',
-    name: 'Pull Ups',
-    url: 'https://example.com/pullups',
+    id: "5",
+    name: "Pull Ups",
+    url: "https://example.com/pullups",
     multiplier: 1,
     category: mockCategories.advanced,
   },
@@ -50,47 +50,48 @@ const mockWorkouts = {
 
 const mockSpinHistory = [
   {
-    id: '1',
+    id: "1",
     workout: mockWorkouts.pushUps,
     timestamp: Date.now() - 1000 * 60 * 5, // 5 minutes ago
   },
   {
-    id: '2', 
+    id: "2",
     workout: mockWorkouts.burpees,
     timestamp: Date.now() - 1000 * 60 * 30, // 30 minutes ago
   },
   {
-    id: '3',
+    id: "3",
     workout: mockWorkouts.deadlifts,
     timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
   },
   {
-    id: '4',
+    id: "4",
     workout: mockWorkouts.squats,
     timestamp: Date.now() - 1000 * 60 * 60 * 24, // 1 day ago
   },
   {
-    id: '5',
+    id: "5",
     workout: mockWorkouts.pullUps,
     timestamp: Date.now() - 1000 * 60 * 60 * 24 * 3, // 3 days ago
   },
 ];
 
 const meta: Meta = {
-  title: 'Workout Components/PreviousResults',
+  title: "Workout Components/PreviousResults",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'Displays the history of previous workout selections with timestamps and the ability to re-run workouts.',
+        component:
+          "Displays the history of previous workout selections with timestamps and the ability to re-run workouts.",
       },
     },
   },
   argTypes: {
     historyLength: {
-      control: { type: 'select' },
+      control: { type: "select" },
       options: [0, 1, 3, 5, 10],
-      description: 'Number of items in spin history',
+      description: "Number of items in spin history",
     },
   },
 };
@@ -118,7 +119,7 @@ const formatTimestamp = (timestamp: number) => {
   const hours = Math.floor(diff / (1000 * 60 * 60));
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-  if (minutes < 1) return 'Just now';
+  if (minutes < 1) return "Just now";
   if (minutes < 60) return `${minutes}m ago`;
   if (hours < 24) return `${hours}h ago`;
   return `${days}d ago`;
@@ -148,16 +149,21 @@ const renderPreviousResults = (args: any) => {
         aria-label="Spin history"
         aria-live="polite"
       >
-        ${history.length === 0 ? `
+        ${
+          history.length === 0
+            ? `
         <div class="rounded-md border-2 border-dashed border-slate-200 py-4 text-center sm:py-6">
           <p class="text-sm text-slate-500 sm:text-base">No spins yet.</p>
           <p class="text-xs text-slate-400 sm:text-sm">
             Spin the wheel to start your workout history!
           </p>
         </div>
-        ` : `
+        `
+            : `
         <ul class="space-y-2" role="list">
-          ${history.map((result) => `
+          ${history
+            .map(
+              (result) => `
           <li class="rounded-md border border-slate-200 bg-slate-50 p-2 transition-colors hover:bg-slate-100 sm:p-3">
             <div class="flex items-start justify-between gap-2">
               <div class="min-w-0 flex-grow">
@@ -181,9 +187,12 @@ const renderPreviousResults = (args: any) => {
               </button>
             </div>
           </li>
-          `).join('')}
+          `,
+            )
+            .join("")}
         </ul>
-        `}
+        `
+        }
       </div>
     </section>
   `;
@@ -197,7 +206,8 @@ export const EmptyHistory: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'No previous workout results - shows empty state with helpful message.',
+        story:
+          "No previous workout results - shows empty state with helpful message.",
       },
     },
   },
@@ -211,7 +221,7 @@ export const SingleResult: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Single workout result in the history.',
+        story: "Single workout result in the history.",
       },
     },
   },
@@ -225,7 +235,8 @@ export const ShortHistory: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Short history with 3 recent workouts showing different categories and timestamps.',
+        story:
+          "Short history with 3 recent workouts showing different categories and timestamps.",
       },
     },
   },
@@ -239,7 +250,8 @@ export const FullHistory: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Full history showing all 5 recent workouts with varied timestamps and categories.',
+        story:
+          "Full history showing all 5 recent workouts with varied timestamps and categories.",
       },
     },
   },
@@ -254,41 +266,42 @@ export const ExtendedHistory: Story = {
     const extendedHistory = [
       ...mockSpinHistory,
       {
-        id: '6',
-        workout: { ...mockWorkouts.pushUps, name: 'Diamond Push Ups' },
+        id: "6",
+        workout: { ...mockWorkouts.pushUps, name: "Diamond Push Ups" },
         timestamp: Date.now() - 1000 * 60 * 60 * 24 * 7, // 1 week ago
       },
       {
-        id: '7', 
-        workout: { ...mockWorkouts.burpees, name: 'Mountain Climbers' },
+        id: "7",
+        workout: { ...mockWorkouts.burpees, name: "Mountain Climbers" },
         timestamp: Date.now() - 1000 * 60 * 60 * 24 * 14, // 2 weeks ago
       },
       {
-        id: '8',
-        workout: { ...mockWorkouts.deadlifts, name: 'Romanian Deadlifts' },
+        id: "8",
+        workout: { ...mockWorkouts.deadlifts, name: "Romanian Deadlifts" },
         timestamp: Date.now() - 1000 * 60 * 60 * 24 * 21, // 3 weeks ago
       },
       {
-        id: '9',
-        workout: { ...mockWorkouts.squats, name: 'Jump Squats' },
+        id: "9",
+        workout: { ...mockWorkouts.squats, name: "Jump Squats" },
         timestamp: Date.now() - 1000 * 60 * 60 * 24 * 30, // 1 month ago
       },
       {
-        id: '10',
-        workout: { ...mockWorkouts.pullUps, name: 'Chin Ups' },
+        id: "10",
+        workout: { ...mockWorkouts.pullUps, name: "Chin Ups" },
         timestamp: Date.now() - 1000 * 60 * 60 * 24 * 45, // 1.5 months ago
       },
     ];
 
-    return renderPreviousResults({ 
-      ...args, 
-      historyLength: Math.min(args.historyLength, extendedHistory.length)
+    return renderPreviousResults({
+      ...args,
+      historyLength: Math.min(args.historyLength, extendedHistory.length),
     });
   },
   parameters: {
     docs: {
       description: {
-        story: 'Extended history showing scrollable list with varied workout types and longer time periods.',
+        story:
+          "Extended history showing scrollable list with varied workout types and longer time periods.",
       },
     },
   },
@@ -302,7 +315,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive example - use the historyLength control to see different numbers of results.',
+        story:
+          "Interactive example - use the historyLength control to see different numbers of results.",
       },
     },
   },
@@ -325,10 +339,10 @@ export const HistoryComparison: Story = {
     `;
   },
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     docs: {
       description: {
-        story: 'Side-by-side comparison of empty state vs populated history.',
+        story: "Side-by-side comparison of empty state vs populated history.",
       },
     },
   },

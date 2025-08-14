@@ -1,20 +1,20 @@
-import type { StorybookConfig } from '@storybook/core/types';
+import type { StorybookConfig } from "@storybook/core/types";
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-docs', 
-    '@storybook/addon-controls',
-    '@storybook/addon-actions',
-    '@storybook/addon-a11y',
+    "@storybook/addon-essentials",
+    "@storybook/addon-docs",
+    "@storybook/addon-controls",
+    "@storybook/addon-actions",
+    "@storybook/addon-a11y",
   ],
   framework: {
-    name: '@storybook/html-vite',
+    name: "@storybook/html-vite",
     options: {},
   },
   core: {
-    builder: '@storybook/builder-vite',
+    builder: "@storybook/builder-vite",
   },
   features: {
     storyStoreV7: true,
@@ -25,7 +25,7 @@ const config: StorybookConfig = {
       ...config,
       define: {
         ...config.define,
-        global: 'globalThis',
+        global: "globalThis",
       },
     };
   },

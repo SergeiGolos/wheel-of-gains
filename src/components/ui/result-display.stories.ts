@@ -1,64 +1,65 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from "@storybook/html";
 
 // Mock data for testing
 const mockCategories = {
-  classic: { id: 'classic', name: 'Classic Mix', color: '#64748b' },
-  beginner: { id: 'beginner', name: 'Beginner', color: '#10b981' },
-  intermediate: { id: 'intermediate', name: 'Intermediate', color: '#f59e0b' },
-  advanced: { id: 'advanced', name: 'Advanced', color: '#ef4444' },
-  cardio: { id: 'cardio', name: 'Cardio', color: '#8b5cf6' },
-  strength: { id: 'strength', name: 'Strength', color: '#06b6d4' },
+  classic: { id: "classic", name: "Classic Mix", color: "#64748b" },
+  beginner: { id: "beginner", name: "Beginner", color: "#10b981" },
+  intermediate: { id: "intermediate", name: "Intermediate", color: "#f59e0b" },
+  advanced: { id: "advanced", name: "Advanced", color: "#ef4444" },
+  cardio: { id: "cardio", name: "Cardio", color: "#8b5cf6" },
+  strength: { id: "strength", name: "Strength", color: "#06b6d4" },
 };
 
 const mockWorkouts = {
   pushUps: {
-    id: '1',
-    name: 'Push Ups',
-    url: 'https://example.com/pushups',
+    id: "1",
+    name: "Push Ups",
+    url: "https://example.com/pushups",
     multiplier: 1,
     category: mockCategories.classic,
   },
   burpees: {
-    id: '2', 
-    name: 'Burpees',
-    url: 'https://example.com/burpees',
+    id: "2",
+    name: "Burpees",
+    url: "https://example.com/burpees",
     multiplier: 1,
     category: mockCategories.cardio,
   },
   deadlifts: {
-    id: '3',
-    name: 'Deadlifts',
-    url: 'https://example.com/deadlifts', 
+    id: "3",
+    name: "Deadlifts",
+    url: "https://example.com/deadlifts",
     multiplier: 1,
     category: mockCategories.strength,
   },
   squats: {
-    id: '4',
-    name: 'Bodyweight Squats',
-    url: 'https://example.com/squats',
+    id: "4",
+    name: "Bodyweight Squats",
+    url: "https://example.com/squats",
     multiplier: 1,
     category: mockCategories.beginner,
   },
 };
 
 const meta: Meta = {
-  title: 'UI Components/ResultDisplay',
+  title: "UI Components/ResultDisplay",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'Displays the result of a wheel spin, showing the selected workout with category badge and action button.',
+        component:
+          "Displays the result of a wheel spin, showing the selected workout with category badge and action button.",
       },
     },
   },
   argTypes: {
     isSpinning: {
-      control: { type: 'boolean' },
-      description: 'Whether the wheel is currently spinning',
+      control: { type: "boolean" },
+      description: "Whether the wheel is currently spinning",
     },
     winner: {
-      control: { type: 'select' },
-      options: ['none', 'pushUps', 'burpees', 'deadlifts', 'squats'],
+      control: { type: "select" },
+      options: ["none", "pushUps", "burpees", "deadlifts", "squats"],
       mapping: {
         none: null,
         pushUps: mockWorkouts.pushUps,
@@ -66,7 +67,7 @@ const meta: Meta = {
         deadlifts: mockWorkouts.deadlifts,
         squats: mockWorkouts.squats,
       },
-      description: 'The selected workout result',
+      description: "The selected workout result",
     },
   },
 };
@@ -163,7 +164,7 @@ export const NoResult: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'No workout has been selected yet.',
+        story: "No workout has been selected yet.",
       },
     },
   },
@@ -178,7 +179,8 @@ export const Spinning: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'The wheel is currently spinning, showing a placeholder with question mark.',
+        story:
+          "The wheel is currently spinning, showing a placeholder with question mark.",
       },
     },
   },
@@ -193,7 +195,7 @@ export const ClassicWorkout: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'A classic workout (Push Ups) has been selected.',
+        story: "A classic workout (Push Ups) has been selected.",
       },
     },
   },
@@ -208,7 +210,7 @@ export const CardioWorkout: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'A cardio workout (Burpees) has been selected.',
+        story: "A cardio workout (Burpees) has been selected.",
       },
     },
   },
@@ -223,7 +225,7 @@ export const StrengthWorkout: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'A strength workout (Deadlifts) has been selected.',
+        story: "A strength workout (Deadlifts) has been selected.",
       },
     },
   },
@@ -238,7 +240,7 @@ export const BeginnerWorkout: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'A beginner workout (Bodyweight Squats) has been selected.',
+        story: "A beginner workout (Bodyweight Squats) has been selected.",
       },
     },
   },
@@ -253,7 +255,8 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive example with working controls. Change the winner and spinning state using the controls below.',
+        story:
+          "Interactive example with working controls. Change the winner and spinning state using the controls below.",
       },
     },
   },
