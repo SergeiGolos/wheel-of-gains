@@ -21,7 +21,9 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "analyze": "node scripts/complexity-analysis.cjs",
+    "analyze:watch": "node scripts/complexity-analysis.cjs && echo 'Report generated. Re-run this command after code changes.'"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.15.0",
