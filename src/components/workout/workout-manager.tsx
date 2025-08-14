@@ -113,6 +113,9 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
         ),
       );
 
+      // Explicitly trigger change detection
+      setTimeout(() => changeTracking.checkForChanges(), 0);
+
       // Clear validation error after a short delay if the value was corrected
       if (!isValid) {
         setTimeout(() => {

@@ -37,6 +37,9 @@ export const WorkoutListItem = component$<WorkoutListItemProps>(
               value={workout.multiplier}
               min="1"
               step="1"
+              onInput$={(e) =>
+                handleMultiplierChange((e.target as HTMLInputElement).value)
+              }
               onChange$={(e) =>
                 handleMultiplierChange((e.target as HTMLInputElement).value)
               }

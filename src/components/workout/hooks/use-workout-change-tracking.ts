@@ -34,8 +34,18 @@ export const useWorkoutChangeTracking = (workouts: Workout[]) => {
   // Initialize original workouts and track changes
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(({ track }) => {
-    track(() => workouts.length);
-    track(() => workouts);
+    // Track the entire workouts array deeply
+    track(() =>
+      JSON.stringify(
+        workouts.map((w) => ({
+          id: w.id,
+          multiplier: w.multiplier,
+          name: w.name,
+          url: w.url,
+          category: w.category.id,
+        })),
+      ),
+    );
 
     // Initialize original workouts on first load
     if (originalWorkouts.value.length === 0) {
