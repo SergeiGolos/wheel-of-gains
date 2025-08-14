@@ -1,4 +1,5 @@
 import { component$, useStore, useComputed$, useVisibleTask$, $ } from "@builder.io/qwik";
+import { useLocation, useNavigate } from "@builder.io/qwik-city";
 import type { Workout, SpinResult } from "../../utils/workout-utils";
 import { Wheel } from "./wheel";
 import { PreviousResults } from "./previous-results";
@@ -34,6 +35,8 @@ export const WorkoutDisplayPage = component$<WorkoutDisplayPageProps>(({
   pageDescription: _pageDescription,
   storageKey
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const state = useStore<AppState>({
     masterWorkouts: initialWorkouts,
     winner: null,
@@ -110,6 +113,12 @@ export const WorkoutDisplayPage = component$<WorkoutDisplayPageProps>(({
     }
   });
 
+  const handleEditWorkouts = $(() => {
+    const currentPath = location.url.pathname;
+    const editUrl = currentPath === "/wheel-of-gains/" ? "/wheel-of-gains/edit/" : `${currentPath}edit/`;
+    navigate(editUrl);
+  });
+
   return (
     <div class="min-h-screen bg-slate-100 font-['Inter'] text-slate-800">
       <style dangerouslySetInnerHTML={`
@@ -128,6 +137,17 @@ export const WorkoutDisplayPage = component$<WorkoutDisplayPageProps>(({
           
           {/* Right Column */}
           <div class="space-y-3">
+            {/* Edit Button */}
+            <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 text-center">
+              <button
+                onClick$={handleEditWorkouts}
+                class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                aria-label="Edit workout arsenal"
+              >
+                Edit Workouts
+              </button>
+            </div>
+            
             {/* Result Display */}
             <ResultDisplay 
               winner={state.winner} 
@@ -137,6 +157,20 @@ export const WorkoutDisplayPage = component$<WorkoutDisplayPageProps>(({
             
             {/* Previous Results */}
             <PreviousResults spinHistory={state.spinHistory} />
+            
+            {/* Add New Button */}
+            <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 text-center">
+              <button
+                onClick$={handleEditWorkouts}
+                class="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 flex items-center justify-center gap-2"
+                aria-label="Add new workouts"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Add New Workout
+              </button>
+            </div>
           </div>
         </main>
       </div>
