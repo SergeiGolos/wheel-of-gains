@@ -9,18 +9,22 @@ Follow these steps to create all roadmap issues:
 ### Phase 2: Feature Enhancement Issues
 
 1. **[#2 Data Persistence with localStorage](https://github.com/SergeiGolos/wheel-of-gains/issues/new?template=002-data-persistence.md)**
+
    - Copy content from [002-data-persistence.md](./ISSUE_TEMPLATE/002-data-persistence.md)
    - Labels: `enhancement`, `good first issue`
 
 2. **[#3 Responsive Design Improvements](https://github.com/SergeiGolos/wheel-of-gains/issues/new?template=003-responsive-design.md)**
+
    - Copy content from [003-responsive-design.md](./ISSUE_TEMPLATE/003-responsive-design.md)
    - Labels: `enhancement`, `ui/ux`, `mobile`
 
 3. **[#4 Workout Categories and Filtering](https://github.com/SergeiGolos/wheel-of-gains/issues/new?template=004-workout-categories.md)**
+
    - Copy content from [004-workout-categories.md](./ISSUE_TEMPLATE/004-workout-categories.md)
    - Labels: `enhancement`, `feature`
 
 4. **[#5 PWA Capabilities for Mobile](https://github.com/SergeiGolos/wheel-of-gains/issues/new?template=005-pwa-capabilities.md)**
+
    - Copy content from [005-pwa-capabilities.md](./ISSUE_TEMPLATE/005-pwa-capabilities.md)
    - Labels: `enhancement`, `pwa`, `mobile`
 
@@ -33,14 +37,17 @@ Follow these steps to create all roadmap issues:
 Create these additional issues manually:
 
 6. **#7: Add Testing Framework (Jest + React Testing Library)**
+
    - Title: `[TESTING] Add Testing Framework (Jest + React Testing Library)`
    - Labels: `testing`, `infrastructure`
 
 7. **#8: Performance Optimizations and Bundle Management**
+
    - Title: `[PERFORMANCE] Performance Optimizations and Bundle Management`
    - Labels: `performance`, `optimization`
 
 8. **#9: Add Analytics and User Tracking**
+
    - Title: `[FEATURE] Add Analytics and User Tracking`
    - Labels: `enhancement`, `analytics`
 
@@ -51,10 +58,12 @@ Create these additional issues manually:
 ### Phase 4: Deployment & Maintenance
 
 10. **#11: Set up CI/CD Pipeline with GitHub Actions**
+
     - Title: `[DEVOPS] Set up CI/CD Pipeline with GitHub Actions`
     - Labels: `infrastructure`, `ci/cd`
 
 11. **#12: Add Contribution Guidelines and Documentation**
+
     - Title: `[DOCS] Add Contribution Guidelines and Documentation`
     - Labels: `documentation`, `community`
 
@@ -65,11 +74,13 @@ Create these additional issues manually:
 ## 🏷️ Label System
 
 ### Priority Labels
+
 - `priority: high` - Critical issues
 - `priority: medium` - Important improvements
 - `priority: low` - Nice to have features
 
 ### Type Labels
+
 - `enhancement` - New features or improvements
 - `bug` - Something isn't working
 - `documentation` - Documentation updates
@@ -77,12 +88,14 @@ Create these additional issues manually:
 - `infrastructure` - Build, deploy, CI/CD
 
 ### Difficulty Labels
+
 - `good first issue` - Good for newcomers
 - `beginner` - 1-3 hours of work
 - `intermediate` - 4-8 hours of work
 - `advanced` - 8+ hours of work
 
 ### Feature Labels
+
 - `ui/ux` - User interface/experience
 - `mobile` - Mobile specific
 - `accessibility` - Accessibility improvements
@@ -104,21 +117,25 @@ Each issue should include:
 ## 🔄 Issue Workflow
 
 ### 1. Planning Phase
+
 - Create issue with detailed requirements
 - Add appropriate labels and milestones
 - Estimate effort and assign priority
 
 ### 2. Development Phase
+
 - Assign issue to developer
 - Create feature branch: `feature/issue-#`
 - Regular progress updates in comments
 
 ### 3. Review Phase
+
 - Create pull request linking to issue
 - Code review and testing
 - Address feedback and iterate
 
 ### 4. Completion Phase
+
 - Merge pull request
 - Close issue with reference to PR
 - Update documentation if needed
@@ -126,17 +143,20 @@ Each issue should include:
 ## 🎯 Milestone Planning
 
 ### Milestone 1: Foundation (Issues #2-#3)
+
 - Data persistence
 - Responsive design
 - **Target**: 2-3 weeks
 
 ### Milestone 2: Enhanced UX (Issues #4-#6)
+
 - Categories and filtering
 - PWA capabilities
 - Accessibility
 - **Target**: 4-6 weeks
 
 ### Milestone 3: Production Ready (Issues #7-#10)
+
 - Testing framework
 - Performance optimization
 - Analytics
@@ -144,6 +164,7 @@ Each issue should include:
 - **Target**: 6-8 weeks
 
 ### Milestone 4: Deployment (Issues #11-#13)
+
 - CI/CD pipeline
 - Documentation
 - Error handling
@@ -152,12 +173,14 @@ Each issue should include:
 ## 🤝 Community Contribution
 
 ### For Maintainers
+
 - Review issue templates before creating
 - Ensure each issue has clear acceptance criteria
 - Add appropriate labels and milestones
 - Respond to questions promptly
 
 ### For Contributors
+
 - Read the full issue description before starting
 - Ask questions if requirements are unclear
 - Update issue with progress comments
@@ -166,6 +189,7 @@ Each issue should include:
 ## 📊 Progress Tracking
 
 Track overall project progress:
+
 - [ ] Phase 1: Core Infrastructure (Complete ✅)
 - [ ] Phase 2: Feature Enhancement (Issues #2-#6)
 - [ ] Phase 3: Production Features (Issues #7-#10)
