@@ -30,7 +30,9 @@
     "storybook:serve": "npx http-server storybook-static",
     "playwright:install": "npx playwright install",
     "test:playwright": "npx playwright test",
-    "test:playwright:ui": "npx playwright test --ui"
+    "test:playwright:ui": "npx playwright test --ui",
+    "test:playwright:headed": "npx playwright test --headed",
+    "test:playwright:debug": "npx playwright test --debug"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.15.0",
