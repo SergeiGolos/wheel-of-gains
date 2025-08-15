@@ -1,4 +1,4 @@
-import { component$, useStore, useTask$ } from "@builder.io/qwik";
+import { component$, useStore, useTask$, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { useLocation } from "@builder.io/qwik-city";
 import { WorkoutDisplayPage } from "../../components/workout/workout-display-page";
@@ -16,6 +16,7 @@ interface ZipPageState {
 
 export default component$(() => {
   const location = useLocation();
+  const hasCustomData = useSignal(false);
   
   const state = useStore<ZipPageState>({
     workouts: WORKOUT_COLLECTIONS.classic.workouts, // Fallback
@@ -41,6 +42,7 @@ export default component$(() => {
         state.workouts = WORKOUT_COLLECTIONS.classic.workouts;
         state.pageTitle = "Classic Mix";
         state.pageDescription = WORKOUT_COLLECTIONS.classic.description;
+        hasCustomData.value = false;
         state.isLoading = false;
         return;
       }
@@ -51,6 +53,7 @@ export default component$(() => {
       state.workouts = decodedCollection.workouts;
       state.pageTitle = decodedCollection.title;
       state.pageDescription = decodedCollection.description;
+      hasCustomData.value = true;
       state.isLoading = false;
       
     } catch (error) {
@@ -59,6 +62,7 @@ export default component$(() => {
       state.workouts = WORKOUT_COLLECTIONS.classic.workouts;
       state.pageTitle = "Classic Mix";
       state.pageDescription = WORKOUT_COLLECTIONS.classic.description;
+      hasCustomData.value = false;
       state.isLoading = false;
     }
   });
@@ -96,7 +100,7 @@ export default component$(() => {
         initialWorkouts={state.workouts}
         pageTitle={state.pageTitle}
         pageDescription={state.pageDescription}
-        storageKey="wheelOfGains_workouts_zip"
+        storageKey={hasCustomData.value ? undefined : "wheelOfGains_workouts_zip"}
       />
     </>
   );
