@@ -160,11 +160,7 @@ export default meta;
 type Story = StoryObj;
 
 // Helper function to render the wheel
-const renderWheel = (
-  workouts: any[],
-  isSpinning: boolean,
-) => {
-
+const renderWheel = (workouts: any[], isSpinning: boolean) => {
   return `
     <div class="flex flex-col items-center space-y-4">
       <!-- Wheel Container -->

@@ -20,8 +20,16 @@ errorOnDuplicatesPkgDeps(devDependencies, dependencies);
  */
 
 export default defineConfig(({ command, mode }): UserConfig => {
+  // Get version from environment variables or fall back to package.json
+  const version = process.env.APP_VERSION || pkg.version || '1.0.0';
+  const buildDate = process.env.BUILD_DATE || new Date().toISOString();
+  
   return {
     base: "/wheel-of-gains/",
+    define: {
+      __APP_VERSION__: JSON.stringify(version),
+      __BUILD_DATE__: JSON.stringify(buildDate),
+    },
     plugins: [
       qwikCity(),
       qwikVite(),

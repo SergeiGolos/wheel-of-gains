@@ -11,6 +11,7 @@ import { WorkoutManager } from "./workout-manager";
 import { PreviousResults } from "./previous-results";
 import { ResultDisplay } from "../ui/result-display";
 import { WorkoutNavigation } from "../navigation/workout-navigation";
+import { VersionInfo } from "../ui/version-info";
 import {
   loadWorkoutsFromStorage,
   saveWorkoutsToStorage,
@@ -206,6 +207,11 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(
 
               {/* Previous Results */}
               <PreviousResults spinHistory={state.spinHistory} />
+
+              {/* Version Info */}
+              <div class="mt-4 text-center">
+                <VersionInfo showBuildDate={true} />
+              </div>
             </div>
           </main>
         </div>
