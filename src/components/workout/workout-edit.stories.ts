@@ -74,7 +74,7 @@ const renderEditScreen = (args: any) => {
     formErrors = false,
   } = args;
 
-  const renderWorkoutForm = (workout = null, showErrors = false) => {
+  const renderWorkoutForm = (workout: any = null, showErrors = false) => {
     const isEdit = workout !== null;
     const workoutName = isEdit ? workout.name : "";
     const workoutUrl = isEdit ? workout.url : "";

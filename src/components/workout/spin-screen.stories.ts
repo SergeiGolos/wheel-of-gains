@@ -163,9 +163,7 @@ type Story = StoryObj;
 const renderWheel = (
   workouts: any[],
   isSpinning: boolean,
-  result: any = null,
 ) => {
-  const wheelId = Math.random().toString(36).substr(2, 9);
 
   return `
     <div class="flex flex-col items-center space-y-4">
@@ -340,7 +338,7 @@ const renderSpinScreen = (args: any) => {
     showHistory = true,
   } = args;
 
-  const workouts = mockWorkouts[wheelSize];
+  const workouts = mockWorkouts[wheelSize as keyof typeof mockWorkouts];
   const winner =
     hasResult && !isSpinning
       ? workouts[Math.floor(Math.random() * workouts.length)]
@@ -359,7 +357,7 @@ const renderSpinScreen = (args: any) => {
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Wheel Section -->
         <div class="lg:col-span-2">
-          ${renderWheel(workouts, isSpinning, winner)}
+          ${renderWheel(workouts, isSpinning)}
         </div>
 
         <!-- Side Panel -->

@@ -215,7 +215,7 @@ const mockDecodeFunction = (collectionId: string) => {
 const renderLoadingState = (
   state: string,
   collection: any = null,
-  error: string = null,
+  error: string | null | undefined = null,
 ) => {
   switch (state) {
     case "loading":
@@ -299,7 +299,7 @@ const renderSuccessState = (collection: any) => {
           <div class="grid gap-3" data-testid="workouts-list">
             ${collection.workouts
               .map(
-                (workout, index) => `
+                (workout: any, index: number) => `
               <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border" data-testid="workout-item-${index}">
                 <div class="flex-1">
                   <div class="flex items-center gap-2 mb-1">
@@ -351,7 +351,7 @@ const renderValidationDetails = (collection: any, showValidation: boolean) => {
     validWorkouts:
       collection.workouts &&
       collection.workouts.every(
-        (w) =>
+        (w: any) =>
           w.name &&
           w.name.trim().length > 0 &&
           w.multiplier &&

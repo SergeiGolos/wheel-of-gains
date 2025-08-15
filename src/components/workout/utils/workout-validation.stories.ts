@@ -223,7 +223,7 @@ const renderValidationTest = (args: any) => {
             formValidation.isValid
               ? "All validations passed. Workout can be saved."
               : `Validation errors: ${Object.keys(formValidation.errors)
-                  .filter((key) => formValidation.errors[key])
+                  .filter((key) => formValidation.errors[key as keyof typeof formValidation.errors])
                   .join(", ")}`
           }
         </div>
