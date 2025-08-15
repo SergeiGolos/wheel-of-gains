@@ -41,6 +41,6 @@ dist-dev/
 backup/
 
 # Test artifacts  
-/test-results/
-/playwright-report/
-/playwright/.cache/
+test-results/
+playwright-report/
+playwright/.cache/
