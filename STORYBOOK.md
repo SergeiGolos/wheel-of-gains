@@ -42,7 +42,7 @@ The development server runs on [http://localhost:6006](http://localhost:6006)
 .storybook/
 ├── main.ts          # Main Storybook configuration
 ├── preview.ts       # Global settings and decorators
-└── qwik-renderer.ts # Custom Qwik component renderer (experimental)
+└── qwik-renderer.tsx # Custom Qwik component renderer (experimental)
 
 src/
 ├── components/

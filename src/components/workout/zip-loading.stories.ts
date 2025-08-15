@@ -56,21 +56,33 @@ const mockTestCollections = [
           name: "Sun Salutation",
           url: "https://www.google.com/search?q=Sun%20Salutation%20yoga",
           multiplier: 2,
-          category: { id: "flexibility", name: "Flexibility", color: "#10b981" },
+          category: {
+            id: "flexibility",
+            name: "Flexibility",
+            color: "#10b981",
+          },
         },
         {
           id: "yoga-2",
           name: "Warrior Pose",
           url: "https://www.google.com/search?q=Warrior%20Pose%20yoga",
           multiplier: 1,
-          category: { id: "flexibility", name: "Flexibility", color: "#10b981" },
+          category: {
+            id: "flexibility",
+            name: "Flexibility",
+            color: "#10b981",
+          },
         },
         {
           id: "yoga-3",
           name: "Downward Dog",
           url: "https://www.google.com/search?q=Downward%20Dog%20yoga",
           multiplier: 2,
-          category: { id: "flexibility", name: "Flexibility", color: "#10b981" },
+          category: {
+            id: "flexibility",
+            name: "Flexibility",
+            color: "#10b981",
+          },
         },
         {
           id: "yoga-4",
@@ -145,7 +157,13 @@ const meta: Meta = {
   argTypes: {
     testCollection: {
       control: { type: "select" },
-      options: ["quick-blast", "yoga-flow", "hiit-madness", "invalid", "malformed"],
+      options: [
+        "quick-blast",
+        "yoga-flow",
+        "hiit-madness",
+        "invalid",
+        "malformed",
+      ],
       description: "Test collection to load and validate",
     },
     loadingState: {
@@ -167,11 +185,23 @@ type Story = StoryObj;
 const mockDecodeFunction = (collectionId: string) => {
   switch (collectionId) {
     case "quick-blast":
-      return { success: true, data: mockTestCollections[0].originalCollection, error: null };
+      return {
+        success: true,
+        data: mockTestCollections[0].originalCollection,
+        error: null,
+      };
     case "yoga-flow":
-      return { success: true, data: mockTestCollections[1].originalCollection, error: null };
+      return {
+        success: true,
+        data: mockTestCollections[1].originalCollection,
+        error: null,
+      };
     case "hiit-madness":
-      return { success: true, data: mockTestCollections[2].originalCollection, error: null };
+      return {
+        success: true,
+        data: mockTestCollections[2].originalCollection,
+        error: null,
+      };
     case "invalid":
       return { success: false, data: null, error: "Invalid zip string format" };
     case "malformed":
@@ -182,7 +212,11 @@ const mockDecodeFunction = (collectionId: string) => {
 };
 
 // Helper function to render loading states
-const renderLoadingState = (state: string, collection: any = null, error: string = null) => {
+const renderLoadingState = (
+  state: string,
+  collection: any = null,
+  error: string | null | undefined = null,
+) => {
   switch (state) {
     case "loading":
       return `
@@ -203,7 +237,7 @@ const renderLoadingState = (state: string, collection: any = null, error: string
             </svg>
             <h3 class="text-lg font-semibold text-red-800">Loading Failed</h3>
           </div>
-          <p class="text-red-700 mb-4">${error || 'Unknown error occurred while decoding zip string'}</p>
+          <p class="text-red-700 mb-4">${error || "Unknown error occurred while decoding zip string"}</p>
           <div class="space-y-2">
             <button 
               class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
@@ -235,7 +269,7 @@ const renderLoadingState = (state: string, collection: any = null, error: string
 
 // Helper function to render successful loading
 const renderSuccessState = (collection: any) => {
-  if (!collection) return '';
+  if (!collection) return "";
 
   return `
     <div class="space-y-6">
@@ -263,7 +297,9 @@ const renderSuccessState = (collection: any) => {
         <div class="space-y-3">
           <h3 class="text-lg font-semibold text-slate-700">Workouts (${collection.workouts.length})</h3>
           <div class="grid gap-3" data-testid="workouts-list">
-            ${collection.workouts.map((workout, index) => `
+            ${collection.workouts
+              .map(
+                (workout: any, index: number) => `
               <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border" data-testid="workout-item-${index}">
                 <div class="flex-1">
                   <div class="flex items-center gap-2 mb-1">
@@ -273,10 +309,12 @@ const renderSuccessState = (collection: any) => {
                     <span class="text-xs text-slate-500">×${workout.multiplier}</span>
                   </div>
                   <h4 class="text-sm font-medium text-slate-800">${workout.name}</h4>
-                  ${workout.url ? `<a href="${workout.url}" class="text-xs text-blue-600 hover:text-blue-800 truncate block" target="_blank" rel="noopener">${workout.url}</a>` : ''}
+                  ${workout.url ? `<a href="${workout.url}" class="text-xs text-blue-600 hover:text-blue-800 truncate block" target="_blank" rel="noopener">${workout.url}</a>` : ""}
                 </div>
               </div>
-            `).join('')}
+            `,
+              )
+              .join("")}
           </div>
         </div>
 
@@ -304,52 +342,64 @@ const renderSuccessState = (collection: any) => {
 
 // Helper function to render validation details
 const renderValidationDetails = (collection: any, showValidation: boolean) => {
-  if (!showValidation || !collection) return '';
+  if (!showValidation || !collection) return "";
 
   const validations = {
     hasTitle: !!collection.title && collection.title.trim().length > 0,
     hasDescription: !!collection.description,
     hasWorkouts: collection.workouts && collection.workouts.length > 0,
-    validWorkouts: collection.workouts && collection.workouts.every(w => 
-      w.name && w.name.trim().length > 0 && 
-      w.multiplier && w.multiplier >= 1 && 
-      w.category && w.category.name
-    ),
+    validWorkouts:
+      collection.workouts &&
+      collection.workouts.every(
+        (w: any) =>
+          w.name &&
+          w.name.trim().length > 0 &&
+          w.multiplier &&
+          w.multiplier >= 1 &&
+          w.category &&
+          w.category.name,
+      ),
     minWorkouts: collection.workouts && collection.workouts.length >= 3,
     maxWorkouts: collection.workouts && collection.workouts.length <= 20,
   };
 
-  const allValid = Object.values(validations).every(v => v);
+  const allValid = Object.values(validations).every((v) => v);
 
   return `
     <div class="mt-6 p-4 bg-slate-50 rounded-lg">
       <h3 class="text-lg font-semibold text-slate-700 mb-3">Validation Results</h3>
       <div class="space-y-2 text-sm">
         ${Object.entries({
-          'Has Title': validations.hasTitle,
-          'Has Description': validations.hasDescription,
-          'Has Workouts': validations.hasWorkouts,
-          'Valid Workouts': validations.validWorkouts,
-          'Min 3 Workouts': validations.minWorkouts,
-          'Max 20 Workouts': validations.maxWorkouts,
-        }).map(([label, isValid]) => `
+          "Has Title": validations.hasTitle,
+          "Has Description": validations.hasDescription,
+          "Has Workouts": validations.hasWorkouts,
+          "Valid Workouts": validations.validWorkouts,
+          "Min 3 Workouts": validations.minWorkouts,
+          "Max 20 Workouts": validations.maxWorkouts,
+        })
+          .map(
+            ([label, isValid]) => `
           <div class="flex items-center gap-2">
-            ${isValid ? 
-              '<svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>' :
-              '<svg class="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'
+            ${
+              isValid
+                ? '<svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>'
+                : '<svg class="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'
             }
-            <span class="${isValid ? 'text-green-700' : 'text-red-700'}">${label}: ${isValid ? 'PASS' : 'FAIL'}</span>
+            <span class="${isValid ? "text-green-700" : "text-red-700"}">${label}: ${isValid ? "PASS" : "FAIL"}</span>
           </div>
-        `).join('')}
+        `,
+          )
+          .join("")}
         
         <div class="mt-3 pt-3 border-t border-slate-200">
           <div class="flex items-center gap-2">
-            ${allValid ? 
-              '<svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>' :
-              '<svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'
+            ${
+              allValid
+                ? '<svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>'
+                : '<svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'
             }
-            <span class="font-semibold ${allValid ? 'text-green-700' : 'text-red-700'}">
-              Overall: ${allValid ? 'VALID COLLECTION' : 'INVALID COLLECTION'}
+            <span class="font-semibold ${allValid ? "text-green-700" : "text-red-700"}">
+              Overall: ${allValid ? "VALID COLLECTION" : "INVALID COLLECTION"}
             </span>
           </div>
         </div>
@@ -360,10 +410,10 @@ const renderValidationDetails = (collection: any, showValidation: boolean) => {
 
 // Main render function
 const renderZipStringLoader = (args: any) => {
-  const { 
-    testCollection = "quick-blast", 
-    loadingState = "ready", 
-    showValidation = false 
+  const {
+    testCollection = "quick-blast",
+    loadingState = "ready",
+    showValidation = false,
   } = args;
 
   const decodeResult = mockDecodeFunction(testCollection);
@@ -378,9 +428,12 @@ const renderZipStringLoader = (args: any) => {
     actualState = "success";
   }
 
-  const mockEncodedString = testCollection !== "invalid" && testCollection !== "malformed" 
-    ? mockTestCollections.find(c => c.name.toLowerCase().includes(testCollection.split('-')[0]))?.encoded || "H4sIAAAA..."
-    : "invalid_string_123";
+  const mockEncodedString =
+    testCollection !== "invalid" && testCollection !== "malformed"
+      ? mockTestCollections.find((c) =>
+          c.name.toLowerCase().includes(testCollection.split("-")[0]),
+        )?.encoded || "H4sIAAAA..."
+      : "invalid_string_123";
 
   return `
     <div class="max-w-4xl mx-auto p-6 space-y-6">
@@ -420,7 +473,7 @@ const renderZipStringLoader = (args: any) => {
       <div class="bg-white border border-slate-200 rounded-lg p-6">
         <h2 class="text-lg font-semibold text-slate-700 mb-4">Decoding Result</h2>
         ${renderLoadingState(actualState, collection, error)}
-        ${collection ? renderValidationDetails(collection, showValidation) : ''}
+        ${collection ? renderValidationDetails(collection, showValidation) : ""}
       </div>
 
       <!-- Test Info -->
@@ -437,7 +490,7 @@ const renderZipStringLoader = (args: any) => {
           </div>
           <div class="space-y-1">
             <div class="font-medium text-slate-600">Show Validation:</div>
-            <div class="font-mono text-slate-800">${showValidation ? 'Yes' : 'No'}</div>
+            <div class="font-mono text-slate-800">${showValidation ? "Yes" : "No"}</div>
           </div>
         </div>
       </div>
@@ -455,7 +508,8 @@ export const QuickBlastCollection: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Tests loading the Quick 5-Minute Blast collection with validation.",
+        story:
+          "Tests loading the Quick 5-Minute Blast collection with validation.",
       },
     },
   },
@@ -471,7 +525,8 @@ export const YogaFlowCollection: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Tests loading the Yoga Flow collection with different workout types.",
+        story:
+          "Tests loading the Yoga Flow collection with different workout types.",
       },
     },
   },
@@ -487,7 +542,8 @@ export const HIITMadnessCollection: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Tests loading the HIIT Madness collection with high-intensity workouts.",
+        story:
+          "Tests loading the HIIT Madness collection with high-intensity workouts.",
       },
     },
   },
@@ -551,7 +607,8 @@ export const InteractiveLoader: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Interactive zip string loader - use controls to test different collections and states.",
+        story:
+          "Interactive zip string loader - use controls to test different collections and states.",
       },
     },
   },
@@ -564,7 +621,9 @@ export const CollectionComparison: Story = {
         <h2 class="text-2xl font-bold text-slate-800 text-center">Collection Comparison</h2>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          ${mockTestCollections.map(collection => `
+          ${mockTestCollections
+            .map(
+              (collection) => `
             <div class="border-2 border-dashed border-slate-300 p-4 rounded-lg">
               <h3 class="text-lg font-semibold text-slate-700 mb-2">${collection.name}</h3>
               <p class="text-sm text-slate-600 mb-4">${collection.originalCollection.description}</p>
@@ -574,14 +633,16 @@ export const CollectionComparison: Story = {
                   Workouts: ${collection.originalCollection.workouts.length}
                 </div>
                 <div class="text-xs text-slate-500">
-                  Categories: ${[...new Set(collection.originalCollection.workouts.map(w => w.category.name))].join(', ')}
+                  Categories: ${[...new Set(collection.originalCollection.workouts.map((w) => w.category.name))].join(", ")}
                 </div>
                 <div class="text-xs text-slate-500 font-mono bg-slate-100 p-1 rounded">
                   ${collection.encoded.substring(0, 20)}...
                 </div>
               </div>
             </div>
-          `).join('')}
+          `,
+            )
+            .join("")}
         </div>
       </div>
     `;
@@ -590,7 +651,8 @@ export const CollectionComparison: Story = {
     layout: "fullscreen",
     docs: {
       description: {
-        story: "Comparison of all test collections showing their different characteristics.",
+        story:
+          "Comparison of all test collections showing their different characteristics.",
       },
     },
   },
