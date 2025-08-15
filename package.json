@@ -26,12 +26,16 @@
     "analyze:watch": "node scripts/complexity-analysis.cjs && echo 'Report generated. Re-run this command after code changes.'",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "storybook:serve": "npx http-server storybook-static"
+    "storybook:serve": "npx http-server storybook-static",
+    "playwright:install": "npx playwright install",
+    "test:playwright": "npx playwright test",
+    "test:playwright:ui": "npx playwright test --ui"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.15.0",
     "@builder.io/qwik-city": "^1.15.0",
     "@eslint/js": "latest",
+    "@playwright/test": "^1.54.2",
     "@storybook/addon-a11y": "^8.6.14",
     "@storybook/addon-actions": "^8.6.14",
     "@storybook/addon-controls": "^8.6.14",
@@ -46,6 +50,7 @@
     "eslint": "9.25.1",
     "eslint-plugin-qwik": "^1.15.0",
     "globals": "16.0.0",
+    "playwright": "^1.54.2",
     "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "storybook": "^8.6.14",
