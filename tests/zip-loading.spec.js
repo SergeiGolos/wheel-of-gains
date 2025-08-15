@@ -8,16 +8,32 @@ import { test, expect } from "@playwright/test";
 test.describe("Zip String Loading Tests", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForSelector(
-      '[data-testid="sidebar-search-input"], .sidebar-item',
-      { timeout: 10000 },
-    );
+    // Wait for Storybook to fully load - look for the main container or navigation
+    await page.waitForSelector("#root, .sidebar, [data-item-id]", {
+      timeout: 30000,
+    });
+    // Give additional time for dynamic content to load
+    await page.waitForTimeout(2000);
   });
 
   test("should load Quick Blast collection correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Quick Blast Collection", {
+      timeout: 10000,
+    });
     await page.click("text=Quick Blast Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -58,9 +74,21 @@ test.describe("Zip String Loading Tests", () => {
   test("should load Yoga Flow collection with different categories", async ({
     page,
   }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Yoga Flow Collection", { timeout: 10000 });
     await page.click("text=Yoga Flow Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -88,9 +116,23 @@ test.describe("Zip String Loading Tests", () => {
   test("should load HIIT Madness collection with multiple workouts", async ({
     page,
   }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=HIIT Madness Collection", {
+      timeout: 10000,
+    });
     await page.click("text=HIIT Madness Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -118,9 +160,21 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should display loading state correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Loading State", { timeout: 10000 });
     await page.click("text=Loading State");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -140,9 +194,21 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should handle invalid zip string errors", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Invalid Zip String", { timeout: 10000 });
     await page.click("text=Invalid Zip String");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -162,9 +228,21 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should handle malformed data errors", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Malformed Data", { timeout: 10000 });
     await page.click("text=Malformed Data");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -178,9 +256,23 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should display zip string input correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Quick Blast Collection", {
+      timeout: 10000,
+    });
     await page.click("text=Quick Blast Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -199,9 +291,23 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should handle button interactions", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Quick Blast Collection", {
+      timeout: 10000,
+    });
     await page.click("text=Quick Blast Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -229,9 +335,23 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should show validation details when enabled", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Quick Blast Collection", {
+      timeout: 10000,
+    });
     await page.click("text=Quick Blast Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -251,9 +371,23 @@ test.describe("Zip String Loading Tests", () => {
   test("should display workout multipliers and categories correctly", async ({
     page,
   }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Quick Blast Collection", {
+      timeout: 10000,
+    });
     await page.click("text=Quick Blast Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -272,9 +406,23 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should show collection comparison", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Collection Comparison", {
+      timeout: 10000,
+    });
     await page.click("text=Collection Comparison");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -292,9 +440,21 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should display test configuration information", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Interactive Loader", { timeout: 10000 });
     await page.click("text=Interactive Loader");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -308,9 +468,21 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should handle error button interactions", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Invalid Zip String", { timeout: 10000 });
     await page.click("text=Invalid Zip String");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -333,9 +505,23 @@ test.describe("Zip String Loading Tests", () => {
   });
 
   test("should show success indicators correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Zip String Loading", { timeout: 10000 });
     await page.click("text=Zip String Loading");
+
+    await page.waitForSelector("text=Quick Blast Collection", {
+      timeout: 10000,
+    });
     await page.click("text=Quick Blast Collection");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',

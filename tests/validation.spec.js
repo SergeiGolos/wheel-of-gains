@@ -10,20 +10,33 @@ test.describe("Workout Validation Tests", () => {
     // Navigate to Storybook
     await page.goto("/");
 
-    // Wait for Storybook to load
-    await page.waitForSelector(
-      '[data-testid="sidebar-search-input"], .sidebar-item',
-      { timeout: 10000 },
-    );
+    // Wait for Storybook to fully load - look for the main container or navigation
+    await page.waitForSelector("#root, .sidebar, [data-item-id]", {
+      timeout: 30000,
+    });
+    // Give additional time for dynamic content to load
+    await page.waitForTimeout(2000);
   });
 
   test("should display valid workout validation correctly", async ({
     page,
   }) => {
     // Navigate to the Valid Workout story
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Workout Validation", { timeout: 10000 });
     await page.click("text=Workout Validation");
+
+    await page.waitForSelector("text=Valid Workout", { timeout: 10000 });
     await page.click("text=Valid Workout");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     // Wait for the story to load
     await page.waitForSelector(
@@ -51,9 +64,21 @@ test.describe("Workout Validation Tests", () => {
 
   test("should display empty name validation error", async ({ page }) => {
     // Navigate to the Empty Name story
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Workout Validation", { timeout: 10000 });
     await page.click("text=Workout Validation");
+
+    await page.waitForSelector("text=Empty Name", { timeout: 10000 });
     await page.click("text=Empty Name");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -72,9 +97,21 @@ test.describe("Workout Validation Tests", () => {
   test("should display invalid multiplier validation error", async ({
     page,
   }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Workout Validation", { timeout: 10000 });
     await page.click("text=Workout Validation");
+
+    await page.waitForSelector("text=Invalid Multiplier", { timeout: 10000 });
     await page.click("text=Invalid Multiplier");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -88,9 +125,21 @@ test.describe("Workout Validation Tests", () => {
   });
 
   test("should display duplicate name validation error", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Workout Validation", { timeout: 10000 });
     await page.click("text=Workout Validation");
+
+    await page.waitForSelector("text=Duplicate Name", { timeout: 10000 });
     await page.click("text=Duplicate Name");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -104,9 +153,21 @@ test.describe("Workout Validation Tests", () => {
   });
 
   test("should display multiple validation errors", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Workout Validation", { timeout: 10000 });
     await page.click("text=Workout Validation");
+
+    await page.waitForSelector("text=All Errors", { timeout: 10000 });
     await page.click("text=All Errors");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -123,9 +184,21 @@ test.describe("Workout Validation Tests", () => {
   });
 
   test("should show existing workouts reference", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Workout Validation", { timeout: 10000 });
     await page.click("text=Workout Validation");
+
+    await page.waitForSelector("text=Valid Workout", { timeout: 10000 });
     await page.click("text=Valid Workout");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -139,9 +212,23 @@ test.describe("Workout Validation Tests", () => {
   });
 
   test("should allow interactive testing with controls", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Workout Validation", { timeout: 10000 });
     await page.click("text=Workout Validation");
+
+    await page.waitForSelector("text=Interactive Validation", {
+      timeout: 10000,
+    });
     await page.click("text=Interactive Validation");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     // Check that controls are available
     const addons = page
