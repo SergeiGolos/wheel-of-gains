@@ -18,7 +18,7 @@ export const MANUAL_TEST_COLLECTIONS = {
         category: DEFAULT_CATEGORIES[1], // Cardio
       },
       {
-        id: "quick-2", 
+        id: "quick-2",
         name: "Push-ups",
         url: "https://www.google.com/search?q=Push-ups%20workout",
         multiplier: 2,
@@ -27,7 +27,7 @@ export const MANUAL_TEST_COLLECTIONS = {
       {
         id: "quick-3",
         name: "Squats",
-        url: "https://www.google.com/search?q=Squats%20workout", 
+        url: "https://www.google.com/search?q=Squats%20workout",
         multiplier: 2,
         category: DEFAULT_CATEGORIES[0], // Strength
       },
@@ -40,7 +40,7 @@ export const MANUAL_TEST_COLLECTIONS = {
       },
     ],
   },
-  
+
   yoga: {
     title: "Yoga Flow",
     description: "Gentle movements for flexibility and mindfulness",
@@ -60,7 +60,7 @@ export const MANUAL_TEST_COLLECTIONS = {
         category: DEFAULT_CATEGORIES[2], // Flexibility
       },
       {
-        id: "yoga-3", 
+        id: "yoga-3",
         name: "Downward Dog",
         url: "https://www.google.com/search?q=Downward%20Dog%20yoga",
         multiplier: 2,
@@ -69,7 +69,7 @@ export const MANUAL_TEST_COLLECTIONS = {
       {
         id: "yoga-4",
         name: "Child's Pose",
-        url: "https://www.google.com/search?q=Child%27s%20Pose%20yoga", 
+        url: "https://www.google.com/search?q=Child%27s%20Pose%20yoga",
         multiplier: 3,
         category: DEFAULT_CATEGORIES[4], // Recovery
       },
