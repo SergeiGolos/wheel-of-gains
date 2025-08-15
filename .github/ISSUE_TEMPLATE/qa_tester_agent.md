@@ -1,8 +1,3 @@
-# GitHub Issue Template: QA Tester Agent
-
-## Issue Template: `.github/ISSUE_TEMPLATE/qa-tester.md`
-
-```yaml
 ---
 name: QA Tester Request
 about: Request testing strategy, quality assurance, and validation from the QA Tester agent
@@ -10,7 +5,10 @@ title: "[QA] "
 labels: qa, testing, quality-assurance, validation
 assignees: ''
 ---
-```
+
+# GitHub Issue Template: QA Tester Agent
+
+...
 
 ## **QA Tester Agent - Quality Assurance Specialist**
 

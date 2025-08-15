@@ -1,16 +1,11 @@
-# GitHub Issue Template: Developer Agent - Feature Implementation
-
-## Issue Template: `.github/ISSUE_TEMPLATE/developer-feature-implementation.md`
-
-```yaml
 ---
-name: Developer - Feature Implementation
-about: Request feature implementation from the Developer agent with comprehensive specifications
-title: "[DEV-FEATURE] "
-labels: development, feature, implementation, code
-assignees: ''
+name: Feature Implementation
+about: Request a new feature
+title: "[FEATURE] "
+labels: enhancement
 ---
-```
+
+...
 
 ## **Developer Agent - Feature Implementation Specialist**
 

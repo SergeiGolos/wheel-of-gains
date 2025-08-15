@@ -1,16 +1,11 @@
-# GitHub Issue Template: Historian-Technical Writer Agent
-
-## Issue Template: `.github/ISSUE_TEMPLATE/historian-technical-writer.md`
-
-```yaml
 ---
-name: Historian-Technical Writer Request
-about: Request documentation, historical analysis, and technical writing from the Historian-Technical Writer
-title: "[HISTORIAN-WRITER] "
-labels: documentation, historian, technical-writing, maintenance
-assignees: ''
+name: Historian Technical Writer
+about: Task for the Historian Technical Writer
+title: "[DOCS] "
+labels: documentation
 ---
-```
+
+...
 
 ## **Historian-Technical Writer Agent - Knowledge Guardian & Communication Specialist**
 

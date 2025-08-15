@@ -1,16 +1,11 @@
-# GitHub Issue Template: Designer Agent
-
-## Issue Template: `.github/ISSUE_TEMPLATE/designer.md`
-
-```yaml
 ---
-name: Designer Agent Request
-about: Request UI/UX design and user experience improvements from the Designer agent
-title: "[DESIGNER] "
-labels: design, ui/ux, user-experience
-assignees: ''
+name: Designer Agent
+about: Task for the Designer Agent
+title: "[DESIGN] "
+labels: design
 ---
-```
+
+...
 
 ## **Designer Agent - User Experience Advocate**
 
