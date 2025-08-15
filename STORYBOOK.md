@@ -357,26 +357,30 @@ import "../src/global.css";
 The following screenshots demonstrate Storybook running with the comprehensive component library:
 
 ### Storybook Overview
+
 ![Storybook Overview](docs/screenshots/storybook-overview.png)
-*Main Storybook interface showing all component categories: Icons, UI Components, and Workout Components*
+_Main Storybook interface showing all component categories: Icons, UI Components, and Workout Components_
 
 ### Category Badge Components
+
 ![Category Badge - Classic](docs/screenshots/categorybadge-classic.png)
-*CategoryBadge component showing individual workout category styling*
+_CategoryBadge component showing individual workout category styling_
 
 ![Category Badge - All Categories](docs/screenshots/categorybadge-all-categories.png)
-*All workout category badges displayed together: Classic Mix, Beginner, Intermediate, Advanced, Cardio, Strength*
+_All workout category badges displayed together: Classic Mix, Beginner, Intermediate, Advanced, Cardio, Strength_
 
 ### Result Display Components
+
 ![Result Display - Spinning](docs/screenshots/resultdisplay-spinning.png)
-*ResultDisplay component in spinning state with interactive controls*
+_ResultDisplay component in spinning state with interactive controls_
 
 ![Result Display - Interactive](docs/screenshots/resultdisplay-interactive.png)
-*Interactive ResultDisplay showing a complete workout result with category badge and action button*
+_Interactive ResultDisplay showing a complete workout result with category badge and action button_
 
 ### Previous Results Component
+
 ![Previous Results - Extended History](docs/screenshots/previousresults-extended-history.png)
-*PreviousResults component showing workout history with different categories and timestamps*
+_PreviousResults component showing workout history with different categories and timestamps_
 
 ## Running Storybook Locally
 
