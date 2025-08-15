@@ -352,6 +352,46 @@ Tailwind CSS is imported globally in `.storybook/preview.ts`:
 import "../src/global.css";
 ```
 
+## Screenshots
+
+The following screenshots demonstrate Storybook running with the comprehensive component library:
+
+### Storybook Overview
+![Storybook Overview](docs/screenshots/storybook-overview.png)
+*Main Storybook interface showing all component categories: Icons, UI Components, and Workout Components*
+
+### Category Badge Components
+![Category Badge - Classic](docs/screenshots/categorybadge-classic.png)
+*CategoryBadge component showing individual workout category styling*
+
+![Category Badge - All Categories](docs/screenshots/categorybadge-all-categories.png)
+*All workout category badges displayed together: Classic Mix, Beginner, Intermediate, Advanced, Cardio, Strength*
+
+### Result Display Components
+![Result Display - Spinning](docs/screenshots/resultdisplay-spinning.png)
+*ResultDisplay component in spinning state with interactive controls*
+
+![Result Display - Interactive](docs/screenshots/resultdisplay-interactive.png)
+*Interactive ResultDisplay showing a complete workout result with category badge and action button*
+
+### Previous Results Component
+![Previous Results - Extended History](docs/screenshots/previousresults-extended-history.png)
+*PreviousResults component showing workout history with different categories and timestamps*
+
+## Running Storybook Locally
+
+To run Storybook and see these components in action:
+
+```bash
+# Install dependencies
+npm install
+
+# Start Storybook development server
+npm run storybook
+
+# Visit http://localhost:6006 in your browser
+```
+
 ## Troubleshooting
 
 ### Common Issues
