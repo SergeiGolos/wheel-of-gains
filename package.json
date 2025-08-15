@@ -1,5 +1,6 @@
 {
   "name": "wheel-of-gains",
+  "version": "1.0.0",
   "description": "Random workout selector to spice up your fitness routine",
   "engines": {
     "node": "^18.17.0 || ^20.3.0 || >=21.0.0"

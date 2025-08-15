@@ -11,6 +11,7 @@ The CI/CD pipeline now includes comprehensive Storybook testing that runs automa
 The updated GitHub Actions workflow follows this sequence:
 
 1. **Test Job** (`test`):
+
    - Install dependencies and Playwright browsers
    - Build Storybook
    - Run all Playwright tests against Storybook
@@ -18,6 +19,7 @@ The updated GitHub Actions workflow follows this sequence:
    - ⚠️ **Deployment is blocked if tests fail**
 
 2. **Build Job** (`build`):
+
    - Only runs if the test job succeeds
    - Build the main QWIK application
    - Rebuild Storybook for production
@@ -34,12 +36,14 @@ The updated GitHub Actions workflow follows this sequence:
 The pipeline validates:
 
 ### ✅ Workout Validation Tests
+
 - Name validation (empty, valid, invalid)
 - Multiplier validation (negative, zero, positive)
 - Uniqueness validation (duplicate detection)
 - Form validation (combined validation results)
 
 ### ✅ Edit Screen Functions
+
 - Workout list display and management
 - Add new workout form functionality
 - Edit existing workout with pre-filled data
@@ -47,6 +51,7 @@ The pipeline validates:
 - Unsaved changes state management
 
 ### ✅ Spin Screen Validation
+
 - Wheel display with different sizes (3-10 workouts)
 - Spinning animation and disabled states
 - Result display and winner selection
@@ -54,6 +59,7 @@ The pipeline validates:
 - History display and management
 
 ### ✅ Zip String Loading
+
 - Different workout collection loading and validation
 - Error handling for malformed data
 - Collection comparison and metadata display
@@ -87,11 +93,13 @@ https://sergeigolos.github.io/wheel-of-gains/
 ## Test Execution
 
 Tests run automatically on:
+
 - Push to `main` or `master` branches
 - Pull requests to `main` or `master` branches
 - Manual workflow dispatch
 
 Local testing is still available via:
+
 ```bash
 npm run test:playwright        # Run all Playwright tests
 npm run test:playwright:ui     # Run tests with UI mode
@@ -100,6 +108,7 @@ npm run test:playwright:ui     # Run tests with UI mode
 ## Error Handling
 
 If Storybook tests fail:
+
 - The build job will not run
 - The deploy job will not run
 - Test artifacts are uploaded for debugging
