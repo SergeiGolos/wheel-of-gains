@@ -1,4 +1,7 @@
-import { encodeWorkoutCollection, type EncodedWorkoutCollection } from "./zip-encoding";
+import {
+  encodeWorkoutCollection,
+  type EncodedWorkoutCollection,
+} from "./zip-encoding";
 import { DEFAULT_CATEGORIES } from "./workout-utils";
 
 /**
@@ -20,7 +23,7 @@ const testCollections: EncodedWorkoutCollection[] = [
         category: DEFAULT_CATEGORIES[1], // Cardio
       },
       {
-        id: "quick-2", 
+        id: "quick-2",
         name: "Push-ups",
         url: "https://www.google.com/search?q=Push-ups%20workout",
         multiplier: 2,
@@ -29,7 +32,7 @@ const testCollections: EncodedWorkoutCollection[] = [
       {
         id: "quick-3",
         name: "Squats",
-        url: "https://www.google.com/search?q=Squats%20workout", 
+        url: "https://www.google.com/search?q=Squats%20workout",
         multiplier: 2,
         category: DEFAULT_CATEGORIES[0], // Strength
       },
@@ -61,7 +64,7 @@ const testCollections: EncodedWorkoutCollection[] = [
         category: DEFAULT_CATEGORIES[2], // Flexibility
       },
       {
-        id: "yoga-3", 
+        id: "yoga-3",
         name: "Downward Dog",
         url: "https://www.google.com/search?q=Downward%20Dog%20yoga",
         multiplier: 2,
@@ -70,7 +73,7 @@ const testCollections: EncodedWorkoutCollection[] = [
       {
         id: "yoga-4",
         name: "Child's Pose",
-        url: "https://www.google.com/search?q=Child%27s%20Pose%20yoga", 
+        url: "https://www.google.com/search?q=Child%27s%20Pose%20yoga",
         multiplier: 3,
         category: DEFAULT_CATEGORIES[4], // Recovery
       },
@@ -89,7 +92,7 @@ const testCollections: EncodedWorkoutCollection[] = [
       },
       {
         id: "hiit-2",
-        name: "Mountain Climbers", 
+        name: "Mountain Climbers",
         url: "https://www.google.com/search?q=Mountain%20Climbers%20workout",
         multiplier: 2,
         category: DEFAULT_CATEGORIES[1], // Cardio
@@ -111,7 +114,7 @@ const testCollections: EncodedWorkoutCollection[] = [
       {
         id: "hiit-5",
         name: "Plank Jacks",
-        url: "https://www.google.com/search?q=Plank%20Jacks%20workout", 
+        url: "https://www.google.com/search?q=Plank%20Jacks%20workout",
         multiplier: 1,
         category: DEFAULT_CATEGORIES[1], // Cardio
       },
@@ -171,7 +174,7 @@ const testCollections: EncodedWorkoutCollection[] = [
       },
       {
         id: "recovery-3",
-        name: "Hamstring Stretch", 
+        name: "Hamstring Stretch",
         url: "https://www.google.com/search?q=Hamstring%20Stretch%20workout",
         multiplier: 2,
         category: DEFAULT_CATEGORIES[2], // Flexibility
@@ -188,21 +191,26 @@ const testCollections: EncodedWorkoutCollection[] = [
 ];
 
 // Generate encoded versions of all test collections
-export const TEST_ENCODED_COLLECTIONS = testCollections.map((collection, index) => {
-  try {
-    const encoded = encodeWorkoutCollection(collection);
-    return {
-      id: `test-${index + 1}`,
-      name: collection.title,
-      description: collection.description,
-      encoded,
-      originalCollection: collection,
-    };
-  } catch (error) {
-    console.error(`Failed to encode collection "${collection.title}":`, error);
-    return null;
-  }
-}).filter(Boolean);
+export const TEST_ENCODED_COLLECTIONS = testCollections
+  .map((collection, index) => {
+    try {
+      const encoded = encodeWorkoutCollection(collection);
+      return {
+        id: `test-${index + 1}`,
+        name: collection.title,
+        description: collection.description,
+        encoded,
+        originalCollection: collection,
+      };
+    } catch (error) {
+      console.error(
+        `Failed to encode collection "${collection.title}":`,
+        error,
+      );
+      return null;
+    }
+  })
+  .filter(Boolean);
 
 // Export raw collections for reference
 export const TEST_COLLECTIONS = testCollections;
@@ -211,7 +219,7 @@ export const TEST_COLLECTIONS = testCollections;
 export const generateTestUrls = (baseUrl: string = "http://localhost:5173") => {
   return TEST_ENCODED_COLLECTIONS.map((testCollection) => ({
     name: testCollection!.name,
-    description: testCollection!.description, 
+    description: testCollection!.description,
     url: `${baseUrl}/wheel-of-gains/zip?data=${encodeURIComponent(testCollection!.encoded)}`,
   }));
 };
