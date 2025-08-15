@@ -1,16 +1,12 @@
-# GitHub Issue Template: DevOps Engineer Agent
-
-## Issue Template: `.github/ISSUE_TEMPLATE/devops-engineer.md`
-
-```yaml
 ---
-name: DevOps Engineer Request
-about: Request deployment, infrastructure, and CI/CD pipeline work from the DevOps Engineer
+name: DevOps Engineer Agent
+about: Task for the DevOps Engineer Agent
 title: "[DEVOPS] "
-labels: devops, infrastructure, ci-cd, deployment, monitoring
+labels: devops
 assignees: ''
 ---
-```
+
+...
 
 ## **DevOps Engineer Agent - Deployment & Infrastructure Specialist**
 
@@ -126,3 +122,4 @@ The DevOps Engineer agent specializes in streamlining deployment processes, mana
 - Cost optimization achieved without sacrificing performance or reliability
 - Zero-downtime deployments with quick rollback capabilities
 - Documentation and runbooks enable team self-sufficiency
+

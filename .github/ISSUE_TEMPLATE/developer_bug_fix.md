@@ -1,16 +1,11 @@
-# GitHub Issue Template: Developer Agent - Bug Fix
-
-## Issue Template: `.github/ISSUE_TEMPLATE/developer-bug-fix.md`
-
-```yaml
 ---
-name: Developer - Bug Fix
-about: Request bug investigation and resolution from the Developer agent
-title: "[DEV-BUGFIX] "
-labels: development, bug, fix, debugging
-assignees: ''
+name: Bug Fix
+about: Report a bug to be fixed
+title: "[BUG] "
+labels: bug
 ---
-```
+
+...
 
 ## **Developer Agent - Bug Resolution Specialist**
 

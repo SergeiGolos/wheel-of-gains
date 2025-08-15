@@ -1,16 +1,11 @@
-# GitHub Issue Template: Developer Agent - Code Refactoring
-
-## Issue Template: `.github/ISSUE_TEMPLATE/developer-code-refactoring.md`
-
-```yaml
 ---
-name: Developer - Code Refactoring
-about: Request code refactoring and technical debt reduction from the Developer agent
-title: "[DEV-REFACTOR] "
-labels: development, refactoring, technical-debt, code-quality
-assignees: ''
+name: Code Refactoring
+about: Request a code refactoring
+title: "[REFACTOR] "
+labels: refactoring
 ---
-```
+
+...
 
 ## **Developer Agent - Code Refactoring Specialist**
 
@@ -222,4 +217,6 @@ You are the Developer agent specializing in code refactoring and technical debt 
 ```
 
 **Expected After State:**
+```
+[Describe expected code structure, performance improvements, and maintainability enhancements]
 ```

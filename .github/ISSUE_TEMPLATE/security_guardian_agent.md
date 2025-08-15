@@ -1,8 +1,3 @@
-# GitHub Issue Template: Security Guardian Agent
-
-## Issue Template: `.github/ISSUE_TEMPLATE/security-guardian.md`
-
-```yaml
 ---
 name: Security Guardian Assessment
 about: Request security analysis, vulnerability assessment, and threat modeling from the Security Guardian
@@ -10,7 +5,11 @@ title: "[SECURITY] "
 labels: security, vulnerability, compliance, threat-model
 assignees: ''
 ---
-```
+
+# GitHub Issue Template: Security Guardian Agent
+
+...
+
 
 ## **Security Guardian Agent - Cybersecurity Specialist**
 
@@ -116,3 +115,11 @@ The Security Guardian agent specializes in proactive security analysis, threat p
 - Development team trained on secure coding practices
 - Incident response procedures tested and validated
 - Security documentation complete and accessible
+
+---
+name: Security Guardian Agent
+about: Task for the Security Guardian Agent
+title: "[SECURITY] "
+labels: security
+assignees: ''
+---

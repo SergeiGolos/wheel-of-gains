@@ -1,8 +1,3 @@
-# GitHub Issue Template: Data Analyst Agent
-
-## Issue Template: `.github/ISSUE_TEMPLATE/data-analyst.md`
-
-```yaml
 ---
 name: Data Analyst Request
 about: Request analytics implementation, data insights, and performance analysis from the Data Analyst agent
@@ -10,7 +5,8 @@ title: "[DATA] "
 labels: analytics, data-analysis, metrics, insights, reporting
 assignees: ''
 ---
-```
+
+...
 
 ## **Data Analyst Agent - Insights & Analytics Specialist**
 
@@ -152,3 +148,11 @@ The Data Analyst agent specializes in extracting insights from data to drive pro
 - Analytics insights directly influence product and technical roadmap decisions
 - Performance monitoring enables proactive issue identification and resolution
 - ROI of analytics implementation is measurable and positive
+
+---
+name: Data Analyst Agent
+about: Task for the Data Analyst Agent
+title: "[DATA] "
+labels: data-analysis
+assignees: ''
+---

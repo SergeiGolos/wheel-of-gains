@@ -1,16 +1,11 @@
-# GitHub Issue Template: Architect-Product Manager Agent
-
-## Issue Template: `.github/ISSUE_TEMPLATE/architect-product-manager.md`
-
-```yaml
 ---
-name: Architect-Product Manager Request
-about: Request strategic planning, requirements analysis, and technical architecture from the Architect-Product Manager
-title: "[ARCHITECT-PM] "
-labels: architecture, product-management, planning, requirements
-assignees: ''
+name: Architect Product Manager
+about: Task for the Architect Product Manager
+title: "[ARCHITECT] "
+labels: architecture
 ---
-```
+
+...
 
 ## **Architect-Product Manager Agent - Strategic Technical Leader**
 
