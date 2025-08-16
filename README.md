@@ -40,6 +40,10 @@ See the [Development Roadmap](#-development-roadmap) below for upcoming enhancem
 - **Development**: Qwik City for routing and SSR
 - **Deployment**: GitHub Pages (Static Site Generation)
 - **Canvas**: HTML5 Canvas for wheel animations
+- **Testing**: Storybook 8.x + Playwright for component testing
+- **CI/CD**: GitHub Actions with automated testing and deployment
+- **Quality Assurance**: ESLint, Prettier, TypeScript compiler
+- **Documentation**: Storybook for component documentation
 
 ## 🏗️ Development Roadmap
 
@@ -65,23 +69,32 @@ This project has evolved from a Proof of Concept (POC) to a production-ready app
 - [x] Implement spin history tracking and results management
 - [x] Add workout management with custom workout creation
 
-### Phase 3: Production Features (In Progress)
+### Phase 3: Production Features ✅
 
-- [ ] [#7: Add Testing Framework (Jest + React Testing Library)](../../issues/7)
-- [ ] [#8: Performance Optimizations and Bundle Management](../../issues/8)
+- [x] ~~[#65: Upgrade to Storybook 9.x with Playwright Tests](../../issues/65)~~
+- [x] ~~[#71: CI/CD Testing Integration](../../issues/71)~~
+- [x] ~~[#78: Create Comprehensive Test Plan](../../issues/78)~~
+- [x] ~~[#61: Application Testing in Storybook](../../issues/61)~~
+- [x] Add comprehensive testing framework (Storybook + Playwright)
+- [x] Implement automated testing and quality assurance
+- [x] Add performance monitoring and build optimization
 - [ ] [#9: Add Analytics and User Tracking](../../issues/9)
 - [ ] [#10: Implement Advanced Animation Effects](../../issues/10)
 - [ ] Add workout progress tracking and statistics
 - [ ] Implement social sharing features
 - [ ] Add workout timer and guided sessions
 
-### Phase 4: Deployment & Maintenance
+### Phase 4: Deployment & Maintenance ✅
 
-- [ ] [#11: Set up CI/CD Pipeline with GitHub Actions](../../issues/11)
+- [x] ~~[#80: CI/CD Pipeline Setup and Fixes](../../issues/80)~~
+- [x] ~~[#84: DevOps Infrastructure Improvements](../../issues/84)~~
+- [x] Set up CI/CD Pipeline with GitHub Actions
+- [x] Add automated testing and deployment validation
+- [x] Implement comprehensive monitoring and error handling
+- [x] Add build optimization and artifact management
 - [ ] [#12: Add Contribution Guidelines and Documentation](../../issues/12)
-- [ ] [#13: Implement Error Handling and Monitoring](../../issues/13)
-- [ ] Add automated testing and quality assurance
 - [ ] Implement user feedback collection
+- [ ] Add performance analytics and monitoring dashboards
 
 ## 🎯 How to Use
 
@@ -100,6 +113,13 @@ Simply visit the [live application](https://SergeiGolos.github.io/wheel-of-gains
 
 ### For Developers
 
+#### Prerequisites
+
+- **Node.js**: v20.19.4+ (tested version, see [engines](./package.json))
+- **npm**: 10.8.2+ (latest stable recommended)
+
+#### Quick Start
+
 1. **Clone the repository**:
 
    ```bash
@@ -107,7 +127,7 @@ Simply visit the [live application](https://SergeiGolos.github.io/wheel-of-gains
    cd wheel-of-gains
    ```
 
-2. **Install dependencies**:
+2. **Install dependencies** (takes ~60 seconds, expect deprecated warnings):
 
    ```bash
    npm install
@@ -122,16 +142,55 @@ Simply visit the [live application](https://SergeiGolos.github.io/wheel-of-gains
 4. **Open in browser**:
    Navigate to `http://localhost:5173/wheel-of-gains/`
 
-5. **Build for production**:
+#### Development Commands
 
-   ```bash
-   npm run build
-   ```
+```bash
+# Development
+npm run dev               # Start dev server (localhost:5173/wheel-of-gains/)
+npm run start            # Alternative dev server with auto-open
 
-6. **Preview production build**:
-   ```bash
-   npm run preview
-   ```
+# Code Quality
+npm run fmt              # Format code with Prettier (5 seconds)
+npm run fmt.check        # Check formatting without changes
+npm run lint             # ESLint code checking (2 seconds)
+
+# Building & Testing
+npm run build            # Build for production (10 seconds)
+npm run preview          # Preview production build (localhost:4173/wheel-of-gains/)
+npm run build.types      # TypeScript type checking
+
+# Testing & Quality Assurance
+npm run test:playwright        # Run Playwright tests
+npm run test:playwright:ui     # Run tests with UI mode
+npm run test:playwright:headed # Run tests with browser visible
+npm run analyze               # Generate code complexity analysis
+
+# Storybook (Component Documentation & Testing)
+npm run storybook            # Start Storybook dev server (localhost:6006)
+npm run build-storybook      # Build Storybook for production
+npm run playwright:install   # Install Playwright browsers (for CI/CD)
+```
+
+#### Development Workflow
+
+1. **Before starting**: Run `npm run fmt && npm run lint` to establish clean baseline
+2. **During development**: Keep `npm run dev` running for hot reload
+3. **Before committing**:
+   - `npm run fmt` - Format all code
+   - `npm run lint` - Check for errors
+   - `npm run build` - Verify production build works
+   - Test core functionality manually by spinning the wheel
+
+#### Testing Strategy
+
+The project uses comprehensive testing with:
+
+- **Storybook**: Component documentation and interactive testing
+- **Playwright**: End-to-end testing of component behavior
+- **Manual Testing**: Core wheel functionality validation
+- **CI/CD Integration**: Automated testing on every push/PR
+
+See [TESTING.md](./TESTING.md) for detailed testing documentation.
 
 ### 📊 Code Complexity Analysis
 
@@ -149,18 +208,98 @@ This generates a comprehensive `COMPLEXITY_ANALYSIS.md` report that identifies:
 
 The analysis is particularly useful for this "heavily vibe coded" project to identify technical debt and prioritize refactoring efforts.
 
+## 📖 Documentation
+
+This project includes comprehensive documentation for different audiences:
+
+### 📚 [Complete Documentation Index](./DOCS_INDEX.md)
+**Central hub for all project documentation with organized navigation by audience and topic.**
+
+### For Users
+
+- **[Main README](./README.md)** - This file, project overview and getting started
+- **[Live Application](https://SergeiGolos.github.io/wheel-of-gains)** - Try the app directly
+
+### For Developers
+
+- **[Testing Guide](./TESTING.md)** - Comprehensive testing with Storybook and Playwright
+- **[Storybook Documentation](./STORYBOOK.md)** - Component documentation and interactive testing
+- **[Complexity Analysis](./COMPLEXITY_ANALYSIS.md)** - Code quality metrics and maintenance guidelines
+- **[Test Plans](./TEST_PLAN.md)** - Detailed testing strategies and coverage
+
+### For DevOps Engineers
+
+- **[CI/CD Testing Integration](./CI_CD_TESTING.md)** - Automated testing pipeline documentation
+- **[DevOps Improvements](./DEVOPS_IMPROVEMENTS.md)** - Pipeline fixes and infrastructure updates
+- **[Playwright Fix Documentation](./PLAYWRIGHT_FIX.md)** - Technical fixes for testing infrastructure
+
+### For Contributors
+
+- **[Issue Templates](./.github/ISSUE_TEMPLATE/)** - Templates for different types of contributions
+- **[GitHub Actions Workflow](./.github/workflows/pages.yml)** - Automated deployment and testing
+
+### Live Documentation
+
+- **[Component Library (Storybook)](https://SergeiGolos.github.io/wheel-of-gains/storybook/)** - Interactive component documentation
+- **[Project Hub](https://SergeiGolos.github.io/wheel-of-gains/)** - Central access to app and documentation
+
 ## 🤝 Contributing
 
-We welcome contributions! This project is designed to be beginner-friendly with well-defined issues.
+We welcome contributions! This project is designed to be beginner-friendly with well-defined issues, comprehensive testing, and detailed documentation.
 
 ### How to Contribute
 
-1. Check out our [Issues](../../issues) for tasks ranging from beginner to advanced
-2. Each issue includes detailed acceptance criteria and implementation guidance
-3. Fork the repository and create a feature branch
-4. Submit a Pull Request with your changes
+1. **Explore the codebase**:
+
+   - Check out the [live application](https://SergeiGolos.github.io/wheel-of-gains)
+   - Review [component documentation](https://SergeiGolos.github.io/wheel-of-gains/storybook/) in Storybook
+   - Read the [testing documentation](./TESTING.md)
+
+2. **Find an issue**:
+
+   - Browse [open issues](../../issues) for tasks ranging from beginner to advanced
+   - Each issue includes detailed acceptance criteria and implementation guidance
+   - Look for issues labeled `good first issue` and `help wanted`
+
+3. **Set up development environment**:
+
+   - Follow the [developer setup instructions](#for-developers) above
+   - Ensure all tests pass: `npm run test:playwright`
+   - Verify build works: `npm run build`
+
+4. **Make your contribution**:
+
+   - Fork the repository and create a feature branch
+   - Follow the development workflow (format, lint, build, test)
+   - Add or update tests for your changes in Storybook
+   - Update documentation if needed
+
+5. **Submit your changes**:
+   - Submit a Pull Request with your changes
+   - All PRs trigger automated testing via GitHub Actions
+   - Manual review ensures code quality and functionality
+
+### Development Standards
+
+- **Code Quality**: All code must pass linting (`npm run lint`) and formatting (`npm run fmt`)
+- **Testing**: New features should include Storybook stories and Playwright tests
+- **Documentation**: Update relevant documentation for significant changes
+- **Build Verification**: All changes must pass production build (`npm run build`)
+
+### Testing Your Changes
+
+Before submitting, ensure:
+
+1. **Automated tests pass**: `npm run test:playwright`
+2. **Manual testing works**: Spin the wheel and test core functionality
+3. **Storybook stories updated**: Add stories for new components
+4. **Build succeeds**: `npm run build` completes without errors
+
+See [TESTING.md](./TESTING.md) for comprehensive testing guidelines.
 
 ### Good First Issues
+
+Perfect starting points for new contributors:
 
 Look for issues labeled `good first issue` and `help wanted` for beginner-friendly tasks.
 
@@ -171,6 +310,9 @@ wheel-of-gains/
 ├── src/
 │   ├── components/          # Reusable Qwik components
 │   │   ├── workout/        # Workout-specific components
+│   │   ├── ui/             # UI components (buttons, forms, etc.)
+│   │   ├── navigation/     # Navigation components
+│   │   ├── icons/          # SVG icon components
 │   │   └── router-head/    # SEO and meta tag management
 │   ├── routes/             # File-based routing
 │   │   ├── index.tsx       # Home page (Classic Mix)
@@ -178,21 +320,30 @@ wheel-of-gains/
 │   │   ├── intermediate/   # Intermediate workouts page
 │   │   ├── advanced/       # Advanced workouts page
 │   │   ├── cardio/         # Cardio workouts page
-│   │   └── strength/       # Strength workouts page
+│   │   ├── strength/       # Strength workouts page
+│   │   └── zip/            # Dynamic workout loading from compressed data
 │   ├── utils/              # Utility functions and data
 │   ├── global.css          # Global styles
 │   └── root.tsx            # Root application component
+├── .storybook/             # Storybook configuration
+├── tests/                  # Playwright test files
+├── scripts/                # Build and utility scripts
 ├── public/                 # Static assets
+├── docs/                   # Additional documentation
 ├── package.json            # Dependencies and scripts
 ├── vite.config.ts         # Vite configuration
 ├── tsconfig.json          # TypeScript configuration
+├── playwright.config.js   # Playwright testing configuration
 ├── tailwind.config.js     # Tailwind CSS configuration
-├── index.html             # Legacy HTML file (kept for reference)
-├── app.js                 # Legacy React app (kept for reference)
 ├── README.md              # This file
+├── STORYBOOK.md           # Storybook documentation
+├── TESTING.md             # Testing documentation and guides
+├── CI_CD_TESTING.md       # CI/CD testing integration guide
+├── DEVOPS_IMPROVEMENTS.md # DevOps pipeline improvements
 └── .github/
-    └── workflows/
-        └── pages.yml      # GitHub Pages deployment
+    ├── workflows/
+    │   └── pages.yml      # GitHub Pages deployment with testing
+    └── ISSUE_TEMPLATE/    # Issue templates for contributors
 ```
 
 ## 🎨 Design Philosophy
