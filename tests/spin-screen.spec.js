@@ -1,4 +1,9 @@
 import { test, expect } from "@playwright/test";
+import {
+  waitForStorybookReady,
+  navigateToStory,
+  waitForStoryLoaded,
+} from "./storybook-helper.js";
 
 /**
  * Playwright tests for Spin Screen Functionality
@@ -7,13 +12,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Spin Screen Functions Tests", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    // Wait for Storybook to fully load - look for the main container or navigation
-    await page.waitForSelector("#root, .sidebar, [data-item-id]", {
-      timeout: 30000,
-    });
-    // Give additional time for dynamic content to load
-    await page.waitForTimeout(2000);
+    await waitForStorybookReady(page);
   });
 
   test("should display ready to spin state correctly", async ({ page }) => {

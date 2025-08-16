@@ -1,4 +1,9 @@
 import { test, expect } from "@playwright/test";
+import {
+  waitForStorybookReady,
+  navigateToStory,
+  waitForStoryLoaded,
+} from "./storybook-helper.js";
 
 /**
  * Playwright tests for Edit Screen Functionality
@@ -7,24 +12,13 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Edit Screen Functions Tests", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    // Wait for Storybook to fully load - look for the main container or navigation
-    await page.waitForSelector("#root, .sidebar, [data-item-id]", {
-      timeout: 30000,
-    });
-    // Give additional time for dynamic content to load
-    await page.waitForTimeout(2000);
+    await waitForStorybookReady(page);
   });
 
   test("should display workout list view correctly", async ({ page }) => {
-    // Navigate to the story with explicit waits
-    await page.waitForSelector("text=Testing", { timeout: 15000 });
-    await page.click("text=Testing");
-
-    await page.waitForSelector("text=Edit Screen Functions", {
-      timeout: 10000,
-    });
-    await page.click("text=Edit Screen Functions");
+    // Navigate to the story with improved error handling
+    await navigateToStory(page, "Testing", "Edit Screen Functions");
+    await waitForStoryLoaded(page, "Edit Screen Functions");
 
     await page.waitForSelector("text=Workout List View", { timeout: 10000 });
     await page.click("text=Workout List View");
@@ -58,14 +52,9 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should display add new workout form", async ({ page }) => {
-    // Navigate to the story with explicit waits
-    await page.waitForSelector("text=Testing", { timeout: 15000 });
-    await page.click("text=Testing");
-
-    await page.waitForSelector("text=Edit Screen Functions", {
-      timeout: 10000,
-    });
-    await page.click("text=Edit Screen Functions");
+    // Navigate to the story with improved error handling
+    await navigateToStory(page, "Testing", "Edit Screen Functions");
+    await waitForStoryLoaded(page, "Edit Screen Functions");
 
     await page.waitForSelector("text=Add New Workout", { timeout: 10000 });
     await page.click("text=Add New Workout");
