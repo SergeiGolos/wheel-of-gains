@@ -1,21 +1,25 @@
 # DevOps Pipeline Improvements - Technical Summary
 
 ## Overview
+
 This document outlines the comprehensive DevOps improvements made to fix the CI/CD pipeline issues in the Wheel of Gains project. The primary problem was Playwright test failures causing deployment blocks in GitHub Actions.
 
 ## Issues Identified
 
 ### 1. Test Infrastructure Problems
+
 - **Root Cause**: Playwright tests waiting for `#root` selector to be visible, but Storybook renders content dynamically
 - **Symptoms**: 10/10 tests failing with "Timeout 30000ms exceeded" errors
 - **Impact**: Complete CI/CD pipeline blockage, no successful deployments
 
 ### 2. Configuration Issues
+
 - **Timeouts**: Insufficient timeouts for CI environments (30s vs needed 2+ minutes)
 - **Resource Management**: Single worker causing resource bottlenecks
 - **Browser Installation**: Network failures without retry mechanism
 
 ### 3. Test Reliability Problems
+
 - **Flaky Tests**: Tests dependent on exact timing of Storybook loading
 - **Poor Error Handling**: No debugging information for failures
 - **Inconsistent Behavior**: Works locally but fails in CI consistently
@@ -45,17 +49,20 @@ webServer: {
 Created comprehensive helper utilities:
 
 #### `waitForStorybookReady(page, timeout)`
+
 - Progressive loading detection with multiple fallback strategies
 - Network idle waiting + DOM readiness checks
 - Comprehensive error handling with debugging screenshots
 - Timeout: 90 seconds with detailed logging
 
 #### `navigateToStory(page, section, story, timeout)`
+
 - Reliable story navigation with retry logic
 - Explicit waits between navigation steps
 - Enhanced error messages for debugging
 
 #### `waitForStoryLoaded(page, storyName, timeout)`
+
 - Story-specific content detection
 - iframe and content validation
 - Story rendering confirmation
@@ -63,6 +70,7 @@ Created comprehensive helper utilities:
 ### 3. Test Reliability Improvements
 
 #### Before (Problematic Approach)
+
 ```javascript
 await page.waitForSelector("#root, .sidebar, [data-item-id]", {
   timeout: 30000,
@@ -70,24 +78,27 @@ await page.waitForSelector("#root, .sidebar, [data-item-id]", {
 ```
 
 #### After (Robust Approach)
+
 ```javascript
 await page.waitForFunction(
   () => {
     const root = document.querySelector("#root");
     const hasRootChildren = root && root.children.length > 0;
-    const sidebar = document.querySelector('[role="navigation"]') || 
-                   document.querySelector('.sidebar');
-    const storyElements = document.querySelector('[data-testid]');
-    
+    const sidebar =
+      document.querySelector('[role="navigation"]') ||
+      document.querySelector(".sidebar");
+    const storyElements = document.querySelector("[data-testid]");
+
     return hasRootChildren || sidebar || storyElements;
   },
-  { timeout: 90000 }
+  { timeout: 90000 },
 );
 ```
 
 ### 4. CI/CD Workflow Enhancements (`.github/workflows/pages.yml`)
 
 #### Browser Installation Reliability
+
 ```yaml
 - name: Cache Playwright browsers
   uses: actions/cache@v4
@@ -108,6 +119,7 @@ await page.waitForFunction(
 ```
 
 #### Enhanced Debugging
+
 ```yaml
 - name: Run Storybook tests
   run: npm run test:playwright
@@ -119,21 +131,25 @@ await page.waitForFunction(
 ## Technical Benefits
 
 ### 1. Reliability Improvements
+
 - **Test Success Rate**: From 0% to expected >95% in CI
 - **Timeout Management**: Appropriate timeouts for each environment
 - **Resource Optimization**: Better CPU/memory usage with 2 workers
 
 ### 2. Performance Enhancements
+
 - **Browser Caching**: Reduces CI time by ~2-3 minutes per run
 - **Parallel Execution**: 2 workers for faster test completion
 - **Network Idle Detection**: Ensures complete resource loading
 
 ### 3. Debugging & Monitoring
+
 - **Comprehensive Logging**: Step-by-step loading progress
 - **Error Screenshots**: Automatic failure debugging
 - **Retry Mechanisms**: Resilience against network issues
 
 ### 4. Developer Experience
+
 - **Consistent Behavior**: Same test patterns work locally and in CI
 - **Clear Error Messages**: Detailed failure information
 - **Faster Feedback**: Reliable test results in reasonable time
@@ -141,11 +157,13 @@ await page.waitForFunction(
 ## Deployment Impact
 
 ### Before
+
 - **Pipeline Success Rate**: 0% (all tests failing)
 - **Deployment Time**: Indefinite (blocked by test failures)
 - **Developer Productivity**: Severely impacted by CI failures
 
 ### After
+
 - **Pipeline Success Rate**: Expected >95%
 - **Deployment Time**: ~8-12 minutes (including test execution)
 - **Developer Productivity**: Restored with reliable feedback loops
@@ -153,16 +171,19 @@ await page.waitForFunction(
 ## Future Optimizations
 
 ### Short-term (Next Sprint)
+
 1. **Visual Regression Testing**: Add screenshot comparison tests
 2. **Test Data Management**: Standardized test fixtures
 3. **Performance Monitoring**: Add test execution time tracking
 
 ### Medium-term (Next Quarter)
+
 1. **Cross-browser Testing**: Expand to Firefox and Edge
 2. **Accessibility Testing**: Automated a11y validation
 3. **API Testing**: Backend service validation
 
 ### Long-term (Next 6 Months)
+
 1. **End-to-End Testing**: Full user journey automation
 2. **Load Testing**: Performance validation
 3. **Security Testing**: Automated vulnerability scanning
@@ -170,17 +191,20 @@ await page.waitForFunction(
 ## Monitoring & Maintenance
 
 ### Health Indicators
+
 - Test success rate >95%
 - Average test execution time <5 minutes
 - Browser installation success rate >98%
 - Zero deployment blocks due to test infrastructure
 
 ### Alerting Thresholds
+
 - Test failure rate >10% for 2+ consecutive runs
 - Test execution time >10 minutes
 - Browser download failures >3 in 24 hours
 
 ### Regular Maintenance
+
 - **Weekly**: Review test execution metrics
 - **Monthly**: Update Playwright and browser versions
 - **Quarterly**: Performance optimization review
