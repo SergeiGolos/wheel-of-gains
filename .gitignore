@@ -40,7 +40,18 @@ dist-dev/
 # Backup files from conversion
 backup/
 
-# Test artifacts  
+# Test artifacts and reports
 test-results/
 playwright-report/
 playwright/.cache/
+*.zip
+test-report*
+coverage/
+junit.xml
+*.test.log
+*.spec.log
+
+# Test output directories
+*-results/
+*-reports/
+*-coverage/
