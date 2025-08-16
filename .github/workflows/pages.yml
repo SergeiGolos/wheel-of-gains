@@ -1,4 +1,4 @@
-name: Deploy QWIK App with Storybook Testing to GitHub Pages
+name: Deploy QWIK App with Storybook to GitHub Pages
 
 on:
   push:
