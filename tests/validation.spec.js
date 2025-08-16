@@ -1,4 +1,9 @@
 import { test, expect } from "@playwright/test";
+import {
+  waitForStorybookReady,
+  navigateToStory,
+  waitForStoryLoaded,
+} from "./storybook-helper.js";
 
 /**
  * Playwright tests for Workout Validation Stories
@@ -7,28 +12,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Workout Validation Tests", () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to Storybook
-    await page.goto("/");
-
-    // Wait for Storybook to fully load by checking for multiple indicators
-    await page.waitForLoadState("networkidle");
-    
-    // Wait for Storybook UI to be ready - check for the manager frame and navigation
-    await page.waitForFunction(
-      () => {
-        // Check if the main Storybook UI elements are present and visible
-        const root = document.querySelector("#root");
-        const sidebar = document.querySelector('[role="navigation"]') || document.querySelector('.sidebar');
-        const storybook = document.querySelector('[data-testid]') || document.querySelector('[data-item-id]');
-        
-        // Return true if root has content and navigation is available
-        return root && (root.children.length > 0 || sidebar || storybook);
-      },
-      { timeout: 90000 }
-    );
-    
-    // Give additional time for stories to load
-    await page.waitForTimeout(2000);
+    await waitForStorybookReady(page);
   });
 
   test("should display valid workout validation correctly", async ({

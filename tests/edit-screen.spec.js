@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { waitForStorybookReady, navigateToStory, waitForStoryLoaded } from "./storybook-helper.js";
+import {
+  waitForStorybookReady,
+  navigateToStory,
+  waitForStoryLoaded,
+} from "./storybook-helper.js";
 
 /**
  * Playwright tests for Edit Screen Functionality
