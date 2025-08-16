@@ -8,16 +8,32 @@ import { test, expect } from "@playwright/test";
 test.describe("Spin Screen Functions Tests", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForSelector(
-      '[data-testid="sidebar-search-input"], .sidebar-item',
-      { timeout: 10000 },
-    );
+    // Wait for Storybook to fully load - look for the main container or navigation
+    await page.waitForSelector("#root, .sidebar, [data-item-id]", {
+      timeout: 30000,
+    });
+    // Give additional time for dynamic content to load
+    await page.waitForTimeout(2000);
   });
 
   test("should display ready to spin state correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Ready To Spin", { timeout: 10000 });
     await page.click("text=Ready To Spin");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -49,9 +65,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should display spinning state correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Wheel Spinning", { timeout: 10000 });
     await page.click("text=Wheel Spinning");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -76,9 +106,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should display result state correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Result Displayed", { timeout: 10000 });
     await page.click("text=Result Displayed");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -106,9 +150,23 @@ test.describe("Spin Screen Functions Tests", () => {
 
   test("should handle different wheel sizes", async ({ page }) => {
     // Test small wheel
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Small Wheel", { timeout: 10000 });
     await page.click("text=Small Wheel");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     let iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -129,9 +187,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should display wheel segments correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Ready To Spin", { timeout: 10000 });
     await page.click("text=Ready To Spin");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -150,9 +222,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should handle spin button clicks", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Ready To Spin", { timeout: 10000 });
     await page.click("text=Ready To Spin");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -169,9 +255,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should handle start workout button clicks", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Result Displayed", { timeout: 10000 });
     await page.click("text=Result Displayed");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -188,9 +288,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should display spin history correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Result Displayed", { timeout: 10000 });
     await page.click("text=Result Displayed");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -210,9 +324,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should hide history when configured", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=No History", { timeout: 10000 });
     await page.click("text=No History");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -226,9 +354,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should show complete spin sequence", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Spin Sequence", { timeout: 10000 });
     await page.click("text=Spin Sequence");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -241,9 +383,25 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should display test status information", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Interactive Spin Screen", {
+      timeout: 10000,
+    });
     await page.click("text=Interactive Spin Screen");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -258,9 +416,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should show wheel responsive behavior", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Ready To Spin", { timeout: 10000 });
     await page.click("text=Ready To Spin");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -279,9 +451,23 @@ test.describe("Spin Screen Functions Tests", () => {
   });
 
   test("should handle disabled state properly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Spin Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Spin Screen Functions");
+
+    await page.waitForSelector("text=Wheel Spinning", { timeout: 10000 });
     await page.click("text=Wheel Spinning");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',

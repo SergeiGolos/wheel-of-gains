@@ -8,16 +8,32 @@ import { test, expect } from "@playwright/test";
 test.describe("Edit Screen Functions Tests", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page.waitForSelector(
-      '[data-testid="sidebar-search-input"], .sidebar-item',
-      { timeout: 10000 },
-    );
+    // Wait for Storybook to fully load - look for the main container or navigation
+    await page.waitForSelector("#root, .sidebar, [data-item-id]", {
+      timeout: 30000,
+    });
+    // Give additional time for dynamic content to load
+    await page.waitForTimeout(2000);
   });
 
   test("should display workout list view correctly", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Workout List View", { timeout: 10000 });
     await page.click("text=Workout List View");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -42,9 +58,23 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should display add new workout form", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Add New Workout", { timeout: 10000 });
     await page.click("text=Add New Workout");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -75,9 +105,25 @@ test.describe("Edit Screen Functions Tests", () => {
   test("should display edit existing workout form with pre-filled data", async ({
     page,
   }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Edit Existing Workout", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Existing Workout");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -99,9 +145,25 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should show validation errors in form", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Form Validation Errors", {
+      timeout: 10000,
+    });
     await page.click("text=Form Validation Errors");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -120,9 +182,25 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should show unsaved changes state", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Unsaved Changes State", {
+      timeout: 10000,
+    });
     await page.click("text=Unsaved Changes State");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -134,9 +212,23 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should handle form interactions", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Add New Workout", { timeout: 10000 });
     await page.click("text=Add New Workout");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -164,9 +256,23 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should handle category selection", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Add New Workout", { timeout: 10000 });
     await page.click("text=Add New Workout");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -182,9 +288,23 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should handle button clicks with alerts", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Workout List View", { timeout: 10000 });
     await page.click("text=Workout List View");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -204,9 +324,23 @@ test.describe("Edit Screen Functions Tests", () => {
     page,
   }) => {
     // Test without unsaved changes
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Add New Workout", { timeout: 10000 });
     await page.click("text=Add New Workout");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     let iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
@@ -229,9 +363,25 @@ test.describe("Edit Screen Functions Tests", () => {
   });
 
   test("should display test status information", async ({ page }) => {
+    // Navigate to the story with explicit waits
+    await page.waitForSelector("text=Testing", { timeout: 15000 });
     await page.click("text=Testing");
+
+    await page.waitForSelector("text=Edit Screen Functions", {
+      timeout: 10000,
+    });
     await page.click("text=Edit Screen Functions");
+
+    await page.waitForSelector("text=Interactive Edit Screen", {
+      timeout: 10000,
+    });
     await page.click("text=Interactive Edit Screen");
+
+    // Wait for the iframe to load
+    await page.waitForSelector(
+      '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
+      { timeout: 15000 },
+    );
 
     const iframe = page.frameLocator(
       '[data-testid="storybook-preview-iframe"], #storybook-preview-iframe',
