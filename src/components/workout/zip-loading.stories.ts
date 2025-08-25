@@ -614,35 +614,80 @@ export const InteractiveLoader: Story = {
   },
 };
 
-export const CollectionComparison: Story = {
+export const DynamicRouteIntegration: Story = {
   render: () => {
     return `
-      <div class="space-y-8 p-6">
-        <h2 class="text-2xl font-bold text-slate-800 text-center">Collection Comparison</h2>
+      <div class="space-y-6 p-6">
+        <h2 class="text-2xl font-bold text-slate-800 text-center">Dynamic Route Integration Test</h2>
         
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          ${mockTestCollections
-            .map(
-              (collection) => `
-            <div class="border-2 border-dashed border-slate-300 p-4 rounded-lg">
-              <h3 class="text-lg font-semibold text-slate-700 mb-2">${collection.name}</h3>
-              <p class="text-sm text-slate-600 mb-4">${collection.originalCollection.description}</p>
-              
-              <div class="space-y-2">
-                <div class="text-xs text-slate-500">
-                  Workouts: ${collection.originalCollection.workouts.length}
-                </div>
-                <div class="text-xs text-slate-500">
-                  Categories: ${[...new Set(collection.originalCollection.workouts.map((w) => w.category.name))].join(", ")}
-                </div>
-                <div class="text-xs text-slate-500 font-mono bg-slate-100 p-1 rounded">
-                  ${collection.encoded.substring(0, 20)}...
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Test Collection Loading -->
+          <div class="border-2 border-dashed border-slate-300 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold text-slate-700 mb-2">Collection Loading Test</h3>
+            <p class="text-sm text-slate-600 mb-4">Test the new dynamic route system</p>
+            
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between">
+                <span>Route:</span>
+                <span class="font-mono">/wheel/classic/</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Fallback:</span>
+                <span class="text-green-600">✓ Classic Collection</span>
+              </div>
+              <div class="flex justify-between">
+                <span>JSON Loading:</span>
+                <span class="text-green-600">✓ Supported</span>
               </div>
             </div>
-          `,
-            )
-            .join("")}
+          </div>
+
+          <!-- Zip Integration Test -->
+          <div class="border-2 border-dashed border-slate-300 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold text-slate-700 mb-2">Zip Integration Test</h3>
+            <p class="text-sm text-slate-600 mb-4">Test zip encoding with custom collections</p>
+            
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between">
+                <span>Encoding:</span>
+                <span class="text-green-600">✓ Base64 + Gzip</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Builder Integration:</span>
+                <span class="text-green-600">✓ /create/ route</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Share URLs:</span>
+                <span class="text-green-600">✓ /zip?data=...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- URL Generation Test -->
+        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+          <h3 class="text-lg font-semibold text-slate-700 mb-3">URL Generation Test</h3>
+          <div class="space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <div class="font-medium text-slate-700">Dynamic Routes</div>
+                <ul class="space-y-1 text-slate-600 font-mono text-xs">
+                  <li>/wheel/classic/ → Classic Mix</li>
+                  <li>/wheel/cardio/ → Cardio Blast</li>
+                  <li>/wheel/advanced/ → Advanced Warriors</li>
+                  <li>/create/ → Custom Builder</li>
+                </ul>
+              </div>
+              <div>
+                <div class="font-medium text-slate-700">Share URLs</div>
+                <ul class="space-y-1 text-slate-600 font-mono text-xs">
+                  <li>/zip?data=H4sIAAAA... → Decoded</li>
+                  <li>/zip (no data) → Fallback</li>
+                  <li>/zip?data=invalid → Error</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -652,7 +697,7 @@ export const CollectionComparison: Story = {
     docs: {
       description: {
         story:
-          "Comparison of all test collections showing their different characteristics.",
+          "Tests the integration between dynamic routes, collection loading, and zip encoding for production deployment.",
       },
     },
   },

@@ -1,0 +1,17 @@
+{
+  "id": "cardio",
+  "title": "Cardio Blast",
+  "description": "Get your heart pumping with these high-intensity cardio workouts!",
+  "workouts": [
+    "Sprint Intervals x2",
+    "Box Jumps x2",
+    "Battle Ropes x2",
+    "Rowing Machine x2",
+    "Cycling Sprints x2",
+    "Stair Climbing x2",
+    "Jump Rope x3",
+    "Shadow Boxing x2",
+    "Running x.5",
+    "Elliptical x.5"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "beginner",
+  "title": "Beginner Friendly",
+  "description": "Perfect for those just starting their fitness journey!",
+  "workouts": [
+    "Bodyweight Squats x2",
+    "Push-ups x2",
+    "Plank x3",
+    "Walking x.5",
+    "Glute Bridges x2",
+    "Wall Sit x2",
+    "Knee Push-ups x2",
+    "Modified Burpees",
+    "Arm Circles x3",
+    "Leg Raises x2"
+  ]
+}

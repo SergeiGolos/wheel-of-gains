@@ -1,0 +1,17 @@
+{
+  "id": "strength",
+  "title": "Strength Builder",
+  "description": "Build muscle and power with these strength-focused exercises!",
+  "workouts": [
+    "Deadlifts",
+    "Squats",
+    "Bench Press",
+    "Pull-ups",
+    "Overhead Press",
+    "Barbell Rows",
+    "Dips x2",
+    "Farmer's Walk x.5",
+    "Weighted Lunges",
+    "Clean and Press x.5"
+  ]
+}

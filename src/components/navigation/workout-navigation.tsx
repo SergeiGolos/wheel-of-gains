@@ -3,32 +3,32 @@ import { useLocation, useNavigate } from "@builder.io/qwik-city";
 
 const NAV_ITEMS = [
   {
-    href: "/wheel-of-gains/",
+    href: "/wheel-of-gains/wheel/classic/",
     label: "Classic Mix",
     editHref: "/wheel-of-gains/edit/",
   },
   {
-    href: "/wheel-of-gains/beginner/",
+    href: "/wheel-of-gains/wheel/beginner/",
     label: "Beginner",
     editHref: "/wheel-of-gains/beginner/edit/",
   },
   {
-    href: "/wheel-of-gains/intermediate/",
+    href: "/wheel-of-gains/wheel/intermediate/",
     label: "Intermediate",
     editHref: "/wheel-of-gains/intermediate/edit/",
   },
   {
-    href: "/wheel-of-gains/advanced/",
+    href: "/wheel-of-gains/wheel/advanced/",
     label: "Advanced",
     editHref: "/wheel-of-gains/advanced/edit/",
   },
   {
-    href: "/wheel-of-gains/cardio/",
+    href: "/wheel-of-gains/wheel/cardio/",
     label: "Cardio",
     editHref: "/wheel-of-gains/cardio/edit/",
   },
   {
-    href: "/wheel-of-gains/strength/",
+    href: "/wheel-of-gains/wheel/strength/",
     label: "Strength",
     editHref: "/wheel-of-gains/strength/edit/",
   },
@@ -194,12 +194,10 @@ export const WorkoutNavigation = component$(() => {
             <div class="mt-6 border-t border-slate-200 pt-6">
               <button
                 onClick$={() => {
-                  // For now, navigate to the classic edit page as a placeholder
-                  // This will be expanded later to allow creating new categories
-                  handleNavigationChange("/wheel-of-gains/edit/");
+                  handleNavigationChange("/wheel-of-gains/create/");
                 }}
                 class="flex w-full items-center justify-center gap-2 rounded-md bg-teal-600 px-4 py-3 font-medium text-white transition-colors hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
-                aria-label="Add new workout category"
+                aria-label="Create custom workout wheel"
               >
                 <svg
                   class="h-5 w-5"
@@ -215,7 +213,7 @@ export const WorkoutNavigation = component$(() => {
                     d="M12 4v16m8-8H4"
                   />
                 </svg>
-                Add New Workout
+                Create Custom Wheel
               </button>
             </div>
           </div>

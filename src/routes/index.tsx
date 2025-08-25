@@ -4,6 +4,8 @@ import { WorkoutDisplayPage } from "../components/workout/workout-display-page";
 import { WORKOUT_COLLECTIONS } from "../utils/workout-collections";
 
 export default component$(() => {
+  // Keep the classic collection as the main landing page for now
+  // This ensures backward compatibility
   return (
     <WorkoutDisplayPage
       initialWorkouts={WORKOUT_COLLECTIONS.classic.workouts}

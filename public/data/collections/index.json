@@ -1,0 +1,40 @@
+{
+  "collections": {
+    "classic": {
+      "title": "Classic Mix",
+      "description": "The original workout collection - a balanced mix to get you started!",
+      "category": "strength",
+      "file": "classic.json"
+    },
+    "beginner": {
+      "title": "Beginner Friendly", 
+      "description": "Perfect for those just starting their fitness journey!",
+      "category": "strength",
+      "file": "beginner.json"
+    },
+    "intermediate": {
+      "title": "Intermediate Challenge",
+      "description": "Ready to step up your game? These workouts will push you further!",
+      "category": "cardio",
+      "file": "intermediate.json"
+    },
+    "advanced": {
+      "title": "Advanced Warriors",
+      "description": "For the fitness elite - extreme challenges await!",
+      "category": "strength",
+      "file": "advanced.json"
+    },
+    "cardio": {
+      "title": "Cardio Blast",
+      "description": "Get your heart pumping with these high-intensity cardio workouts!",
+      "category": "cardio",
+      "file": "cardio.json"
+    },
+    "strength": {
+      "title": "Strength Builder",
+      "description": "Build muscle and power with these strength-focused exercises!",
+      "category": "strength",
+      "file": "strength.json"
+    }
+  }
+}
