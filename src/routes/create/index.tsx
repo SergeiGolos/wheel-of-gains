@@ -80,9 +80,19 @@ export default component$(() => {
       };
 
       const encoded = encodeWorkoutCollection(collection);
-      const baseUrl = window.location.origin;
-      const path = "/wheel-of-gains/zip";
-      state.shareUrl = `${baseUrl}${path}?data=${encodeURIComponent(encoded)}`;
+      
+      // Construct URL relative to current location to handle different deployment scenarios
+      const currentUrl = new URL(window.location.href);
+      const baseUrl = `${currentUrl.protocol}//${currentUrl.host}`;
+      
+      // Determine the base path from current location
+      // Current path: /wheel-of-gains/create/ -> base path: /wheel-of-gains/
+      const currentPath = currentUrl.pathname;
+      const basePath = currentPath.includes('/wheel-of-gains/') 
+        ? '/wheel-of-gains/' 
+        : '/';
+      
+      state.shareUrl = `${baseUrl}${basePath}zip?data=${encodeURIComponent(encoded)}`;
 
       state.isGenerating = false;
     } catch (error) {
