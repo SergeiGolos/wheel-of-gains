@@ -583,10 +583,10 @@ conversational and spatial domains, is not a story of disparate
 technologies. It is a unified movement towards a more contextual form of
 computing. The core design challenge in both VUI and AR is the
 management and interpretation of context. VUI depends on understanding
-*conversational context*—the flow and history of a dialogue—to function
+_conversational context_—the flow and history of a dialogue—to function
 naturally.<sup>32</sup> AR depends on understanding
 
-*environmental context*—the user's physical location and surroundings—to
+_environmental context_—the user's physical location and surroundings—to
 overlay information meaningfully.<sup>34</sup> The proliferation of
 sensors in modern mobile devices (GPS, accelerometers, cameras) provides
 an unprecedented stream of this contextual data.<sup>27</sup> AI serves
@@ -675,11 +675,11 @@ the human-centric and AI paradigms, using technology to achieve the true
 goal of minimalism—reducing cognitive load—in a deeply personalized and
 respectful way.<sup>47</sup>
 
-| Trend Name | Core Characteristics | Common Use Cases / Brand Archetype | Key Accessibility Considerations |
-|----|----|----|----|
-| **Glassmorphism** | Frosted-glass effect, background blur, transparency, subtle borders, layered depth. <sup>31</sup> | Modern, futuristic, sophisticated brands. Dashboards, operating system UIs (e.g., Apple macOS). <sup>45</sup> | High risk of low contrast. Text and interactive elements must have sufficient contrast against blurred backgrounds to be readable. <sup>45</sup> |
-| **Neubrutalism** | High-contrast colors, pure black, thick outlines, sharp/un-blurred shadows, bold typography, rigid grids. <sup>45</sup> | Bold, authentic, non-conformist brands. Developer tools, creative platforms (e.g., Figma, Gumroad). <sup>45</sup> | Generally high contrast is beneficial for readability. However, clashing color palettes must be checked for colorblind users. The raw aesthetic can be jarring for users with some cognitive disabilities. <sup>45</sup> |
-| **Context-Aware Minimalism** | Dynamic interfaces that adapt in real-time to user context (location, time, mood). Simplified layouts, mood-adaptive colors, contextual accessibility adjustments. <sup>47</sup> | Intelligent, personalized, human-centric products. Productivity apps, health and wellness platforms. <sup>47</sup> | A core goal is to *improve* accessibility dynamically. For example, automatically increasing contrast in sunlight or enlarging touch targets when the user is in motion. <sup>47</sup> |
+| Trend Name                   | Core Characteristics                                                                                                                                                             | Common Use Cases / Brand Archetype                                                                                 | Key Accessibility Considerations                                                                                                                                                                                         |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Glassmorphism**            | Frosted-glass effect, background blur, transparency, subtle borders, layered depth. <sup>31</sup>                                                                                | Modern, futuristic, sophisticated brands. Dashboards, operating system UIs (e.g., Apple macOS). <sup>45</sup>      | High risk of low contrast. Text and interactive elements must have sufficient contrast against blurred backgrounds to be readable. <sup>45</sup>                                                                         |
+| **Neubrutalism**             | High-contrast colors, pure black, thick outlines, sharp/un-blurred shadows, bold typography, rigid grids. <sup>45</sup>                                                          | Bold, authentic, non-conformist brands. Developer tools, creative platforms (e.g., Figma, Gumroad). <sup>45</sup>  | Generally high contrast is beneficial for readability. However, clashing color palettes must be checked for colorblind users. The raw aesthetic can be jarring for users with some cognitive disabilities. <sup>45</sup> |
+| **Context-Aware Minimalism** | Dynamic interfaces that adapt in real-time to user context (location, time, mood). Simplified layouts, mood-adaptive colors, contextual accessibility adjustments. <sup>47</sup> | Intelligent, personalized, human-centric products. Productivity apps, health and wellness platforms. <sup>47</sup> | A core goal is to _improve_ accessibility dynamically. For example, automatically increasing contrast in sunlight or enlarging touch targets when the user is in motion. <sup>47</sup>                                   |
 
 ### 4.2 Motion as a Language: The Strategic Use of Microinteractions and Animation
 
@@ -899,12 +899,12 @@ A clear governance model, documented and shared transparently, reduces
 conflict over priorities and ensures that the design system can evolve
 in a structured and scalable manner.<sup>58</sup>
 
-| Governance Model | Core Concept | Pros | Cons | Best For (Organizational Context) |
-|----|----|----|----|----|
-| **Centralized** | A single, dedicated team owns and controls all aspects of the design system. <sup>57</sup> | High consistency, clear ownership, efficient decision-making. <sup>57</sup> | Can become a bottleneck, may lack input from product teams, overreliance on a few individuals. <sup>57</sup> | Smaller organizations or companies starting their design system journey where establishing consistency is the primary goal. |
-| **Federated** | Responsibility is shared among representatives from multiple product teams who contribute to the system. <sup>57</sup> | Reduces bottlenecks, increases flexibility and innovation, fosters shared ownership and wider adoption. <sup>57</sup> | Potential for inconsistencies if guidelines are not strict, requires strong communication and coordination overhead. <sup>57</sup> | Mature, large organizations with multiple autonomous product teams that possess a high level of design discipline. |
-| **Mixed / Hybrid** | A central team governs core, foundational elements, while federated teams can contribute to other areas of the system. <sup>57</sup> | Balances the need for consistency (core) with flexibility (product-specific), adaptive to changing needs. <sup>57</sup> | Can be complex to manage and communicate the different contribution paths, requires very clear guidelines. <sup>57</sup> | Large enterprises with a mature design system that needs to serve both universal brand needs and diverse product requirements. |
-| **Community-Driven** | An open model where anyone in the organization can propose changes, with a committee overseeing contributions. <sup>57</sup> | Highly inclusive and democratic, promotes widespread engagement and diverse perspectives. <sup>57</sup> | Decision-making can be slow, difficult to maintain quality and consistency, requires strong moderation. <sup>57</sup> | Organizations with a strong open-source culture and a highly engaged and disciplined design/dev community. |
+| Governance Model     | Core Concept                                                                                                                         | Pros                                                                                                                    | Cons                                                                                                                               | Best For (Organizational Context)                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Centralized**      | A single, dedicated team owns and controls all aspects of the design system. <sup>57</sup>                                           | High consistency, clear ownership, efficient decision-making. <sup>57</sup>                                             | Can become a bottleneck, may lack input from product teams, overreliance on a few individuals. <sup>57</sup>                       | Smaller organizations or companies starting their design system journey where establishing consistency is the primary goal.    |
+| **Federated**        | Responsibility is shared among representatives from multiple product teams who contribute to the system. <sup>57</sup>               | Reduces bottlenecks, increases flexibility and innovation, fosters shared ownership and wider adoption. <sup>57</sup>   | Potential for inconsistencies if guidelines are not strict, requires strong communication and coordination overhead. <sup>57</sup> | Mature, large organizations with multiple autonomous product teams that possess a high level of design discipline.             |
+| **Mixed / Hybrid**   | A central team governs core, foundational elements, while federated teams can contribute to other areas of the system. <sup>57</sup> | Balances the need for consistency (core) with flexibility (product-specific), adaptive to changing needs. <sup>57</sup> | Can be complex to manage and communicate the different contribution paths, requires very clear guidelines. <sup>57</sup>           | Large enterprises with a mature design system that needs to serve both universal brand needs and diverse product requirements. |
+| **Community-Driven** | An open model where anyone in the organization can propose changes, with a committee overseeing contributions. <sup>57</sup>         | Highly inclusive and democratic, promotes widespread engagement and diverse perspectives. <sup>57</sup>                 | Decision-making can be slow, difficult to maintain quality and consistency, requires strong moderation. <sup>57</sup>              | Organizations with a strong open-source culture and a highly engaged and disciplined design/dev community.                     |
 
 ### 5.3 The Evolution of the Designer's Toolkit
 
@@ -964,7 +964,7 @@ ethical product are nearly impossible to implement consistently across a
 large organization without a systemic approach. The design system
 becomes the vehicle for this implementation. Accessibility standards,
 such as correct color contrast ratios and keyboard focus states, are not
-just documented as rules; they are *built into* the core components,
+just documented as rules; they are _built into_ the core components,
 making the accessible path the easiest path for every designer and
 developer.<sup>56</sup> Ethical patterns, like transparent consent
 modals, are provided as pre-vetted, reusable solutions. Collaborative
@@ -1269,7 +1269,7 @@ practices:
 
 44. The Intention to Use E-Commerce Using Augmented Reality - The Case
     of IKEA Place, accessed August 22, 2025,
-    [<u>https://www.researchgate.net/publication/338932071_The_Intention_to_Use_E-Commerce_Using_Augmented_Reality\_-\_The_Case_of_IKEA_Place</u>](https://www.researchgate.net/publication/338932071_The_Intention_to_Use_E-Commerce_Using_Augmented_Reality_-_The_Case_of_IKEA_Place)
+    [<u>https://www.researchgate.net/publication/338932071_The_Intention_to_Use_E-Commerce_Using_Augmented_Reality\_-_The_Case_of_IKEA_Place</u>](https://www.researchgate.net/publication/338932071_The_Intention_to_Use_E-Commerce_Using_Augmented_Reality_-_The_Case_of_IKEA_Place)
 
 45. UI Trends: Neumorphism vs. Glassmorphism vs. Neubrutalism, accessed
     August 22, 2025,

@@ -25,7 +25,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
   const buildDate = process.env.BUILD_DATE || new Date().toISOString();
   
   return {
-    base: "/wheel-of-gains/",
+    base: "/",
     define: {
       __APP_VERSION__: JSON.stringify(version),
       __BUILD_DATE__: JSON.stringify(buildDate),

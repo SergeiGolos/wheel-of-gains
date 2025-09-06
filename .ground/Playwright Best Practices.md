@@ -110,7 +110,7 @@ files are changed.<sup>2</sup>
 This distinction has significant implications for project architecture.
 The official migration guide explicitly recommends the path from
 test-runner to addon-vitest for projects using frameworks like React,
-Vue, or Svelte that are *built with Vite*.<sup>1</sup> The performance
+Vue, or Svelte that are _built with Vite_.<sup>1</sup> The performance
 and developer experience benefits of the Vitest integration are a
 central theme in the Storybook 9.0 announcements.<sup>3</sup> While the
 Jest-based
@@ -126,15 +126,15 @@ seamlessly integrated testing workflow that Storybook 9.0 offers.
 The following table provides a detailed comparison to aid in this
 strategic decision:
 
-| Feature | @storybook/test-runner | @storybook/addon-vitest | Analysis & Recommendation |
-|----|----|----|----|
-| **Core Engine** | Jest + Playwright | Vitest + Playwright | addon-vitest leverages the modern, high-performance Vite ecosystem, offering faster execution times.<sup>3</sup> |
-| **Integration Level** | Standalone utility; runs against a built Storybook instance. | Deeply integrated addon; runs tests within the Storybook dev environment. | addon-vitest provides a superior developer experience with results and debugging tools embedded in the UI.<sup>5</sup> |
-| **Watch Mode/Live Feedback** | CLI-based watch mode (--watch) re-runs tests in the terminal. | Integrated "watch mode" in the Storybook UI provides instant feedback on file changes.<sup>2</sup> | The live feedback loop of addon-vitest is significantly faster and more intuitive for development workflows. |
-| **Primary Use Case** | CI automation for any Storybook project, especially those using Webpack. | Optimal developer experience and CI automation for Vite-based projects. | Recommended for all Vite-based projects. The test-runner remains the primary choice for Webpack users.<sup>1</sup> |
-| **Ecosystem Alignment** | Framework-agnostic, but relies on the Jest ecosystem. | Tightly coupled with the Vite and Vitest ecosystem. | The future direction of Storybook's core testing features is clearly aligned with Vite and Vitest.<sup>3</sup> |
-| **Performance** | Generally slower due to Jest's architecture and the need to run against a separate server. | Faster due to Vitest's performance and direct integration with the Vite dev server. | For speed and efficiency, addon-vitest is the clear winner. |
-| **Configuration Complexity** | Minimal initial setup, but advanced configuration requires ejecting and managing a Jest config file. | Can be set up automatically with npx storybook add. Manual setup requires configuring Vitest for browser mode. | Both have straightforward initial setups, but addon-vitest benefits from better defaults and automation. |
+| Feature                      | @storybook/test-runner                                                                               | @storybook/addon-vitest                                                                                        | Analysis & Recommendation                                                                                              |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Core Engine**              | Jest + Playwright                                                                                    | Vitest + Playwright                                                                                            | addon-vitest leverages the modern, high-performance Vite ecosystem, offering faster execution times.<sup>3</sup>       |
+| **Integration Level**        | Standalone utility; runs against a built Storybook instance.                                         | Deeply integrated addon; runs tests within the Storybook dev environment.                                      | addon-vitest provides a superior developer experience with results and debugging tools embedded in the UI.<sup>5</sup> |
+| **Watch Mode/Live Feedback** | CLI-based watch mode (--watch) re-runs tests in the terminal.                                        | Integrated "watch mode" in the Storybook UI provides instant feedback on file changes.<sup>2</sup>             | The live feedback loop of addon-vitest is significantly faster and more intuitive for development workflows.           |
+| **Primary Use Case**         | CI automation for any Storybook project, especially those using Webpack.                             | Optimal developer experience and CI automation for Vite-based projects.                                        | Recommended for all Vite-based projects. The test-runner remains the primary choice for Webpack users.<sup>1</sup>     |
+| **Ecosystem Alignment**      | Framework-agnostic, but relies on the Jest ecosystem.                                                | Tightly coupled with the Vite and Vitest ecosystem.                                                            | The future direction of Storybook's core testing features is clearly aligned with Vite and Vitest.<sup>3</sup>         |
+| **Performance**              | Generally slower due to Jest's architecture and the need to run against a separate server.           | Faster due to Vitest's performance and direct integration with the Vite dev server.                            | For speed and efficiency, addon-vitest is the clear winner.                                                            |
+| **Configuration Complexity** | Minimal initial setup, but advanced configuration requires ejecting and managing a Jest config file. | Can be set up automatically with npx storybook add. Manual setup requires configuring Vitest for browser mode. | Both have straightforward initial setups, but addon-vitest benefits from better defaults and automation.               |
 
 ### Migration Strategies for Pre-9.0 Projects
 
@@ -270,7 +270,7 @@ A significant challenge in component testing is managing state and
 external dependencies. Storybook's testing utilities provide several
 hooks for this purpose:
 
-- **The mount Function:** For scenarios that require setup *before* the
+- **The mount Function:** For scenarios that require setup _before_ the
   component initially renders (such as mocking the system date with
   mockdate or pre-seeding a database for a component that fetches data
   on mount), the experimental mount function can be used. By
@@ -430,7 +430,7 @@ cross-functional communication and decision-making.
 
 The storybook-addon-playwright is an older tool that offers a different
 paradigm for visual testing. Rather than being a CI-focused automation
-tool, it provides an interactive panel *within* the Storybook UI. From
+tool, it provides an interactive panel _within_ the Storybook UI. From
 this panel, a developer can manually build a sequence of Playwright
 actions (e.g., click a button, hover over an element) and capture
 screenshots at various points in the interaction.<sup>25</sup>
@@ -618,7 +618,7 @@ interactions, they operate at different levels of fidelity and are
 suited for different use cases.
 
 - **Fidelity:** This is the most significant differentiator. Storybook's
-  play functions use userEvent from Testing Library, which *simulates*
+  play functions use userEvent from Testing Library, which _simulates_
   browser events in JavaScript. While highly effective, it is still a
   simulation. Playwright CT, on the other hand, uses real browser
   automation to dispatch native input events. This means Playwright CT

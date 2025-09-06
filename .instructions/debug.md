@@ -1,13 +1,17 @@
 ### debug
+
 Purpose
+
 - Diagnose and resolve defects quickly with reproducibility and traceability.
 
 Inputs
+
 - Failing test, bug report, or reproducible steps
 - Logs/stack traces and environment details (OS, version, branch, commit)
 - Related source files and specs (`.spec/{feature}/*`)
 
 Outputs
+
 - Minimal reproducible test (unit/integration/e2e) that fails before the fix
 - Code change that fixes the root cause (not just symptoms)
 - `.spec/{feature}/progress.md` updated with status, root cause, and notes
@@ -15,6 +19,7 @@ Outputs
 - Optional: link/path to minimal repro artifact if outside tests
 
 Procedure
+
 1. Reproduce
    - Capture exact steps, inputs, and environment; pin commit/branch.
    - Write a failing test at the smallest scope feasible; tag with bug ID.
@@ -36,11 +41,13 @@ Procedure
    - Summarize root cause and mitigation in progress notes.
 
 Acceptance criteria
+
 - A failing test existed pre-fix and passes post-fix.
 - Build, lint, and tests are green for modified areas.
 - Root cause and mitigation documented succinctly.
 - No leftover noisy logging or debug-only code.
 
 Hand-off
+
 - Ready for code review with linked test evidence, repro steps, and notes.
 - If user-facing, propose a release-note entry and verify telemetry/alerts if applicable.

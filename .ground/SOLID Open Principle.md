@@ -17,7 +17,7 @@ interface-based design.
 ### 1.1 Meyer's Original Formulation: The Inheritance-Based Approach
 
 The principle was first articulated by Dr. Bertrand Meyer in his seminal
-1988 book, *Object-Oriented Software Construction*.<sup>1</sup> In an
+1988 book, _Object-Oriented Software Construction_.<sup>1</sup> In an
 era when object-oriented programming (OOP) was solidifying its place in
 the industry, Meyer sought to address a fundamental dilemma in software
 development: how to create reusable software modules, like libraries,
@@ -134,18 +134,18 @@ fixes; correcting errors in existing code is always permissible and
 necessary.<sup>14</sup> The "closure" applies specifically to the
 context of extending the system with
 
-*new features* or accommodating *new requirements*. The goal is to
+_new features_ or accommodating _new requirements_. The goal is to
 contain the ripple effect of change, ensuring that the addition of a new
 capability does not force modifications upon the stable, high-level
 modules of the system.
 
-| Feature | Bertrand Meyer's OCP (1988) | Robert C. Martin's Polymorphic OCP (c. 1996) |
-|----|----|----|
-| **Primary Mechanism** | Implementation Inheritance | Abstract Interfaces & Polymorphism |
-| **Core Concept** | Extend a concrete class to add new functionality. | Implement a stable interface to provide new, substitutable behavior. |
-| **Coupling** | Tightly couples the subclass to the superclass implementation. | Loosely couples the client and implementation through an abstraction. |
-| **Key Benefit** | Allows extension without recompiling the original class. | Enables dynamic, pluggable architectures and isolates clients from changes in implementations. |
-| **Main Criticism** | Leads to deep, fragile inheritance hierarchies; violates "composition over inheritance." | Can lead to over-engineering if abstractions are created prematurely. |
+| Feature               | Bertrand Meyer's OCP (1988)                                                              | Robert C. Martin's Polymorphic OCP (c. 1996)                                                   |
+| --------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Primary Mechanism** | Implementation Inheritance                                                               | Abstract Interfaces & Polymorphism                                                             |
+| **Core Concept**      | Extend a concrete class to add new functionality.                                        | Implement a stable interface to provide new, substitutable behavior.                           |
+| **Coupling**          | Tightly couples the subclass to the superclass implementation.                           | Loosely couples the client and implementation through an abstraction.                          |
+| **Key Benefit**       | Allows extension without recompiling the original class.                                 | Enables dynamic, pluggable architectures and isolates clients from changes in implementations. |
+| **Main Criticism**    | Leads to deep, fragile inheritance hierarchies; violates "composition over inheritance." | Can lead to over-engineering if abstractions are created prematurely.                          |
 
 ## Part II: The Mechanics of Open/Closed Design
 
@@ -171,7 +171,7 @@ Robert C. Martin calls an "unbounded group of possible
 behaviors".<sup>11</sup> For example, an
 
 IPaymentGateway interface represents the abstract concept of processing
-a payment, but it does not specify *how* that payment is processed. This
+a payment, but it does not specify _how_ that payment is processed. This
 allows for an unbounded number of concrete implementations:
 StripeGateway, PayPalGateway, CryptoGateway, and so on.
 
@@ -237,12 +237,12 @@ AreaCalculator class designed to compute the area of various shapes.
 public class Rectangle {  
 public double width;  
 public double height;  
-}  
-  
+}
+
 public class Circle {  
 public double radius;  
-}  
-  
+}
+
 // A central calculator class that violates OCP.  
 public class AreaCalculator {  
 public double calculateArea(Object shape) {  
@@ -290,28 +290,28 @@ implement.<sup>2</sup>
 // This interface defines the stable contract for all shapes.  
 public interface IShape {  
 double CalculateArea();  
-}  
-  
+}
+
 // 2. Concrete Implementations (Open for extension)  
 // Each shape implements the contract and encapsulates its own logic.  
 public class Rectangle : IShape {  
 public double Width { get; set; }  
 public double Height { get; set; }  
 public double CalculateArea() =\> Width \* Height;  
-}  
-  
+}
+
 public class Circle : IShape {  
 public double Radius { get; set; }  
 public double CalculateArea() =\> Math.PI \* Math.Pow(Radius, 2);  
-}  
-  
+}
+
 // We can add a new shape without touching any existing code.  
 public class Triangle : IShape {  
 public double Base { get; set; }  
 public double Height { get; set; }  
 public double CalculateArea() =\> 0.5 \* Base \* Height;  
-}  
-  
+}
+
 // 3. The Client (Also closed for modification)  
 // The client depends only on the abstraction and is unaware of concrete
 types.  
@@ -462,7 +462,7 @@ own IPaymentStrategy instance. Instead, the concrete strategy is
 "injected" into it, typically via a constructor or a setter method. This
 decouples the client from the concrete implementations entirely. The
 client is closed not only to changes in the algorithm's logic but also
-to the decision of *which* algorithm to use.<sup>7</sup> This separation
+to the decision of _which_ algorithm to use.<sup>7</sup> This separation
 of concerns—where one part of the system uses a dependency and another
 part is responsible for creating and providing that dependency—is
 critical for building flexible, pluggable, and testable architectures
@@ -499,8 +499,8 @@ a prerequisite for effective OCP. SRP is concerned with cohesion; it
 guides us to create small, focused classes that each handle a single,
 well-defined responsibility.
 
-The relationship can be summarized as: **SRP helps you identify *what*
-to close; OCP tells you *how* to close it.**
+The relationship can be summarized as: **SRP helps you identify _what_
+to close; OCP tells you _how_ to close it.**
 
 If a class adheres to SRP, it has a single axis of change. This clarity
 makes it much easier to identify the points of potential variation and

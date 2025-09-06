@@ -26,9 +26,7 @@ export interface CollectionIndex {
 /**
  * Load a workout collection by ID from JSON data
  */
-export async function loadWorkoutCollection(
-  id: string,
-): Promise<{
+export async function loadWorkoutCollection(id: string): Promise<{
   id: string;
   title: string;
   description: string;
@@ -36,15 +34,16 @@ export async function loadWorkoutCollection(
 } | null> {
   try {
     // Create absolute URL for server-side and client-side compatibility
-    const baseUrl = typeof window !== 'undefined' 
-      ? window.location.origin 
-      : 'http://localhost:5173'; // Default for SSR development
-    
+    const baseUrl =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : "http://localhost:5173"; // Default for SSR development
+
     const url = `${baseUrl}/wheel-of-gains/data/collections/${id}.json`;
-    
+
     // Load the collection data from JSON
     const response = await fetch(url);
-    
+
     if (!response.ok) {
       console.warn(`Collection ${id} not found`);
       return null;
@@ -55,9 +54,10 @@ export async function loadWorkoutCollection(
     // Convert workout strings to Workout objects
     const workouts: Workout[] = collectionData.workouts.map((str, index) => {
       const parsed = parseWorkoutString(str);
-      const category = collectionData.id === "cardio" || collectionData.id === "intermediate" 
-        ? DEFAULT_CATEGORIES[1] // Cardio category
-        : DEFAULT_CATEGORIES[0]; // Strength category
+      const category =
+        collectionData.id === "cardio" || collectionData.id === "intermediate"
+          ? DEFAULT_CATEGORIES[1] // Cardio category
+          : DEFAULT_CATEGORIES[0]; // Strength category
 
       return {
         id: `workout-${Date.now()}-${index}`,
@@ -84,13 +84,14 @@ export async function loadWorkoutCollection(
  */
 export async function loadCollectionIndex(): Promise<CollectionIndex | null> {
   try {
-    const baseUrl = typeof window !== 'undefined' 
-      ? window.location.origin 
-      : 'http://localhost:5173'; // Default for SSR development
-    
+    const baseUrl =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : "http://localhost:5173"; // Default for SSR development
+
     const url = `${baseUrl}/wheel-of-gains/data/collections/index.json`;
     const response = await fetch(url);
-    
+
     if (!response.ok) {
       console.warn("Collection index not found");
       return null;

@@ -75,8 +75,8 @@ activity that must align with the structure and communication pathways
 of the organization it serves. The initial phrasing, centered on the
 code itself, invited abstract technical debates. The refined definition,
 however, is grounded in the human context of software development. The
-boundaries of a module are no longer determined by what the code *does*,
-but by *who* the code serves. Therefore, SRP is not merely a principle
+boundaries of a module are no longer determined by what the code _does_,
+but by _who_ the code serves. Therefore, SRP is not merely a principle
 of code organization; it is a principle of socio-technical alignment.
 Its ultimate goal is to create software modules whose boundaries mirror
 the boundaries of responsibility within the human organization, thereby
@@ -117,7 +117,7 @@ cost of ownership.
   a prerequisite for scalability; a system composed of independent,
   single-purpose components is far easier to grow and adapt over time.
   Empirical evidence supports this; one study published in the  
-  *Journal of Systems and Software* found that the application of SRP
+  _Journal of Systems and Software_ found that the application of SRP
   can reduce the number of bugs by up to 40%.<sup>11</sup>
 
 - **Improved Readability and Understandability:** A class with a single,
@@ -249,7 +249,7 @@ code becomes a battleground for competing departmental priorities.
 When a change requested by one actor breaks functionality critical to
 another, trust between the business and the engineering team is eroded.
 The COO, having been burned by a change from the CFO, will naturally
-become resistant to *any* future changes to the Employee class, even
+become resistant to _any_ future changes to the Employee class, even
 necessary ones, for fear of further disruption.<sup>7</sup> The shared
 module becomes a source of organizational gridlock.
 
@@ -345,16 +345,13 @@ communication tasks like sending emails or notifications.
   class UserManager {  
   fun addUser(user: User) { /\*... \*/ }  
   fun deleteUser(user: User) { /\*... \*/ }  
-  }  
-    
+  }
   class NotificationManager {  
   fun sendNotification(notification: String) { /\*... \*/ }  
-  }  
-    
+  }
   class MailManager {  
   fun sendEmail(user: User, email: String) { /\*... \*/ }  
-  }  
-    
+  }
   This refactoring results in a more modular design. A change in the
   email sending library will now only affect MailManager, leaving
   UserManager untouched.
@@ -403,8 +400,7 @@ data presentation.
   class Circle implements Shape {  
   //...  
   public function area() { return pi() \* pow(\$this-\>radius, 2); }  
-  }  
-    
+  }
   // Stage 2: Separate classes for calculation and presentation  
   class AreaCalculator {  
   protected \$shapes;  
@@ -416,8 +412,7 @@ data presentation.
   }  
   return array_sum(\$area);  
   }  
-  }  
-    
+  }
   class SumCalculatorOutputter {  
   protected \$calculator;  
   //... constructor...  
@@ -428,8 +423,7 @@ data presentation.
   public function JSON() {  
   return json_encode(\['sum' =\> \$this-\>calculator-\>sum()\]);  
   }  
-  }  
-    
+  }
   This design is vastly superior. The AreaCalculator now has a single
   responsibility: calculation. The SumCalculatorOutputter has a single
   responsibility: presentation. Adding a new shape (e.g., Triangle)
@@ -475,8 +469,7 @@ technology. Mixing these concerns is a common SRP violation.
   int age;  
   public:  
   //... getters and setters...  
-  };  
-    
+  };
   // New class to handle persistence  
   class StudentRepository {  
   private:  
@@ -485,8 +478,7 @@ technology. Mixing these concerns is a common SRP violation.
   void save(Student student) {  
   // Logic to save the student object using the connector  
   }  
-  };  
-    
+  };
   This separation decouples the business logic from the persistence
   mechanism. The Student class knows nothing about SQL or databases,
   making it more portable and easier to test. The StudentRepository
@@ -524,7 +516,7 @@ to build one.
 To understand SRP's role, it is essential to have precise definitions
 for these two terms:
 
-- **Cohesion:** This refers to the degree to which the elements *inside*
+- **Cohesion:** This refers to the degree to which the elements _inside_
   a single module belong together.<sup>20</sup> It is a measure of the
   internal strength and relatedness of a module's components. In a
   highly cohesive module, all elements (e.g., methods and properties in
@@ -533,7 +525,7 @@ for these two terms:
   unrelated functionalities, making them difficult to understand and
   maintain.<sup>5</sup>
 
-- **Coupling:** This refers to the degree of interdependence *between*
+- **Coupling:** This refers to the degree of interdependence _between_
   different modules.<sup>5</sup> It is a measure of how much one module
   knows about or relies on another. In a system with high (or tight)
   coupling, a change in one module is likely to necessitate changes in
@@ -584,8 +576,8 @@ HourReporter. A change in one cannot affect the other.
 
 This demonstrates that software engineering has long advocated for "high
 cohesion, low coupling," but these concepts remain descriptive qualities
-of a system. They articulate *what* a good design looks like but do not
-always provide a clear path on *how* to achieve it. The Single
+of a system. They articulate _what_ a good design looks like but do not
+always provide a clear path on _how_ to achieve it. The Single
 Responsibility Principle, with its "actor" definition, provides the
 missing prescriptive rule. It gives developers a concrete,
 business-driven heuristic for making design decisions. An architect can
@@ -641,7 +633,7 @@ MVC.<sup>26</sup> SRP, in contrast, is a class-level design principle
 that provides a specific rule—alignment with a single actor—for how to
 organize the code
 
-*within* one of those layers or sections.<sup>23</sup> Conflating the
+_within_ one of those layers or sections.<sup>23</sup> Conflating the
 two leads to a loss of precision; they are related but distinct tools
 for different levels of design.
 
@@ -691,7 +683,7 @@ reasons.<sup>14</sup> To fix the SRP violation, one might extract the
 charging logic into a
 
 PurchaseProcessor class. However, the PurchaseProcessor would then need
-to *ask* the Purchase object for its total amount to process the charge,
+to _ask_ the Purchase object for its total amount to process the charge,
 thus violating "Tell, Don't Ask." In such cases, there is no single
 "right" answer, and the designer must weigh the benefits of SRP
 (decoupling charging logic) against the benefits of "Tell, Don't Ask"
@@ -735,7 +727,7 @@ a matter of scale and specificity.<sup>23</sup>
   system.<sup>6</sup>
 
 - **Single Responsibility Principle (SRP)** is a lower-level,
-  class-design principle. It operates *within* the layers defined by
+  class-design principle. It operates _within_ the layers defined by
   SoC. It provides a specific, granular rule for organizing the classes
   and modules inside a single architectural layer. Its "responsibility"
   is tied to a specific actor, which is a much more focused concept than
@@ -743,7 +735,7 @@ a matter of scale and specificity.<sup>23</sup>
 
 In essence, SoC tells you to build separate rooms in your house
 (kitchen, bedroom, bathroom), while SRP tells you how to organize the
-items *inside* one of those rooms (e.g., in the kitchen, keep all the
+items _inside_ one of those rooms (e.g., in the kitchen, keep all the
 baking utensils together because they are used for the single purpose of
 baking).
 
@@ -775,7 +767,7 @@ and pop methods. This class arguably has a single responsibility:
 managing a last-in, first-out collection of items. It serves a single
 conceptual purpose and would likely be driven by a single actor. Thus,
 it satisfies SRP. However, imagine a client that only ever needs to
-*push* items onto the stack and never needs to *pop* them. By depending
+_push_ items onto the stack and never needs to _pop_ them. By depending
 on the full Stack interface, this client is forced into a dependency on
 the pop method, which it does not use. This violates ISP. A change to
 the pop method could force this push-only client to be recompiled or
@@ -786,12 +778,12 @@ class can implement.
 The following table crystallizes the distinctions between these
 often-conflated principles.
 
-| Dimension | Single Responsibility Principle (SRP) | Separation of Concerns (SoC) | Interface Segregation Principle (ISP) |
-|----|----|----|----|
-| **Focus** | The "actor" or source of change that a module serves. | The distinct functional areas of a system. | The needs of the client consuming an interface. |
-| **Scope** | Class / Module Level | Architectural / System Level | Interface Level |
-| **Guiding Question** | "Who is this code responsible to?" | "How can we divide the system into logical parts?" | "What methods does this specific client need?" |
-| **Primary Goal** | High Cohesion (grouping by actor). | Modularity and organization. | Low Coupling (decoupling clients from unused methods). |
+| Dimension            | Single Responsibility Principle (SRP)                 | Separation of Concerns (SoC)                       | Interface Segregation Principle (ISP)                  |
+| -------------------- | ----------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------ |
+| **Focus**            | The "actor" or source of change that a module serves. | The distinct functional areas of a system.         | The needs of the client consuming an interface.        |
+| **Scope**            | Class / Module Level                                  | Architectural / System Level                       | Interface Level                                        |
+| **Guiding Question** | "Who is this code responsible to?"                    | "How can we divide the system into logical parts?" | "What methods does this specific client need?"         |
+| **Primary Goal**     | High Cohesion (grouping by actor).                    | Modularity and organization.                       | Low Coupling (decoupling clients from unused methods). |
 
 Ultimately, SRP and ISP are complementary principles that work together
 to manage change effectively. SRP manages change originating from the
@@ -886,11 +878,11 @@ practical performance considerations.
 The choice between these strategies is a critical architectural decision
 in serverless design, requiring a careful balance of competing concerns.
 
-| Approach | Description | Benefits (Pros) | Issues (Cons) |
-|----|----|----|----|
-| **Single Responsibility** | One Lambda function per specific task/event. | Strong separation of concerns, granular configuration, better debuggability, potentially faster execution time. | Code duplication, complex maintenance, higher number of cold start invocations. |
-| **Lambda-lith** | One Lambda function for an entire API or multiple related tasks. | Fewer cold starts, higher code cohesion, simpler maintenance of shared configurations. | Coarse-grained configuration, potentially higher cold start *time*, larger package size. |
-| **Read/Write Split** | Separate functions for read operations (GET) and write operations (POST, PUT, DELETE). | Code cohesion where needed, optimizes read/write paths independently, evolutionary architecture. | Can introduce eventual consistency (if using CQRS), potentially more complex data models. |
+| Approach                  | Description                                                                            | Benefits (Pros)                                                                                                 | Issues (Cons)                                                                             |
+| ------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Single Responsibility** | One Lambda function per specific task/event.                                           | Strong separation of concerns, granular configuration, better debuggability, potentially faster execution time. | Code duplication, complex maintenance, higher number of cold start invocations.           |
+| **Lambda-lith**           | One Lambda function for an entire API or multiple related tasks.                       | Fewer cold starts, higher code cohesion, simpler maintenance of shared configurations.                          | Coarse-grained configuration, potentially higher cold start _time_, larger package size.  |
+| **Read/Write Split**      | Separate functions for read operations (GET) and write operations (POST, PUT, DELETE). | Code cohesion where needed, optimizes read/write paths independently, evolutionary architecture.                | Can introduce eventual consistency (if using CQRS), potentially more complex data models. |
 
 ### SRP in Component-Based UI Frameworks (e.g., React)
 
@@ -969,7 +961,7 @@ materializes.
 
 If two responsibilities are currently stable and have historically
 changed together in lockstep, separating them prematurely based on a
-theoretical possibility that they *might* diverge in the future is often
+theoretical possibility that they _might_ diverge in the future is often
 a form of over-engineering. The pragmatic approach is to apply the
 principle most rigorously where there is clear evidence of divergent
 change or a high probability of it based on the business context.

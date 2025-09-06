@@ -23,11 +23,11 @@ referred to as "role interfaces" because each one defines a single,
 logical role that a class might play within the system.<sup>1</sup>
 
 The term "client" in this context is multifaceted. It can refer to the
-class that *implements* an interface, which may be forced to provide
+class that _implements_ an interface, which may be forced to provide
 empty or exception-throwing implementations for methods it does not
 need.<sup>4</sup> It also refers to the class that
 
-*consumes* or calls methods on an object through its interface; such a
+_consumes_ or calls methods on an object through its interface; such a
 client is burdened with knowledge of methods that are irrelevant to its
 interaction with the object, creating unnecessary
 dependencies.<sup>5</sup> By segregating interfaces, systems ensure that
@@ -234,7 +234,7 @@ does not match the concrete reality.<sup>18</sup>
 
 This discrepancy between the abstract contract and the concrete
 implementation is, in effect, a "lie" within the codebase's type system.
-The interface *claims* a class possesses certain capabilities, while the
+The interface _claims_ a class possesses certain capabilities, while the
 implementation reveals it does not. This erosion of trust in the
 system's abstractions forces developers to rely on out-of-band knowledge
 about which specific implementations support which methods, leading to
@@ -296,15 +296,15 @@ public interface IWorker
 void Work();  
 void Eat();  
 void Sleep();  
-}  
-  
+}
+
 public class HumanWorker : IWorker  
 {  
 public void Work() { /\*... working logic... \*/ }  
 public void Eat() { /\*... eating logic... \*/ }  
 public void Sleep() { /\*... sleeping logic... \*/ }  
-}  
-  
+}
+
 public class RobotWorker : IWorker  
 {  
 public void Work() { /\*... working logic... \*/ }  
@@ -330,15 +330,15 @@ fat interface is segregated into smaller role interfaces:
 // ISP Adherence: Segregated "role" interfaces  
 public interface IWorkable { void Work(); }  
 public interface IEatable { void Eat(); }  
-public interface ISleepable { void Sleep(); }  
-  
+public interface ISleepable { void Sleep(); }
+
 public class HumanWorker : IWorkable, IEatable, ISleepable  
 {  
 public void Work() { /\*... \*/ }  
 public void Eat() { /\*... \*/ }  
 public void Sleep() { /\*... \*/ }  
-}  
-  
+}
+
 public class RobotWorker : IWorkable  
 {  
 public void Work() { /\*... \*/ }  
@@ -362,13 +362,13 @@ again, is segregation:
 // Segregated interfaces for different device roles  
 public interface IPrintable { void Print(Document d); }  
 public interface IScannable { void Scan(Document d); }  
-public interface IFaxable { void Fax(Document d); }  
-  
+public interface IFaxable { void Fax(Document d); }
+
 public class SimplePrinter : IPrintable  
 {  
 public void Print(Document d) { /\*... \*/ }  
-}  
-  
+}
+
 public class AllInOnePrinter : IPrintable, IScannable, IFaxable  
 {  
 public void Print(Document d) { /\*... \*/ }  
@@ -407,16 +407,13 @@ designing lean contracts between software components.
   name: string;  
   email: string;  
   lastLogin: Date;  
-  }  
-    
+  }
   interface UserGreetingProps {  
   user: User;  
-  }  
-    
+  }
   function UserGreeting({ user }: UserGreetingProps) {  
   return \<h1\>Hello, {user.name}!\</h1\>;  
-  }  
-    
+  }
   This component violates the spirit of ISP because its contract
   requires the caller to provide an entire User object, even though it
   only uses the name property.<sup>13</sup> This creates an unnecessary
@@ -427,12 +424,10 @@ designing lean contracts between software components.
   // ISP Adherence in React Props  
   interface UserGreetingProps {  
   name: string;  
-  }  
-    
+  }
   function UserGreeting({ name }: UserGreetingProps) {  
   return \<h1\>Hello, {name}!\</h1\>;  
-  }  
-    
+  }
   This version is more honest about its dependencies, is decoupled from
   the larger User object, and is simpler to test and reuse in different
   contexts.<sup>13</sup>
@@ -615,7 +610,7 @@ OCP much more difficult. If a system relies on a fat interface, adding a
 new method to that interface to support an extension will force a
 modification in
 
-*every* class that implements it, directly violating the "closed for
+_every_ class that implements it, directly violating the "closed for
 modification" rule.<sup>21</sup>
 
 ### ISP and LSP: Breaking the Link Between Fat Interfaces and Behavioral Subtyping Violations
@@ -648,8 +643,8 @@ high-level modules should not depend on low-level modules; both should
 depend on abstractions.<sup>9</sup> ISP, in turn, provides the guidance
 for what those abstractions should look like.
 
-DIP tells us *that* we should depend on interfaces, while ISP tells us
-*how* to design those interfaces: they should be small, cohesive, and
+DIP tells us _that_ we should depend on interfaces, while ISP tells us
+_how_ to design those interfaces: they should be small, cohesive, and
 client-specific.<sup>33</sup> The original solution to the Xerox problem
 is the canonical example of this synergy. Martin used DIP to introduce a
 layer of abstraction (interfaces) between the
@@ -664,13 +659,13 @@ ISP.
 To provide a clear, comparative overview, the distinct focus of each
 SOLID principle is summarized in the following table.
 
-| Principle | Mnemonic (S/O/L/I/D) | Core Statement | Primary Focus | Analogy |
-|----|----|----|----|----|
-| Single Responsibility | **S**ingle Responsibility Principle | A class should have only one reason to change. | Class Cohesion & Structure | A Swiss Army knife where each tool is a separate, dedicated object.<sup>34</sup> |
-| Open/Closed | **O**pen/Closed Principle | Software entities should be open for extension, but closed for modification. | Behavioral Extensibility | A phone that allows new apps (extensions) without needing to modify its operating system.<sup>35</sup> |
-| Liskov Substitution | **L**iskov Substitution Principle | Subtypes must be substitutable for their base types. | Inheritance & Subtyping Correctness | A square *is a* rectangle, but changing its width must not unexpectedly change its height.<sup>35</sup> |
-| Interface Segregation | **I**nterface Segregation Principle | No client should be forced to depend on methods it does not use. | Interface Cohesion & Client Dependencies | A specific TV remote vs. a universal remote with buttons for an AC unit.<sup>33</sup> |
-| Dependency Inversion | **D**ependency Inversion Principle | High-level modules should not depend on low-level modules. Both should depend on abstractions. | Decoupling & Abstraction Direction | Plugging an appliance into a standard wall socket (abstraction) instead of wiring it directly to the power grid.<sup>33</sup> |
+| Principle             | Mnemonic (S/O/L/I/D)                | Core Statement                                                                                 | Primary Focus                            | Analogy                                                                                                                       |
+| --------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Single Responsibility | **S**ingle Responsibility Principle | A class should have only one reason to change.                                                 | Class Cohesion & Structure               | A Swiss Army knife where each tool is a separate, dedicated object.<sup>34</sup>                                              |
+| Open/Closed           | **O**pen/Closed Principle           | Software entities should be open for extension, but closed for modification.                   | Behavioral Extensibility                 | A phone that allows new apps (extensions) without needing to modify its operating system.<sup>35</sup>                        |
+| Liskov Substitution   | **L**iskov Substitution Principle   | Subtypes must be substitutable for their base types.                                           | Inheritance & Subtyping Correctness      | A square _is a_ rectangle, but changing its width must not unexpectedly change its height.<sup>35</sup>                       |
+| Interface Segregation | **I**nterface Segregation Principle | No client should be forced to depend on methods it does not use.                               | Interface Cohesion & Client Dependencies | A specific TV remote vs. a universal remote with buttons for an AC unit.<sup>33</sup>                                         |
+| Dependency Inversion  | **D**ependency Inversion Principle  | High-level modules should not depend on low-level modules. Both should depend on abstractions. | Decoupling & Abstraction Direction       | Plugging an appliance into a standard wall socket (abstraction) instead of wiring it directly to the power grid.<sup>33</sup> |
 
 ## Pragmatic Application: Challenges, Pitfalls, and Best Practices
 

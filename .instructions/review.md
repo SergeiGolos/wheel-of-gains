@@ -1,20 +1,25 @@
 ### review
+
 Purpose
+
 - Ensure changes are correct, secure, maintainable, and aligned with product goals—fast and respectful.
 
 Inputs
+
 - Pull request link/branch and description with scope and task/bug IDs
 - Diff context (files changed) and related specs/design docs (`.spec/{feature}/*`)
 - CI status, test results, and benchmark snapshots if relevant
 - Repro steps or demo link for UX-facing changes
 
 Outputs
+
 - Clear decision: Approve / Request changes / Comment
 - Actionable comments with rationale and, when helpful, suggested diffs
 - Follow-up tasks/issues for non-blocking items with owners
 - Documentation updates noted or submitted (README, ADRs, CHANGELOG)
 
 Procedure
+
 1. Readiness check (gate)
    - PR has a crisp title/description, screenshots/GIFs for UX.
    - Scope is right-sized; commits reference task/bug IDs.
@@ -43,14 +48,17 @@ Procedure
 9. UX/accessibility (if applicable)
    - Keyboard nav, focus order, color contrast, localization.
 10. Dependencies and ops
-   - New deps justified/pinned; build size/startup/regression impact.
-   - Config/flags have defaults, ownership, and cleanup plan.
+
+- New deps justified/pinned; build size/startup/regression impact.
+- Config/flags have defaults, ownership, and cleanup plan.
 
 Acceptance criteria
+
 - No P0/P1 issues outstanding; required approvals obtained.
 - CI green; tests and docs updated where behavior changed.
 - CHANGELOG updated for user-facing changes.
 
 Hand-off
+
 - Approve with brief summary, or request changes with a concise checklist.
 - Link any non-blocking follow-ups; suggest staged rollout/flags for high risk.

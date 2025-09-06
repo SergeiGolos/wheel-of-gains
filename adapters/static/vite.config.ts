@@ -12,7 +12,7 @@ export default extendConfig(baseConfig, () => {
     },
     plugins: [
       staticAdapter({
-        origin: "https://SergeiGolos.github.io/wheel-of-gains",
+        origin: "https://wheel-of-gains.golos.work",
       }),
     ],
   };

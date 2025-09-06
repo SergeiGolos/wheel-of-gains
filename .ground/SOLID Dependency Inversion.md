@@ -74,11 +74,11 @@ The Dependency Inversion Principle, as codified by Robert C. Martin, is
 articulated through two canonical rules that are consistently cited
 across software engineering literature <sup>1</sup>:
 
-1.  *High-level modules should not depend on low-level modules. Both
-    should depend on abstractions.*
+1.  _High-level modules should not depend on low-level modules. Both
+    should depend on abstractions._
 
-2.  *Abstractions should not depend on details. Details (concrete
-    implementations) should depend on abstractions.*
+2.  _Abstractions should not depend on details. Details (concrete
+    implementations) should depend on abstractions._
 
 The language of these rules is deliberate. The term "depend" refers
 specifically to source code dependencies, such as import, using, or
@@ -103,7 +103,7 @@ business logic, policies, and abstract workflows of the
 application.<sup>14</sup> They represent the "important things" that
 define
 
-*what* the system does and embody the rules of the business
+_what_ the system does and embody the rules of the business
 domain.<sup>1</sup> For example, in an e-commerce system, the modules
 that handle order processing, pricing calculations, and inventory
 management are high-level. These policies are, in theory, the most
@@ -115,7 +115,7 @@ implement them.<sup>15</sup>
 implementation details and mechanisms required to execute the high-level
 policies.<sup>14</sup> They define
 
-*how* the system accomplishes its tasks. This includes interacting with
+_how_ the system accomplishes its tasks. This includes interacting with
 a database, sending an email, making an API call to a payment gateway,
 or writing to the file system.<sup>3</sup> These modules are inherently
 more volatile. The choice of database might change from MySQL to
@@ -143,7 +143,7 @@ classes. They act as a contract, defining a set of methods and
 properties that a high-level module requires to perform its function,
 without specifying
 
-*how* that function is implemented.<sup>1</sup> This creates a stable
+_how_ that function is implemented.<sup>1</sup> This creates a stable
 boundary, analogous to an electrical socket, which allows any compliant
 appliance (a low-level detail) to be plugged into the building's wiring
 (the high-level policy).<sup>17</sup>
@@ -162,7 +162,7 @@ inheritance, which must be carefully considered.<sup>1</sup>
 
 Crucially, the abstraction should be designed from the perspective of
 the client (the high-level module). It should model the abstract
-*interaction* between the modules, defining the services the high-level
+_interaction_ between the modules, defining the services the high-level
 module needs in the language of the business domain, not exposing the
 capabilities of a specific low-level tool.<sup>4</sup> For instance, an
 interface for a data persistence module should have methods like
@@ -377,18 +377,18 @@ export class CreditCardPaymentService {
 processPayment(amount: number): string {  
 return \`Processed payment of \$\${amount} via Credit Card.\`;  
 }  
-}  
-  
+}
+
 // payment.controller.ts  
 import { Controller, Get } from '@nestjs/common';  
 import { CreditCardPaymentService } from
-'./credit-card-payment.service';  
-  
+'./credit-card-payment.service';
+
 @Controller('payments')  
 export class PaymentController {  
 // Direct instantiation and dependency on a concrete class  
-private paymentService = new CreditCardPaymentService();  
-  
+private paymentService = new CreditCardPaymentService();
+
 @Get()  
 process(): string {  
 return this.paymentService.processPayment(100);  
@@ -438,19 +438,19 @@ PaymentService interface. They depend on the abstraction.
 
 // credit-card-payment.service.ts  
 import { Injectable } from '@nestjs/common';  
-import { PaymentService } from './payment-service.interface';  
-  
+import { PaymentService } from './payment-service.interface';
+
 @Injectable()  
 export class CreditCardPaymentService implements PaymentService {  
 processPayment(amount: number): string {  
 return \`Processed payment of \$\${amount} via Credit Card.\`;  
 }  
-}  
-  
+}
+
 // paypal-payment.service.ts  
 import { Injectable } from '@nestjs/common';  
-import { PaymentService } from './payment-service.interface';  
-  
+import { PaymentService } from './payment-service.interface';
+
 @Injectable()  
 export class PaypalPaymentService implements PaymentService {  
 processPayment(amount: number): string {  
@@ -467,13 +467,13 @@ interface. The concrete instance is "injected" via the constructor.
 
 // payment.controller.ts  
 import { Controller, Get } from '@nestjs/common';  
-import { PaymentService } from './payment-service.interface';  
-  
+import { PaymentService } from './payment-service.interface';
+
 @Controller('payments')  
 export class PaymentController {  
 // Dependency is on the abstraction  
-constructor(private readonly paymentService: PaymentService) {}  
-  
+constructor(private readonly paymentService: PaymentService) {}
+
 @Get()  
 process(): string {  
 return this.paymentService.processPayment(100);  
@@ -506,12 +506,12 @@ database.
 \# app_dip_before.py  
 class BackEnd:  
 def get_data_from_database(self):  
-return "Data from the database"  
-  
+return "Data from the database"
+
 class FrontEnd:  
 def \_\_init\_\_(self, back_end: BackEnd):  
-self.back_end = back_end  
-  
+self.back_end = back_end
+
 def display_data(self):  
 data = self.back_end.get_data_from_database()  
 print(f"Display data: {data}")
@@ -537,8 +537,8 @@ FrontEnd will use.
 > Python
 
 \# app_dip_after.py  
-from abc import ABC, abstractmethod  
-  
+from abc import ABC, abstractmethod
+
 class DataSource(ABC):  
 @abstractmethod  
 def get_data(self):  
@@ -553,8 +553,8 @@ DataSource abstraction.
 
 class Database(DataSource):  
 def get_data(self):  
-return "Data from the database"  
-  
+return "Data from the database"
+
 class API(DataSource):  
 def get_data(self):  
 return "Data from the API"
@@ -568,8 +568,8 @@ abstraction, not on any concrete implementation.
 
 class FrontEnd:  
 def \_\_init\_\_(self, data_source: DataSource):  
-self.data_source = data_source  
-  
+self.data_source = data_source
+
 def display_data(self):  
 data = self.data_source.get_data()  
 print(f"Display data: {data}")
@@ -600,16 +600,16 @@ public void sendNotification(String message) {
 // Logic to send an email  
 System.out.println("Sending Email: " + message);  
 }  
-}  
-  
+}
+
 // NotificationManager.java  
 public class NotificationManager {  
-private EmailNotificationService emailService;  
-  
+private EmailNotificationService emailService;
+
 public NotificationManager() {  
 this.emailService = new EmailNotificationService(); // Tight coupling  
-}  
-  
+}
+
 public void doNotify(String message) {  
 this.emailService.sendNotification(message);  
 }  
@@ -645,8 +645,8 @@ public class EmailNotificationService implements NotificationService {
 public void sendNotification(String message) {  
 System.out.println("Sending Email: " + message);  
 }  
-}  
-  
+}
+
 // SmsNotificationService.java  
 public class SmsNotificationService implements NotificationService {  
 @Override  
@@ -661,13 +661,13 @@ System.out.println("Sending SMS: " + message);
 
 // NotificationManager.java  
 public class NotificationManager {  
-private NotificationService notificationService;  
-  
+private NotificationService notificationService;
+
 // Dependency is injected via the constructor  
 public NotificationManager(NotificationService notificationService) {  
 this.notificationService = notificationService;  
-}  
-  
+}
+
 public void doNotify(String message) {  
 this.notificationService.sendNotification(message);  
 }  
@@ -729,8 +729,8 @@ relationship.<sup>8</sup> Under an IoC paradigm, a generic, reusable
 framework dictates the flow of execution and calls back into the
 custom-written code at specific points.
 
-This is famously known as the "Hollywood Principle": *Don't call us,
-we'll call you*.<sup>11</sup> The quintessential example is a modern
+This is famously known as the "Hollywood Principle": _Don't call us,
+we'll call you_.<sup>11</sup> The quintessential example is a modern
 graphical user interface (GUI) framework.<sup>10</sup> A developer does
 not write the main event loop that listens for mouse clicks, key
 presses, and window resize events. The framework provides this loop. The
@@ -782,7 +782,7 @@ injecting these dependencies throughout an application.<sup>8</sup>
 The Dependency Inversion Principle is a high-level architectural
 guideline and one of the five SOLID principles. Unlike DI (a pattern)
 and IoC (a paradigm), DIP is a rule about the structure of dependencies.
-It dictates *what* software modules should depend on, not *how* those
+It dictates _what_ software modules should depend on, not _how_ those
 dependencies are provided.<sup>11</sup>
 
 The core mandate of DIP is to depend on abstractions, not on concrete
@@ -837,10 +837,10 @@ abstractions rather than concretions.
 To crystallize these distinctions, the following table provides a direct
 comparison across key criteria.
 
-| **Concept** | **What It Is** | **Primary Goal** | **Example** |
-|----|----|----|----|
-| **Inversion of Control (IoC)** | A broad design paradigm. | To invert the flow of control from the application to a framework. | A UI framework that calls your onClick event handler.<sup>10</sup> |
-| **Dependency Injection (DI)** | A specific design pattern. | To provide a component with its dependencies from an external source. | A PaymentController's constructor accepting a paymentService object.<sup>7</sup> |
+| **Concept**                              | **What It Is**                                  | **Primary Goal**                                                                     | **Example**                                                                                                           |
+| ---------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| **Inversion of Control (IoC)**           | A broad design paradigm.                        | To invert the flow of control from the application to a framework.                   | A UI framework that calls your onClick event handler.<sup>10</sup>                                                    |
+| **Dependency Injection (DI)**            | A specific design pattern.                      | To provide a component with its dependencies from an external source.                | A PaymentController's constructor accepting a paymentService object.<sup>7</sup>                                      |
 | **Dependency Inversion Principle (DIP)** | A specific design principle (the 'D' in SOLID). | To ensure high-level modules depend on abstractions, not concrete low-level modules. | The paymentService object being of type IPaymentService (an interface), not CreditCardService (a class).<sup>11</sup> |
 
 ## V. Synergies and Interplay: DIP within the SOLID Framework
@@ -891,7 +891,7 @@ advocates for creating small, cohesive, client-specific interfaces
 rather than large, general-purpose ones.
 
 The relationship is symbiotic. When creating an abstraction to satisfy
-DIP, ISP provides the qualitative criteria for what makes a *good*
+DIP, ISP provides the qualitative criteria for what makes a _good_
 abstraction. If a high-level module only needs to read data, its
 dependency interface should not also include methods for writing,
 updating, and deleting data. A large, "fat" interface that includes
