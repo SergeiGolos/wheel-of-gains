@@ -124,23 +124,25 @@ export function createShareableUrl(
   baseUrl?: string,
 ): string {
   const encoded = encodeWorkoutCollection(collection);
-  
+
   // If baseUrl is not provided, construct it from current location
   if (!baseUrl) {
     const currentUrl = new URL(window.location.href);
     baseUrl = `${currentUrl.protocol}//${currentUrl.host}`;
-    
+
     // Determine the base path from current location
     const currentPath = currentUrl.pathname;
-    const basePath = currentPath.includes('/wheel-of-gains/') 
-      ? '/wheel-of-gains/' 
-      : '/';
-    
+    const basePath = currentPath.includes("/wheel-of-gains/")
+      ? "/wheel-of-gains/"
+      : "/";
+
     return `${baseUrl}${basePath}zip?data=${encodeURIComponent(encoded)}`;
   }
-  
+
   // Legacy support: if baseUrl is provided, assume it includes the full path
-  const path = baseUrl.includes('/wheel-of-gains') ? "/zip" : "/wheel-of-gains/zip";
+  const path = baseUrl.includes("/wheel-of-gains")
+    ? "/zip"
+    : "/wheel-of-gains/zip";
   return `${baseUrl}${path}?data=${encodeURIComponent(encoded)}`;
 }
 

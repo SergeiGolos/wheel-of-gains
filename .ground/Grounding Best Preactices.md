@@ -30,7 +30,7 @@ to internal representations of sensorimotor experiences and subjective
 feelings.<sup>4</sup> For LLMs, which lack such experiences, the process
 is one of
 
-*source grounding*: establishing a direct link between the generated
+_source grounding_: establishing a direct link between the generated
 text and a creditable, authoritative information source.<sup>4</sup>
 This act of connection serves as an enhancement to the model's machine
 learning process, enriching its base capabilities with highly relevant
@@ -68,8 +68,7 @@ setting.<sup>5</sup>
 
 The second critical failure is knowledge staleness. LLMs are trained on
 a static snapshot of data with a fixed knowledge cutoff date; for
-example, some GPT models were trained on data only up to September
-2021.<sup>3</sup> This inherent limitation means that for any rapidly
+example, some GPT models were trained on data only up to September 2021.<sup>3</sup> This inherent limitation means that for any rapidly
 evolving field, such as a specific technology, the model's internal
 knowledge is perpetually obsolete.<sup>3</sup> An ungrounded model is
 incapable of providing information about the latest product releases,
@@ -262,7 +261,7 @@ compensate for a poorly constructed knowledge base. For applications
 centered on a specific technology, the knowledge base will likely
 consist of diverse and complex document formats. A one-size-fits-all
 approach to ingestion is destined to fail. The optimal strategy requires
-a *modality-aware transformation pipeline*—a system that first
+a _modality-aware transformation pipeline_—a system that first
 identifies the type of data (e.g., PDF, source code, tabular data) and
 then routes it to a specialized processing path designed to preserve its
 unique structure and semantic meaning.
@@ -497,12 +496,12 @@ accommodate the generated chunks.
 
 **Table 1: Comparison of Document Chunking Strategies**
 
-| Strategy | Description | Pros | Cons | Best Use Case for Technical Docs |
-|----|----|----|----|----|
-| **Fixed-Size** | Splits text into uniform chunks based on a character or token count.<sup>43</sup> | Simple and fast to implement; low computational cost.<sup>43</sup> | High risk of context fragmentation; ignores semantic structure; often creates incoherent chunks.<sup>43</sup> | Not recommended for production systems; suitable only for initial prototyping with simple, unstructured text. |
-| **Recursive** | Splits text hierarchically using a list of separators (e.g., paragraphs, then sentences).<sup>27</sup> | More adaptive than fixed-size; better at preserving logical structure; good general-purpose starting point.<sup>43</sup> | Can still create suboptimal splits if document structure is inconsistent; effectiveness depends on clear separators.<sup>43</sup> | General technical prose, tutorials, and documents with clear paragraph and sentence structure. |
-| **Content-Aware** | Splits text based on the document's explicit structure (e.g., Markdown headers, HTML tags, code functions via AST).<sup>35</sup> | Creates highly coherent, contextually rich chunks; preserves the document's intended hierarchy and logic.<sup>35</sup> | Requires well-structured source documents; more complex to implement as it needs custom logic for each format.<sup>35</sup> | API documentation (split by endpoints/functions), code repositories (split by functions/classes), structured manuals (split by sections). |
-| **Semantic** | Splits text at points of low semantic similarity between consecutive sentences, indicating a topic shift.<sup>27</sup> | Creates the most semantically cohesive chunks; highly effective at improving retrieval relevance.<sup>41</sup> | Computationally more expensive; requires a high-quality embedding model for similarity calculations; effectiveness depends on threshold tuning.<sup>43</sup> | Dense, narrative-style technical documents like research papers, white papers, or design documents where topics shift without explicit headers. |
+| Strategy          | Description                                                                                                                      | Pros                                                                                                                     | Cons                                                                                                                                                         | Best Use Case for Technical Docs                                                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fixed-Size**    | Splits text into uniform chunks based on a character or token count.<sup>43</sup>                                                | Simple and fast to implement; low computational cost.<sup>43</sup>                                                       | High risk of context fragmentation; ignores semantic structure; often creates incoherent chunks.<sup>43</sup>                                                | Not recommended for production systems; suitable only for initial prototyping with simple, unstructured text.                                   |
+| **Recursive**     | Splits text hierarchically using a list of separators (e.g., paragraphs, then sentences).<sup>27</sup>                           | More adaptive than fixed-size; better at preserving logical structure; good general-purpose starting point.<sup>43</sup> | Can still create suboptimal splits if document structure is inconsistent; effectiveness depends on clear separators.<sup>43</sup>                            | General technical prose, tutorials, and documents with clear paragraph and sentence structure.                                                  |
+| **Content-Aware** | Splits text based on the document's explicit structure (e.g., Markdown headers, HTML tags, code functions via AST).<sup>35</sup> | Creates highly coherent, contextually rich chunks; preserves the document's intended hierarchy and logic.<sup>35</sup>   | Requires well-structured source documents; more complex to implement as it needs custom logic for each format.<sup>35</sup>                                  | API documentation (split by endpoints/functions), code repositories (split by functions/classes), structured manuals (split by sections).       |
+| **Semantic**      | Splits text at points of low semantic similarity between consecutive sentences, indicating a topic shift.<sup>27</sup>           | Creates the most semantically cohesive chunks; highly effective at improving retrieval relevance.<sup>41</sup>           | Computationally more expensive; requires a high-quality embedding model for similarity calculations; effectiveness depends on threshold tuning.<sup>43</sup> | Dense, narrative-style technical documents like research papers, white papers, or design documents where topics shift without explicit headers. |
 
 ### 4.2 Selecting Optimal Embedding Models for Technical Vocabularies
 
@@ -572,17 +571,17 @@ criteria:
 
 **Table 2: Embedding Model Selection Framework**
 
-| Model | Type | MTEB Retrieval Score (Avg) | Dimensionality | Max Context Window (Tokens) | Cost Model | Ideal For... |
-|----|----|----|----|----|----|----|
-| **OpenAI text-embedding-3-large** | Proprietary | ~64.6 | 3072 (default) | 8192 | Pay-per-token API <sup>51</sup> | High-performance general-purpose text retrieval where budget is less of a concern. |
-| **Cohere embed-english-v3.0** | Proprietary | ~64.4 | 1024 | 512 | Pay-per-token API <sup>46</sup> | General-purpose text retrieval with a focus on asymmetric search (different embeddings for query vs. document). |
-| **Google Gemini text-embedding-004** | Proprietary | N/A (Recent release) | 768 | 2048 | Pay-per-token API <sup>46</sup> | General and specialized retrieval, with performance boosts from task-type specification (e.g., for code).<sup>52</sup> |
-| **NVIDIA NV-Embed-v2** | Open-Source | ~72.3 | 4096 | 32768 | Self-hosted (Infrastructure cost) | Top-tier performance for scientific and technical text; very large context window is a major advantage.<sup>46</sup> |
-| **Jina Embeddings v3** | Open-Source | ~65.0 | 3072 (default) | 8192 | Self-hosted (Infrastructure cost) | High-performance, multimodal retrieval (text, code, images); flexible dimensionality.<sup>53</sup> |
-| **BAAI/bge-large-en-v1.5** | Open-Source | ~64.1 | 1024 | 512 | Self-hosted (Infrastructure cost) | A strong, widely-used open-source baseline for general-purpose text retrieval. |
+| Model                                | Type        | MTEB Retrieval Score (Avg) | Dimensionality | Max Context Window (Tokens) | Cost Model                        | Ideal For...                                                                                                           |
+| ------------------------------------ | ----------- | -------------------------- | -------------- | --------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **OpenAI text-embedding-3-large**    | Proprietary | ~64.6                      | 3072 (default) | 8192                        | Pay-per-token API <sup>51</sup>   | High-performance general-purpose text retrieval where budget is less of a concern.                                     |
+| **Cohere embed-english-v3.0**        | Proprietary | ~64.4                      | 1024           | 512                         | Pay-per-token API <sup>46</sup>   | General-purpose text retrieval with a focus on asymmetric search (different embeddings for query vs. document).        |
+| **Google Gemini text-embedding-004** | Proprietary | N/A (Recent release)       | 768            | 2048                        | Pay-per-token API <sup>46</sup>   | General and specialized retrieval, with performance boosts from task-type specification (e.g., for code).<sup>52</sup> |
+| **NVIDIA NV-Embed-v2**               | Open-Source | ~72.3                      | 4096           | 32768                       | Self-hosted (Infrastructure cost) | Top-tier performance for scientific and technical text; very large context window is a major advantage.<sup>46</sup>   |
+| **Jina Embeddings v3**               | Open-Source | ~65.0                      | 3072 (default) | 8192                        | Self-hosted (Infrastructure cost) | High-performance, multimodal retrieval (text, code, images); flexible dimensionality.<sup>53</sup>                     |
+| **BAAI/bge-large-en-v1.5**           | Open-Source | ~64.1                      | 1024           | 512                         | Self-hosted (Infrastructure cost) | A strong, widely-used open-source baseline for general-purpose text retrieval.                                         |
 
-*Note: MTEB scores are subject to change as the leaderboard is
-continuously updated. The scores provided are for general comparison.*
+_Note: MTEB scores are subject to change as the leaderboard is
+continuously updated. The scores provided are for general comparison._
 
 ### 4.3 Evaluating and Fine-Tuning Embeddings for Domain-Specific Nuance
 
@@ -692,7 +691,7 @@ can lead to poor retrieval results. Query transformation techniques
 address this by strategically modifying, expanding, or decomposing the
 user's query
 
-*before* it is sent to the retrieval system.
+_before_ it is sent to the retrieval system.
 
 - **Hypothetical Document Embeddings (HyDE)**: This is a powerful
   technique that addresses the query-document asymmetry problem. Instead
@@ -702,7 +701,7 @@ user's query
   containing factual inaccuracies, is rich in the vocabulary and
   structure that a truly relevant document would likely possess. The
   system then embeds this  
-  *hypothetical document* and uses that embedding for the retrieval
+  _hypothetical document_ and uses that embedding for the retrieval
   search. This often results in finding real documents that are more
   semantically aligned with the user's underlying intent.<sup>18</sup>
 
@@ -759,7 +758,7 @@ The key advantage of reranking comes from the type of model used. While
 the initial retrieval uses bi-encoders (which create separate embeddings
 for the query and documents), rerankers typically use
 **cross-encoders**. A cross-encoder processes the query and a candidate
-document *together* in a single pass, allowing it to perform deep,
+document _together_ in a single pass, allowing it to perform deep,
 token-level attention between the two.<sup>64</sup> This enables a much
 more nuanced and accurate judgment of relevance than is possible with a
 simple vector similarity score.
@@ -801,7 +800,7 @@ Effective prompt structures typically include several key components:
   mode.<sup>66</sup> An effective instruction is direct and explicit,
   such as:"You are an expert technical assistant. Use the following
   retrieved passages of context to answer the user's question. Your
-  answer must be based *only* on the information provided in the
+  answer must be based _only_ on the information provided in the
   context. Do not use any of your prior knowledge. If the context does
   not contain the information needed to answer the question, state that
   you cannot answer based on the provided sources." <sup>68</sup>
@@ -842,8 +841,8 @@ system must be designed to handle these imperfections.
   designed to instruct the LLM to acknowledge this conflict rather than
   arbitrarily choosing one version. For example:"If the provided context
   contains conflicting information on a topic, present both sides of the
-  conflict and cite the respective sources for each." <sup>26</sup>  
-    
+  conflict and cite the respective sources for each." <sup>26</sup>
+
   This approach surfaces the ambiguity to the end-user, allowing them to
   make an informed judgment, which is often preferable to the system
   making an opaque and potentially incorrect choice.
@@ -856,8 +855,8 @@ system must be designed to handle these imperfections.
   example:"When answering, prioritize information from the most recent
   document, as indicated by the 'creation_date' metadata. If sources
   conflict, defer to the one with the 'is_official_doc' flag set to
-  true." <sup>26</sup>  
-    
+  true." <sup>26</sup>
+
   This allows for a more deterministic resolution of conflicts based on
   predefined business logic.
 
@@ -873,7 +872,7 @@ system must be designed to handle these imperfections.
 ### 6.3 Generating Responses with Verifiable Citations and Source Attribution
 
 For an enterprise application, trust and verifiability are paramount.
-Users must be able to see *why* the LLM gave a particular answer.
+Users must be able to see _why_ the LLM gave a particular answer.
 Therefore, a critical function of the generation stage is to produce
 responses that include clear citations back to the source documents.
 
@@ -1161,15 +1160,15 @@ problems and have different operational profiles.<sup>79</sup>
 
 **Table 3: RAG vs. Fine-Tuning Decision Matrix**
 
-| Factor | Prioritize RAG When... | Prioritize Fine-Tuning When... |
-|----|----|----|
-| **Data Volatility** | The knowledge base is dynamic and changes frequently (e.g., daily or weekly updates). | The domain knowledge is relatively static and updates are infrequent. |
-| **Primary Goal** | The goal is factual accuracy and providing up-to-date information from a specific corpus. | The goal is to adapt the model's style, tone, or implicit understanding of a domain. |
-| **Hallucination Risk** | The highest priority is to minimize factual inventions and provide verifiable, citable answers. | The task is more about pattern recognition or style transfer than strict factual recall. |
-| **Data Privacy** | Sensitive data must remain in a secure, external system with its own access controls. | It is acceptable to use the data for training, and the fine-tuned model can be hosted securely. |
-| **Cost Profile** | You prefer lower upfront costs and can manage variable ongoing operational costs for retrieval. | You can afford a significant upfront investment in data curation and training for lower inference costs at scale. |
-| **Implementation Speed** | You need to deploy a solution quickly without a deep ML research team. | You have the time and ML expertise to manage a complex data preparation and training workflow. |
-| **Explainability** | It is critical to trace every piece of information in the response back to a specific source document. | The model's internal reasoning process is less important than the quality and style of the final output. |
+| Factor                   | Prioritize RAG When...                                                                                 | Prioritize Fine-Tuning When...                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| **Data Volatility**      | The knowledge base is dynamic and changes frequently (e.g., daily or weekly updates).                  | The domain knowledge is relatively static and updates are infrequent.                                             |
+| **Primary Goal**         | The goal is factual accuracy and providing up-to-date information from a specific corpus.              | The goal is to adapt the model's style, tone, or implicit understanding of a domain.                              |
+| **Hallucination Risk**   | The highest priority is to minimize factual inventions and provide verifiable, citable answers.        | The task is more about pattern recognition or style transfer than strict factual recall.                          |
+| **Data Privacy**         | Sensitive data must remain in a secure, external system with its own access controls.                  | It is acceptable to use the data for training, and the fine-tuned model can be hosted securely.                   |
+| **Cost Profile**         | You prefer lower upfront costs and can manage variable ongoing operational costs for retrieval.        | You can afford a significant upfront investment in data curation and training for lower inference costs at scale. |
+| **Implementation Speed** | You need to deploy a solution quickly without a deep ML research team.                                 | You have the time and ML expertise to manage a complex data preparation and training workflow.                    |
+| **Explainability**       | It is critical to trace every piece of information in the response back to a specific source document. | The model's internal reasoning process is less important than the quality and style of the final output.          |
 
 ### 8.2 Architecting Hybrid Systems: Leveraging the Strengths of Both Approaches
 
@@ -1236,8 +1235,8 @@ engineers working on a specific, proprietary technology.
   that has access to the latest API documentation and technical manuals.
   When an engineer asks, "How do I implement a secure authentication
   token using our standard crypto library?", the fine-tuned model
-  understands the *style* and *patterns* of the company's code, while
-  the RAG component provides the *specific, up-to-date facts* about the
+  understands the _style_ and _patterns_ of the company's code, while
+  the RAG component provides the _specific, up-to-date facts_ about the
   latest version of the crypto library's API. This combined approach
   delivers a response that is both contextually correct and
   stylistically appropriate.

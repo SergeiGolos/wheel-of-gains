@@ -9,7 +9,7 @@
 - **Deployment**: GitHub Pages (Static Site Generation)
 - **Status**: Production-ready with ongoing enhancements
 - **Repository**: [SergeiGolos/wheel-of-gains](https://github.com/SergeiGolos/wheel-of-gains)
-- **Live Demo**: [https://sergeigolos.github.io/wheel-of-gains](https://sergeigolos.github.io/wheel-of-gains)
+- **Live Demo**: [https://wheel-of-gains.golos.work](https://wheel-of-gains.golos.work)
 
 ## Core Features
 
@@ -23,6 +23,7 @@
 ## Module Architecture
 
 ### Frontend Components (`/src/components/`)
+
 - **workout/**: Core workout display and management components
   - `workout-display-page.tsx` - Main workout page container
   - `workout-wheel.tsx` - Canvas-based spinning wheel
@@ -33,17 +34,20 @@
 - **router-head/**: Document head management
 
 ### Routing Structure (`/src/routes/`)
+
 - **index.tsx**: Main workout wheel (Classic Mix category)
 - **Category Routes**: `/beginner/`, `/intermediate/`, `/advanced/`, `/cardio/`, `/strength/`
 - **Management Routes**: `/edit/` for workout customization
 - **Utility Routes**: `/zip/` for data export functionality
 
 ### Business Logic (`/src/utils/`)
+
 - **workout-collections.ts**: Predefined workout categories and exercises
 - **storage.ts**: Local storage abstraction layer
 - **types.ts**: TypeScript interfaces and type definitions
 
 ### Configuration & Build
+
 - **vite.config.ts**: Build configuration with GitHub Pages support
 - **package.json**: Dependencies and build scripts
 - **tsconfig.json**: TypeScript compiler configuration
@@ -52,11 +56,13 @@
 ## Testing Infrastructure
 
 ### Component Testing (`/.storybook/`)
+
 - **Storybook 8.x**: Component isolation and visual testing
 - **Accessibility Testing**: Built-in a11y addon for compliance checking
 - **Documentation**: Interactive component documentation
 
 ### End-to-End Testing (`/tests/`)
+
 - **Playwright**: Cross-browser automated testing
 - **Storybook Integration**: Test components in isolation
 - **CI/CD Integration**: Automated testing in GitHub Actions
@@ -64,21 +70,24 @@
 ## Development Workflow
 
 ### Local Development
+
 ```bash
 npm run dev          # Start development server
-npm run storybook    # Launch component playground  
+npm run storybook    # Launch component playground
 npm run test:playwright # Run e2e tests
 npm run lint         # Code quality checks
 npm run fmt          # Code formatting
 ```
 
 ### Quality Assurance
+
 - **ESLint**: TypeScript and Qwik-specific linting rules
 - **Prettier**: Consistent code formatting with Tailwind plugin
 - **TypeScript**: Strict type checking and compilation
 - **Automated Testing**: Playwright tests run on every PR
 
 ### Deployment Pipeline
+
 - **GitHub Actions**: Automated CI/CD pipeline
 - **Static Site Generation**: Pre-rendered pages for optimal performance
 - **GitHub Pages**: Automatic deployment on main branch updates
@@ -87,6 +96,7 @@ npm run fmt          # Code formatting
 ## Data Architecture
 
 ### Workout Data Structure
+
 ```typescript
 interface Workout {
   name: string;
@@ -102,6 +112,7 @@ interface WorkoutCollection {
 ```
 
 ### Storage Strategy
+
 - **Local Storage**: Persists user customizations and preferences
 - **Static Data**: Predefined workouts bundled with application
 - **Import/Export**: JSON-based backup and restore functionality
@@ -138,5 +149,5 @@ interface WorkoutCollection {
 
 ---
 
-*Last Updated: January 2025*
-*Maintained by: SergeiGolos*
+_Last Updated: January 2025_
+_Maintained by: SergeiGolos_

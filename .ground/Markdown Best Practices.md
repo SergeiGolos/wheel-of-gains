@@ -526,16 +526,16 @@ un-opinionated flexibility of a general-purpose SSG.
 The following table provides a comparative analysis to aid in this
 decision-making process.
 
-| Feature | Docusaurus | MkDocs (with Material) | Hugo |
-|----|----|----|----|
-| **Core Technology** | JavaScript, React | Python, Jinja2 | Go, Go Templates |
-| **Ease of Setup** | Easy (npm-based) | Very Easy (pip-based, simple YAML) | Moderate (single binary, but complex config) |
-| **Built-in Versioning** | Yes, first-class feature <sup>38</sup> | No (requires mike plugin) <sup>40</sup> | No (difficult to implement manually) <sup>40</sup> |
-| **Search** | Algolia DocSearch integration (built-in) <sup>46</sup> | Excellent client-side search (built-in with Material) <sup>47</sup> | No built-in search (requires third-party integration) |
-| **Customization** | High (React components via MDX) <sup>35</sup> | Moderate (theming, plugins) <sup>33</sup> | Very High (powerful but complex templating) <sup>42</sup> |
-| **Plugin Ecosystem** | Good, growing | Good, many useful plugins <sup>33</sup> | Limited (uses "modules," not a traditional plugin system) |
-| **Performance** | Good <sup>44</sup> | Very Good | Exceptional (fastest build times) <sup>38</sup> |
-| **Ideal Use Case** | Large open-source projects, interactive docs <sup>35</sup> | Internal docs, projects needing quick setup, Python ecosystems <sup>35</sup> | Large-scale sites where build speed is paramount, blogs <sup>35</sup> |
+| Feature                 | Docusaurus                                                 | MkDocs (with Material)                                                       | Hugo                                                                  |
+| ----------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **Core Technology**     | JavaScript, React                                          | Python, Jinja2                                                               | Go, Go Templates                                                      |
+| **Ease of Setup**       | Easy (npm-based)                                           | Very Easy (pip-based, simple YAML)                                           | Moderate (single binary, but complex config)                          |
+| **Built-in Versioning** | Yes, first-class feature <sup>38</sup>                     | No (requires mike plugin) <sup>40</sup>                                      | No (difficult to implement manually) <sup>40</sup>                    |
+| **Search**              | Algolia DocSearch integration (built-in) <sup>46</sup>     | Excellent client-side search (built-in with Material) <sup>47</sup>          | No built-in search (requires third-party integration)                 |
+| **Customization**       | High (React components via MDX) <sup>35</sup>              | Moderate (theming, plugins) <sup>33</sup>                                    | Very High (powerful but complex templating) <sup>42</sup>             |
+| **Plugin Ecosystem**    | Good, growing                                              | Good, many useful plugins <sup>33</sup>                                      | Limited (uses "modules," not a traditional plugin system)             |
+| **Performance**         | Good <sup>44</sup>                                         | Very Good                                                                    | Exceptional (fastest build times) <sup>38</sup>                       |
+| **Ideal Use Case**      | Large open-source projects, interactive docs <sup>35</sup> | Internal docs, projects needing quick setup, Python ecosystems <sup>35</sup> | Large-scale sites where build speed is paramount, blogs <sup>35</sup> |
 
 ## Part V: Automating the Documentation Lifecycle with CI/CD
 
@@ -772,8 +772,8 @@ choosing one and applying it consistently.
   from voice and tone to accessibility and text formatting. A key
   feature is its defined hierarchy of authority: writers should follow
   project-specific rules first, then the Google guide, and finally
-  third-party references like the *Chicago Manual of
-  Style*.<sup>73</sup> This structure provides a robust framework for
+  third-party references like the _Chicago Manual of
+  Style_.<sup>73</sup> This structure provides a robust framework for
   decision-making, empowering writers to make context-appropriate
   choices while maintaining a consistent foundation.
 

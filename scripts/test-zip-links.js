@@ -25,5 +25,5 @@ console.log(
 
 console.log("\n🔧 For Production Testing:");
 console.log(
-  'Replace "http://localhost:5173" with "https://SergeiGolos.github.io"',
+  'Replace "http://localhost:5173" with "https://wheel-of-gains.golos.work"',
 );

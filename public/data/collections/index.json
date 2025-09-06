@@ -7,7 +7,7 @@
       "file": "classic.json"
     },
     "beginner": {
-      "title": "Beginner Friendly", 
+      "title": "Beginner Friendly",
       "description": "Perfect for those just starting their fitness journey!",
       "category": "strength",
       "file": "beginner.json"

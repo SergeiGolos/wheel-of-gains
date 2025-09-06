@@ -38,8 +38,9 @@ export default component$(() => {
         state.error = null;
 
         // Extract collection ID from URL path
-        const pathParts = location.url.pathname.split('/');
-        const collectionId = pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
+        const pathParts = location.url.pathname.split("/");
+        const collectionId =
+          pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
 
         if (!collectionId) {
           throw new Error("No collection ID found in URL");
@@ -67,7 +68,8 @@ export default component$(() => {
         state.isLoading = false;
       } catch (error) {
         console.error("Failed to load workout collection:", error);
-        state.error = "Failed to load workout collection. Using classic collection instead.";
+        state.error =
+          "Failed to load workout collection. Using classic collection instead.";
         state.workouts = WORKOUT_COLLECTIONS.classic.workouts;
         state.pageTitle = WORKOUT_COLLECTIONS.classic.title;
         state.pageDescription = WORKOUT_COLLECTIONS.classic.description;

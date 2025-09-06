@@ -102,13 +102,13 @@ The following table provides a high-level summary of each principle,
 serving as a conceptual roadmap for the detailed analysis in the
 subsequent sections.
 
-| **Principle** | **Acronym** | **Core Idea** | **Problem Solved** |
-|----|----|----|----|
-| Single Responsibility | **S**RP | A class should have only one reason to change, driven by a single actor. | Low cohesion, high coupling, change fragility, merge conflicts. |
-| Open-Closed | **O**CP | Entities should be open for extension, but closed for modification. | System instability from modifying existing, tested code for new features. |
-| Liskov Substitution | **L**SP | Subtypes must be behaviorally substitutable for their base types. | Broken inheritance hierarchies, unpredictable polymorphic behavior. |
-| Interface Segregation | **I**SP | Clients should not be forced to depend on methods they do not use. | "Fat" interfaces causing unnecessary coupling and recompilation cascades. |
-| Dependency Inversion | **D**IP | Depend on abstractions, not on concretions. | Rigid, tightly-coupled, untestable modules where policy depends on detail. |
+| **Principle**         | **Acronym** | **Core Idea**                                                            | **Problem Solved**                                                         |
+| --------------------- | ----------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Single Responsibility | **S**RP     | A class should have only one reason to change, driven by a single actor. | Low cohesion, high coupling, change fragility, merge conflicts.            |
+| Open-Closed           | **O**CP     | Entities should be open for extension, but closed for modification.      | System instability from modifying existing, tested code for new features.  |
+| Liskov Substitution   | **L**SP     | Subtypes must be behaviorally substitutable for their base types.        | Broken inheritance hierarchies, unpredictable polymorphic behavior.        |
+| Interface Segregation | **I**SP     | Clients should not be forced to depend on methods they do not use.       | "Fat" interfaces causing unnecessary coupling and recompilation cascades.  |
+| Dependency Inversion  | **D**IP     | Depend on abstractions, not on concretions.                              | Rigid, tightly-coupled, untestable modules where policy depends on detail. |
 
 ## Section 2: The Principle of Cohesion: Single Responsibility Principle (SRP)
 
@@ -293,7 +293,7 @@ interpretation, reflecting a deeper understanding of object-oriented
 design.
 
 - **Bertrand Meyer's Original Formulation (1988):** In his book
-  *Object-Oriented Software Construction*, Bertrand Meyer first
+  _Object-Oriented Software Construction_, Bertrand Meyer first
   articulated the principle: "software entities (classes, modules,
   functions, etc.) should be open for extension, but closed for
   modification".<sup>15</sup> At the time, Meyer's primary mechanism for
@@ -398,8 +398,8 @@ for extension":
 // Concrete Implementations (Open for Extension)  
 public class USAShipping implements ShippingCost {  
 public double calculate() { return 10.0; }  
-}  
-  
+}
+
 public class CanadaShipping implements ShippingCost {  
 public double calculate() { return 20.0; }  
 }
@@ -609,11 +609,11 @@ powerful signal that the software's domain model is flawed. The
 Square/Rectangle problem arises from modeling a geometric taxonomy
 without considering the operational context of the program. In a program
 where width and height can be modified independently, a square does
-*not* behave like a rectangle. The LSP violation forces the developer to
+_not_ behave like a rectangle. The LSP violation forces the developer to
 confront this mismatch between the model and the domain's operational
 rules. It is therefore a crucial tool for domain modeling, shifting the
-focus from what an object *is* to what an object *does* and
-*guarantees*, leading to more accurate and robust abstractions.
+focus from what an object _is_ to what an object _does_ and
+_guarantees_, leading to more accurate and robust abstractions.
 
 ## Section 5: The Principle of Client-Centric Interfaces: Interface Segregation Principle (ISP)
 
@@ -706,8 +706,8 @@ distinct role interfaces:
 // Adherence to ISP - Segregated Interfaces  
 interface Workable {  
 void work();  
-}  
-  
+}
+
 interface Eatable {  
 void eat();  
 }
@@ -894,7 +894,7 @@ boundaries. The high-level modules represent the stable, core business
 logic of an application, while the low-level modules represent volatile
 infrastructure details (databases, web frameworks, third-party APIs).
 DIP ensures that all dependency arrows point from the volatile
-infrastructure *towards* the stable core. The core defines the
+infrastructure _towards_ the stable core. The core defines the
 interfaces it needs, and the infrastructure layer provides the concrete
 implementations. This is the foundational concept behind modern
 architectural patterns like Hexagonal Architecture (Ports and Adapters)
@@ -946,7 +946,7 @@ one often enabling or necessitating the application of another.
 
 - **ISP as a Refinement for DIP:** The Dependency Inversion Principle
   mandates dependency on abstractions, but the Interface Segregation
-  Principle provides the guidance for creating *good* abstractions.
+  Principle provides the guidance for creating _good_ abstractions.
   Depending on a small, cohesive, role-based interface (ISP) is far more
   effective than depending on a large, volatile, "fat" one. ISP thus
   refines the application of DIP, ensuring that the resulting
@@ -984,7 +984,7 @@ volatility and towards stability.
 1.  **SRP and ISP** are principles of **creation**. They guide the
     creation of small, stable, highly cohesive modules and
     interfaces—the ideal targets for dependencies. These are the things
-    one *wants* to depend on.
+    one _wants_ to depend on.
 
 2.  **DIP** is the **master rule of direction**. It explicitly states
     that dependencies must flow from more volatile components (concrete
@@ -1176,7 +1176,7 @@ are made to last.
     [<u>https://medium.com/@youngjun_kim/how-the-solid-principles-guide-object-oriented-design-examples-of-violations-and-their-8bacac9dda23</u>](https://medium.com/@youngjun_kim/how-the-solid-principles-guide-object-oriented-design-examples-of-violations-and-their-8bacac9dda23)
 
 9.  giovannamoeller.medium.com, accessed August 22, 2025,
-    [<u>https://giovannamoeller.medium.com/the-single-responsibility-principle-srp-of-solid-eb2feed0c64b#:~:text=The%20Single%20Responsibility%20Principle%20(SRP)%2C%20the%20first%20of%20the,part%20of%20the%20software's%20functionality.</u>](https://giovannamoeller.medium.com/the-single-responsibility-principle-srp-of-solid-eb2feed0c64b#:~:text=The%20Single%20Responsibility%20Principle%20(SRP)%2C%20the%20first%20of%20the,part%20of%20the%20software's%20functionality.)
+    [<u>https://giovannamoeller.medium.com/the-single-responsibility-principle-srp-of-solid-eb2feed0c64b#:~:text=The%20Single%20Responsibility%20Principle%20(SRP)%2C%20the%20first%20of%20the,part%20of%20the%20software's%20functionality.</u>](<https://giovannamoeller.medium.com/the-single-responsibility-principle-srp-of-solid-eb2feed0c64b#:~:text=The%20Single%20Responsibility%20Principle%20(SRP)%2C%20the%20first%20of%20the,part%20of%20the%20software's%20functionality.>)
 
 10. Single responsibility and Separation of concerns principles \[Real
     use cases\], accessed August 22, 2025,

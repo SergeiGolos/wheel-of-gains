@@ -53,9 +53,9 @@ clarifies this in terms of program behavior:
 > unchanged when o1​ is substituted for o2​, then S is a subtype of
 > T.<sup>6</sup>
 
-This definition makes it clear that LSP is a *semantic* relationship,
+This definition makes it clear that LSP is a _semantic_ relationship,
 concerned with behavior and correctness, rather than a merely
-*syntactic* one based on class inheritance hierarchies.<sup>6</sup>
+_syntactic_ one based on class inheritance hierarchies.<sup>6</sup>
 
 ### The Core Tension: "Is-A" vs. "Is-Substitutable-For"
 
@@ -67,7 +67,7 @@ more stringent and behavior-focused evaluation. If the
 
 Bird superclass has a fly() method, the Penguin subclass cannot fulfill
 this behavior. The taxonomic "is-a" relationship holds, but the
-behavioral contract is broken. The Penguin is not *substitutable* for a
+behavioral contract is broken. The Penguin is not _substitutable_ for a
 generic Bird in a context that expects all birds to fly.
 
 This tension reveals that LSP's primary function extends beyond
@@ -87,7 +87,7 @@ role-based interfaces—a pattern observed in numerous refactoring
 examples.<sup>8</sup> LSP, therefore, compels a shift from modeling what
 things
 
-*are* to modeling what they *do*, which is the cornerstone of building
+_are_ to modeling what they _do_, which is the cornerstone of building
 flexible and maintainable software.<sup>12</sup>
 
 ## The Formal Contract: Rules of Behavioral Subtyping
@@ -111,7 +111,7 @@ work with the supertype.
 
 #### Preconditions Cannot Be Strengthened
 
-A precondition is a set of conditions that must be true *before* a
+A precondition is a set of conditions that must be true _before_ a
 method is invoked.<sup>14</sup> LSP mandates that a subtype's method
 cannot impose stricter preconditions than the supertype's method. In
 other words, the subtype cannot be "pickier" about its inputs; it must
@@ -128,7 +128,7 @@ same range of data as the base type.<sup>16</sup>
 
 #### Postconditions Cannot Be Weakened
 
-A postcondition is a set of conditions that must be true *after* a
+A postcondition is a set of conditions that must be true _after_ a
 method has completed its execution.<sup>14</sup> LSP requires that a
 subtype's method must fulfill all the postconditions of the supertype's
 method. It is allowed to provide stronger guarantees (strengthen the
@@ -191,7 +191,7 @@ some of these rules at the compiler level.
 #### Variance of Method Arguments (Contravariance)
 
 LSP requires that the parameter types of an overridden method in a
-subtype be *contravariant*. This means they must be the same as, or a
+subtype be _contravariant_. This means they must be the same as, or a
 supertype of, the parameter types in the supertype's method.<sup>6</sup>
 This rule is often counter-intuitive. For example, if a superclass
 method is
@@ -201,12 +201,12 @@ This ensures that any argument that was valid for the original method
 (any Dog) is also valid for the overridden method (since a Dog is an
 Animal). Most mainstream languages like Java and C# do not support
 contravariant parameter types in method overriding and instead enforce
-*invariance* (the types must match exactly).
+_invariance_ (the types must match exactly).
 
 #### Variance of Return Types (Covariance)
 
 Conversely, the return type of an overridden method in a subtype must be
-*covariant*. This means the return type must be the same as, or a
+_covariant_. This means the return type must be the same as, or a
 subtype of, the return type in the supertype's method.<sup>6</sup> For
 instance, if a superclass method
 
@@ -230,15 +230,15 @@ handling and potentially crash the program.
 To consolidate these formal requirements, the following table provides a
 quick-reference guide to the core rules of LSP.
 
-| **LSP Constraint Category** | **Rule for Subtype Method** | **Rationale** |
-|----|----|----|
-| **Preconditions** | Cannot be strengthened. (Must be weaker or equal). | The subtype must accept at least all inputs the supertype accepts. |
-| **Postconditions** | Cannot be weakened. (Must be stronger or equal). | The subtype must fulfill all guarantees made by the supertype. |
-| **Invariants** | Must be preserved. | The subtype must not violate the fundamental state consistency of the supertype. |
-| **History Constraint** | State changes must be consistent with the supertype's methods. | New methods in the subtype cannot introduce states the supertype couldn't reach. |
-| **Method Arguments** | Contravariant (must accept same or more general types). | To ensure any argument valid for the supertype is valid for the subtype. |
-| **Return Types** | Covariant (must return same or more specific types). | To ensure the client receives a type it can handle. |
-| **Exceptions** | Must be subtypes of exceptions thrown by the supertype method. | To prevent breaking client error-handling logic. |
+| **LSP Constraint Category** | **Rule for Subtype Method**                                    | **Rationale**                                                                    |
+| --------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Preconditions**           | Cannot be strengthened. (Must be weaker or equal).             | The subtype must accept at least all inputs the supertype accepts.               |
+| **Postconditions**          | Cannot be weakened. (Must be stronger or equal).               | The subtype must fulfill all guarantees made by the supertype.                   |
+| **Invariants**              | Must be preserved.                                             | The subtype must not violate the fundamental state consistency of the supertype. |
+| **History Constraint**      | State changes must be consistent with the supertype's methods. | New methods in the subtype cannot introduce states the supertype couldn't reach. |
+| **Method Arguments**        | Contravariant (must accept same or more general types).        | To ensure any argument valid for the supertype is valid for the subtype.         |
+| **Return Types**            | Covariant (must return same or more specific types).           | To ensure the client receives a type it can handle.                              |
+| **Exceptions**              | Must be subtypes of exceptions thrown by the supertype method. | To prevent breaking client error-handling logic.                                 |
 
 ## The Canonical Violation: An Autopsy of the Rectangle vs. Square Problem
 
@@ -264,11 +264,11 @@ getArea().
 public class Rectangle  
 {  
 public virtual int Width { get; set; }  
-public virtual int Height { get; set; }  
-  
+public virtual int Height { get; set; }
+
 public int GetArea() =\> Width \* Height;  
-}  
-  
+}
+
 // Seemingly logical, but flawed inheritance  
 public class Square : Rectangle  
 {  
@@ -280,8 +280,8 @@ set
 base.Width = value;  
 base.Height = value; // Maintain square invariant  
 }  
-}  
-  
+}
+
 public override int Height  
 {  
 get =\> base.Height;  
@@ -359,20 +359,20 @@ class.<sup>4</sup>
 public interface IShape  
 {  
 int GetArea();  
-}  
-  
+}
+
 public class Rectangle : IShape  
 {  
 public int Width { get; set; }  
-public int Height { get; set; }  
-  
+public int Height { get; set; }
+
 public int GetArea() =\> Width \* Height;  
-}  
-  
+}
+
 public class Square : IShape  
 {  
-public int SideLength { get; set; }  
-  
+public int SideLength { get; set; }
+
 public int GetArea() =\> SideLength \* SideLength;  
 }
 
@@ -386,7 +386,7 @@ substitutability where it is behaviorally appropriate.
 The Rectangle vs. Square problem is not an abstract theoretical puzzle;
 it reveals a deep truth about object-oriented design. The violation is
 not fundamentally about geometry but about state management, and it is
-almost entirely catalyzed by mutability. An immutable Square *can* be a
+almost entirely catalyzed by mutability. An immutable Square _can_ be a
 valid subtype of an immutable Rectangle. Consider a design with no
 setters, where dimensions are fixed at construction: an immutable
 Square(side) could call the Rectangle(side, side) constructor. All
@@ -449,20 +449,20 @@ violations.
   public void fly() {  
   System.out.println("This bird is flying.");  
   }  
-  }  
-    
+  }
+
   public class Penguin extends Bird {  
   @Override  
   public void fly() {  
   throw new UnsupportedOperationException("Penguins can't fly!");  
   }  
-  }  
-    
+  }
+
   // Client code  
   public void makeBirdFly(Bird bird) {  
   bird.fly(); // This will crash if a Penguin is passed in.  
-  }  
-    
+  }
+
   Any client code that receives a Bird object and calls fly() will crash
   if that object is a Penguin, violating LSP.
 
@@ -475,24 +475,20 @@ violations.
   public class Bird {  
   public void eat() { /\*... \*/ }  
   public void walk() { /\*... \*/ }  
-  }  
-    
+  }
   public interface Flyable {  
   void fly();  
-  }  
-    
+  }
   public class Sparrow extends Bird implements Flyable {  
   @Override  
   public void fly() {  
   System.out.println("Sparrow flying high.");  
   }  
-  }  
-    
+  }
   public class Penguin extends Bird {  
   // No fly() method, as Penguins do not implement Flyable.  
   public void swim() { /\*... \*/ }  
-  }  
-    
+  }
   With this design, client code that needs flying behavior can now
   depend on the Flyable interface. Any object it receives is guaranteed
   to be able to fly, thus upholding LSP. The makeBirdFly function would
@@ -519,13 +515,13 @@ expose latent LSP violations in an existing class hierarchy.
   protected void withdraw(BigDecimal amount) {  
   throw new UnsupportedOperationException("Withdrawals are not
   supported!");  
-  }  
-    
+  }
+
   // In BankingAppWithdrawalService.java  
   public void withdraw(BigDecimal amount) {  
   account.withdraw(amount); // Crashes for FixedTermDepositAccount  
-  }  
-    
+  }
+
   The BankingAppWithdrawalService now breaks when it receives a
   FixedTermDepositAccount, as its assumption that all accounts are
   withdrawable is violated.
@@ -537,19 +533,15 @@ expose latent LSP violations in an existing class hierarchy.
   Java  
   public abstract class Account {  
   protected abstract void deposit(BigDecimal amount);  
-  }  
-    
+  }
   public abstract class WithdrawableAccount extends Account {  
   protected abstract void withdraw(BigDecimal amount);  
-  }  
-    
+  }
   // CurrentAccount and SavingsAccount now extend WithdrawableAccount  
   public class SavingsAccount extends WithdrawableAccount { /\*... \*/
-  }  
-    
+  }
   // FixedTermDepositAccount extends the base Account  
-  public class FixedTermDepositAccount extends Account { /\*... \*/ }  
-    
+  public class FixedTermDepositAccount extends Account { /\*... \*/ }
   The BankingAppWithdrawalService is then updated to depend specifically
   on WithdrawableAccount. This ensures that it only ever receives
   objects that are guaranteed to support the withdraw() operation,
@@ -584,46 +576,39 @@ compliance.
   interface IPaymentInstrument {  
   void validate() throws PaymentInstrumentInvalidException;  
   PaymentResponse collectPayment() throws PaymentFailedException;  
-  }  
-    
+  }
   // Concrete classes are now composed of behaviors  
   class CreditCard implements IPaymentInstrument {  
   private final IPaymentInstrumentValidator validator;  
   private final IFraudChecker fraudChecker;  
-  private final IPaymentGatewayHandler gatewayHandler;  
-    
+  private final IPaymentGatewayHandler gatewayHandler;
   // Constructor injects dependencies  
   public CreditCard(IPaymentInstrumentValidator v, IFraudChecker f,
   IPaymentGatewayHandler g) {  
   this.validator = v;  
   this.fraudChecker = f;  
   this.gatewayHandler = g;  
-  }  
-    
+  }
   @Override  
-  public void validate() { validator.validate(); }  
-    
+  public void validate() { validator.validate(); }
   @Override  
   public PaymentResponse collectPayment() {  
   fraudChecker.runChecks();  
   PaymentGatewayResponse pgResponse = gatewayHandler.handlePayment();  
   //... create and return PaymentResponse  
   }  
-  }  
-    
+  }
   // RewardsCard implements only what it needs  
   class RewardsCard implements IPaymentInstrument {  
   @Override  
-  public void validate() { /\* Rewards-specific validation \*/ }  
-    
+  public void validate() { /\* Rewards-specific validation \*/ }
   @Override  
   public PaymentResponse collectPayment() {  
   // Logic for redeeming rewards points, no fraud check or gateway  
   //... create and return PaymentResponse  
   }  
-  }  
-    
-  In this refactored design, classes are built by *composing* the
+  }
+  In this refactored design, classes are built by _composing_ the
   behaviors they require rather than inheriting a rigid,
   all-encompassing contract. The CreditCard class is composed of a
   validator, a fraud checker, and a gateway handler. The RewardsCard

@@ -275,4 +275,4 @@
 
 ---
 
-*This glossary serves as a reference for developers, contributors, and stakeholders to understand the terminology and concepts used throughout the Wheel of Gains project.*
+_This glossary serves as a reference for developers, contributors, and stakeholders to understand the terminology and concepts used throughout the Wheel of Gains project._

@@ -270,8 +270,8 @@ unequivocal directives.
 #### 3.2 From Negative to Positive Framing: Instructing "What to Do" vs. "What Not to Do"
 
 A powerful technique for improving instruction fidelity is to frame
-directives positively, specifying what the agent *should* do rather than
-only what it *should not* do. While negative constraints are necessary
+directives positively, specifying what the agent _should_ do rather than
+only what it _should not_ do. While negative constraints are necessary
 for safety, they can leave the model without a clear path forward.
 
 For instance, an instruction like "DO NOT ASK THE USER FOR THEIR
@@ -326,10 +326,10 @@ context with behavioral examples, external knowledge, and procedural
 capabilities, enabling it to tackle more complex and knowledge-intensive
 tasks. The strategic combination of In-Context Learning (ICL),
 Retrieval-Augmented Generation (RAG), and well-designed tools forms a
-complementary triad for context augmentation. ICL provides *behavioral*
+complementary triad for context augmentation. ICL provides _behavioral_
 context by demonstrating desired input-output patterns. RAG provides
-*declarative knowledge* context by grounding the agent in factual data.
-Tools provide *procedural* context by defining the actions the agent can
+_declarative knowledge_ context by grounding the agent in factual data.
+Tools provide _procedural_ context by defining the actions the agent can
 take. An advanced agent's instructional design must orchestrate these
 three forms of context to achieve peak performance.
 
@@ -475,7 +475,7 @@ internal knowledge:
   factual documents from which to construct its answer, RAG
   significantly reduces the likelihood of the model fabricating
   information. The prompt can even instruct the model to base its answer
-  *only* on the provided context, further enhancing factual
+  _only_ on the provided context, further enhancing factual
   accuracy.<sup>41</sup>
 
 - **Access to Fresh Information:** An LLM's internal knowledge is static
@@ -762,14 +762,14 @@ The following table synthesizes the key differences between the OpenAI
 and Anthropic approaches to agent design, providing actionable
 implications for the creation of their respective "training documents."
 
-| **Capability/Dimension** | **OpenAI Approach (GPT-4.1/5)** | **Anthropic Approach (Claude 3/4)** | **Key "Training Document" Implication** |
-|----|----|----|----|
-| **Core Philosophy** | Maximizing capability and steerability via RLHF. Literal instruction following. | Safety and reliability via Constitutional AI. Collaborative reasoning. | GPT prompts must be hyper-specific and procedural. Claude prompts can be more principle-based and rely on its inherent safety alignment. |
-| **Prompt Structuring** | Markdown, hierarchical headings (Role, Instructions, Examples, Context). | Heavy reliance on XML tags (\<instruction\>, \<example\>) to delineate sections. | Use the native format for each model to ensure optimal parsing and instruction adherence. |
-| **Reasoning Induction** | Must be explicitly induced via "think step-by-step" prompts for GPT-series. "Reasoning models" (o-series) think internally. | Encouraged via \<thinking\> tags for an internal monologue. CoT is a natural behavior for top models. | For GPT, planning must be an explicit output. For Claude, planning can be an internal process guided by the prompt. |
-| **Tool Use / ACI** | Robust function-calling API. Planner/Doer model separation is a key strategy. | Focus on clear, well-documented tools and a simple ACI. Can handle parallel and sequential tool calls. | Tool documentation (descriptions, parameters) is a critical part of the prompt for both. OpenAI's architecture suggests using different models for planning vs. execution. |
-| **Long-Context Handling** | Performance can degrade in the middle of long contexts ("lost in the middle"). | A key strength. Excellent recall over very large (200k+) context windows. | For GPT, place critical instructions at the beginning or end of long contexts. Claude is more robust for tasks requiring recall from large documents. |
-| **Safety & Guardrails** | Moderation API and developer-defined guardrails in the prompt. | Baked into the model via Constitutional AI. Tends to be more cautious and refuse borderline prompts. | Prompts for GPT agents may need more explicit safety instructions. Developers using Claude must account for its "alignment tax" (potential for over-refusal). |
+| **Capability/Dimension**  | **OpenAI Approach (GPT-4.1/5)**                                                                                             | **Anthropic Approach (Claude 3/4)**                                                                    | **Key "Training Document" Implication**                                                                                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Core Philosophy**       | Maximizing capability and steerability via RLHF. Literal instruction following.                                             | Safety and reliability via Constitutional AI. Collaborative reasoning.                                 | GPT prompts must be hyper-specific and procedural. Claude prompts can be more principle-based and rely on its inherent safety alignment.                                   |
+| **Prompt Structuring**    | Markdown, hierarchical headings (Role, Instructions, Examples, Context).                                                    | Heavy reliance on XML tags (\<instruction\>, \<example\>) to delineate sections.                       | Use the native format for each model to ensure optimal parsing and instruction adherence.                                                                                  |
+| **Reasoning Induction**   | Must be explicitly induced via "think step-by-step" prompts for GPT-series. "Reasoning models" (o-series) think internally. | Encouraged via \<thinking\> tags for an internal monologue. CoT is a natural behavior for top models.  | For GPT, planning must be an explicit output. For Claude, planning can be an internal process guided by the prompt.                                                        |
+| **Tool Use / ACI**        | Robust function-calling API. Planner/Doer model separation is a key strategy.                                               | Focus on clear, well-documented tools and a simple ACI. Can handle parallel and sequential tool calls. | Tool documentation (descriptions, parameters) is a critical part of the prompt for both. OpenAI's architecture suggests using different models for planning vs. execution. |
+| **Long-Context Handling** | Performance can degrade in the middle of long contexts ("lost in the middle").                                              | A key strength. Excellent recall over very large (200k+) context windows.                              | For GPT, place critical instructions at the beginning or end of long contexts. Claude is more robust for tasks requiring recall from large documents.                      |
+| **Safety & Guardrails**   | Moderation API and developer-defined guardrails in the prompt.                                                              | Baked into the model via Constitutional AI. Tends to be more cautious and refuse borderline prompts.   | Prompts for GPT agents may need more explicit safety instructions. Developers using Claude must account for its "alignment tax" (potential for over-refusal).              |
 
 ## Part V: Synthesis and Strategic Recommendations
 

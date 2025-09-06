@@ -1,6 +1,9 @@
 import { component$, useStore, useSignal, $ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { encodeWorkoutCollection, type EncodedWorkoutCollection } from "../../utils/zip-encoding";
+import {
+  encodeWorkoutCollection,
+  type EncodedWorkoutCollection,
+} from "../../utils/zip-encoding";
 import type { Workout } from "../../utils/workout-utils";
 import { DEFAULT_CATEGORIES } from "../../utils/workout-utils";
 import { WorkoutNavigation } from "../../components/navigation/workout-navigation";
@@ -56,7 +59,7 @@ export default component$(() => {
         return;
       }
 
-      const validWorkouts = state.workouts.filter(w => w.name.trim());
+      const validWorkouts = state.workouts.filter((w) => w.name.trim());
       if (validWorkouts.length < 3) {
         state.error = "Please add at least 3 workouts";
         state.isGenerating = false;
@@ -68,7 +71,9 @@ export default component$(() => {
         id: `custom-${Date.now()}-${index}`,
         name: workout.name.trim(),
         multiplier: workout.multiplier,
-        url: workout.url.trim() || `https://www.google.com/search?q=${encodeURIComponent(workout.name.trim())}%20workout`,
+        url:
+          workout.url.trim() ||
+          `https://www.google.com/search?q=${encodeURIComponent(workout.name.trim())}%20workout`,
         category: DEFAULT_CATEGORIES[0], // Default to Strength Training
       }));
 
@@ -80,18 +85,18 @@ export default component$(() => {
       };
 
       const encoded = encodeWorkoutCollection(collection);
-      
+
       // Construct URL relative to current location to handle different deployment scenarios
       const currentUrl = new URL(window.location.href);
       const baseUrl = `${currentUrl.protocol}//${currentUrl.host}`;
-      
+
       // Determine the base path from current location
       // Current path: /wheel-of-gains/create/ -> base path: /wheel-of-gains/
       const currentPath = currentUrl.pathname;
-      const basePath = currentPath.includes('/wheel-of-gains/') 
-        ? '/wheel-of-gains/' 
-        : '/';
-      
+      const basePath = currentPath.includes("/wheel-of-gains/")
+        ? "/wheel-of-gains/"
+        : "/";
+
       state.shareUrl = `${baseUrl}${basePath}zip?data=${encodeURIComponent(encoded)}`;
 
       state.isGenerating = false;
@@ -119,38 +124,48 @@ export default component$(() => {
   return (
     <>
       <WorkoutNavigation />
-      
-      <div class="max-w-4xl mx-auto p-6 space-y-6">
-        <div class="text-center mb-8">
-          <h1 class="text-3xl font-bold text-slate-800 mb-2">Create Custom Wheel</h1>
-          <p class="text-slate-600">Build your own workout collection and share it with others</p>
+
+      <div class="mx-auto max-w-4xl space-y-6 p-6">
+        <div class="mb-8 text-center">
+          <h1 class="mb-2 text-3xl font-bold text-slate-800">
+            Create Custom Wheel
+          </h1>
+          <p class="text-slate-600">
+            Build your own workout collection and share it with others
+          </p>
         </div>
 
         {/* Collection Info */}
-        <div class="bg-white border border-slate-200 rounded-lg p-6">
-          <h2 class="text-lg font-semibold text-slate-700 mb-4">Collection Details</h2>
+        <div class="rounded-lg border border-slate-200 bg-white p-6">
+          <h2 class="mb-4 text-lg font-semibold text-slate-700">
+            Collection Details
+          </h2>
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-2">
+              <label class="mb-2 block text-sm font-medium text-slate-700">
                 Collection Title *
               </label>
               <input
                 type="text"
                 value={state.title}
-                onInput$={(e) => (state.title = (e.target as HTMLInputElement).value)}
-                class="w-full p-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                onInput$={(e) =>
+                  (state.title = (e.target as HTMLInputElement).value)
+                }
+                class="w-full rounded-md border border-slate-300 p-3 focus:border-teal-500 focus:ring-2 focus:ring-teal-500"
                 placeholder="e.g., My Custom HIIT Workout"
                 maxLength={60}
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-2">
+              <label class="mb-2 block text-sm font-medium text-slate-700">
                 Description
               </label>
               <textarea
                 value={state.description}
-                onInput$={(e) => (state.description = (e.target as HTMLTextAreaElement).value)}
-                class="w-full p-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                onInput$={(e) =>
+                  (state.description = (e.target as HTMLTextAreaElement).value)
+                }
+                class="w-full rounded-md border border-slate-300 p-3 focus:border-teal-500 focus:ring-2 focus:ring-teal-500"
                 placeholder="Describe your workout collection..."
                 rows={3}
                 maxLength={200}
@@ -160,12 +175,12 @@ export default component$(() => {
         </div>
 
         {/* Workouts */}
-        <div class="bg-white border border-slate-200 rounded-lg p-6">
-          <div class="flex items-center justify-between mb-4">
+        <div class="rounded-lg border border-slate-200 bg-white p-6">
+          <div class="mb-4 flex items-center justify-between">
             <h2 class="text-lg font-semibold text-slate-700">Workouts</h2>
             <button
               onClick$={addWorkout}
-              class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+              class="rounded bg-teal-600 px-4 py-2 text-white hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
             >
               Add Workout
             </button>
@@ -173,22 +188,33 @@ export default component$(() => {
 
           <div class="space-y-4">
             {state.workouts.map((workout, index) => (
-              <div key={index} class="flex items-center gap-3 p-4 border border-slate-200 rounded-lg">
+              <div
+                key={index}
+                class="flex items-center gap-3 rounded-lg border border-slate-200 p-4"
+              >
                 <div class="flex-1">
                   <input
                     type="text"
                     value={workout.name}
-                    onInput$={(e) => (workout.name = (e.target as HTMLInputElement).value)}
-                    class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                    onInput$={(e) =>
+                      (workout.name = (e.target as HTMLInputElement).value)
+                    }
+                    class="w-full rounded border border-slate-300 p-2 focus:border-teal-500 focus:ring-2 focus:ring-teal-500"
                     placeholder="Exercise name"
                   />
                 </div>
                 <div class="w-24">
-                  <label class="block text-xs text-slate-600 mb-1">Multiplier</label>
+                  <label class="mb-1 block text-xs text-slate-600">
+                    Multiplier
+                  </label>
                   <select
                     value={workout.multiplier}
-                    onChange$={(e) => (workout.multiplier = parseInt((e.target as HTMLSelectElement).value))}
-                    class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm"
+                    onChange$={(e) =>
+                      (workout.multiplier = parseInt(
+                        (e.target as HTMLSelectElement).value,
+                      ))
+                    }
+                    class="w-full rounded border border-slate-300 p-2 text-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-500"
                   >
                     <option value={1}>1x</option>
                     <option value={2}>2x</option>
@@ -200,44 +226,53 @@ export default component$(() => {
                   <input
                     type="url"
                     value={workout.url}
-                    onInput$={(e) => (workout.url = (e.target as HTMLInputElement).value)}
-                    class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                    onInput$={(e) =>
+                      (workout.url = (e.target as HTMLInputElement).value)
+                    }
+                    class="w-full rounded border border-slate-300 p-2 focus:border-teal-500 focus:ring-2 focus:ring-teal-500"
                     placeholder="Optional: Link to instructions"
                   />
                 </div>
                 <button
                   onClick$={() => removeWorkout(index)}
-                  class="p-2 text-red-600 hover:bg-red-50 rounded focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                  class="rounded p-2 text-red-600 hover:bg-red-50 focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                   disabled={state.workouts.length <= 1}
                 >
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
                   </svg>
                 </button>
               </div>
             ))}
           </div>
 
-          <p class="text-sm text-slate-500 mt-4">
-            Add at least 3 workouts. If you don't provide a link, we'll generate a Google search link automatically.
+          <p class="mt-4 text-sm text-slate-500">
+            Add at least 3 workouts. If you don't provide a link, we'll generate
+            a Google search link automatically.
           </p>
         </div>
 
         {/* Error Display */}
         {state.error && (
-          <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div class="rounded-lg border border-red-200 bg-red-50 p-4">
             <p class="text-red-700">{state.error}</p>
           </div>
         )}
 
         {/* Generate Share URL */}
-        <div class="bg-white border border-slate-200 rounded-lg p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-slate-700">Share Your Wheel</h2>
+        <div class="rounded-lg border border-slate-200 bg-white p-6">
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-slate-700">
+              Share Your Wheel
+            </h2>
             <button
               onClick$={generateShareUrl}
               disabled={state.isGenerating}
-              class="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="rounded-lg bg-teal-600 px-6 py-3 text-white hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {state.isGenerating ? "Generating..." : "Generate Share Link"}
             </button>
@@ -245,18 +280,18 @@ export default component$(() => {
 
           {state.shareUrl && (
             <div class="space-y-3">
-              <div class="p-3 bg-slate-50 border border-slate-200 rounded">
-                <p class="text-sm text-slate-700 mb-2">Shareable Link:</p>
+              <div class="rounded border border-slate-200 bg-slate-50 p-3">
+                <p class="mb-2 text-sm text-slate-700">Shareable Link:</p>
                 <div class="flex items-center gap-2">
                   <input
                     type="text"
                     value={state.shareUrl}
                     readOnly
-                    class="flex-1 p-2 text-sm font-mono bg-white border border-slate-300 rounded"
+                    class="flex-1 rounded border border-slate-300 bg-white p-2 font-mono text-sm"
                   />
                   <button
                     onClick$={copyToClipboard}
-                    class={`px-4 py-2 text-sm rounded focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 ${
+                    class={`rounded px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 ${
                       isShareUrlCopied.value
                         ? "bg-green-600 text-white"
                         : "bg-teal-600 text-white hover:bg-teal-700"
@@ -271,9 +306,9 @@ export default component$(() => {
                   href={state.shareUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-4 py-2 bg-slate-600 text-white rounded hover:bg-slate-700 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+                  class="inline-flex items-center gap-2 rounded bg-slate-600 px-4 py-2 text-white hover:bg-slate-700 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
                 >
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
                     <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
                   </svg>
@@ -297,7 +332,8 @@ export const head: DocumentHead = {
     },
     {
       name: "keywords",
-      content: "workout, fitness, exercise, custom, wheel, gains, training, create",
+      content:
+        "workout, fitness, exercise, custom, wheel, gains, training, create",
     },
     {
       name: "author",
