@@ -6,8 +6,8 @@ Welcome to the comprehensive documentation for Wheel of Gains! This index helps 
 
 | Audience         | Primary Docs                                    | Live Resources                                                             |
 | ---------------- | ----------------------------------------------- | -------------------------------------------------------------------------- |
-| **Users**        | [README](./README.md)                           | [🎮 Live App](https://SergeiGolos.github.io/wheel-of-gains)                |
-| **Developers**   | [Testing Guide](./TESTING.md)                   | [📖 Storybook](https://SergeiGolos.github.io/wheel-of-gains/storybook/)    |
+| **Users**        | [README](./README.md)                           | [🎮 Live App](https://wheel-of-gains.golos.work)                           |
+| **Developers**   | [Testing Guide](./TESTING.md)                   | [📖 Storybook](https://wheel-of-gains.golos.work/storybook/)               |
 | **DevOps**       | [CI/CD Integration](./CI_CD_TESTING.md)         | [🔧 GitHub Actions](https://github.com/SergeiGolos/wheel-of-gains/actions) |
 | **Contributors** | [Contributing Guide](./README.md#-contributing) | [📋 Issues](https://github.com/SergeiGolos/wheel-of-gains/issues)          |
 
@@ -31,7 +31,7 @@ Welcome to the comprehensive documentation for Wheel of Gains! This index helps 
 
 - **[STORYBOOK.md](./STORYBOOK.md)** - Component documentation and interactive testing guide
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Architectural decisions and technical evolution history
-- **[Component Library (Live)](https://SergeiGolos.github.io/wheel-of-gains/storybook/)** - Interactive component documentation
+- **[Component Library (Live)](https://wheel-of-gains.golos.work/storybook/)** - Interactive component documentation
 - **[Playwright Configuration](./playwright.config.js)** - Testing framework setup
 - **[Build Configuration](./vite.config.ts)** - Vite build system configuration
 
@@ -55,14 +55,14 @@ Welcome to the comprehensive documentation for Wheel of Gains! This index helps 
 1. Read [README.md](./README.md) - Overview and setup
 2. Follow [Developer Setup](./README.md#for-developers) - Environment setup
 3. Review [TESTING.md](./TESTING.md) - Testing practices
-4. Explore [Storybook](https://SergeiGolos.github.io/wheel-of-gains/storybook/) - Component library
+4. Explore [Storybook](https://wheel-of-gains.golos.work/storybook/) - Component library
 
 ### For QA/Testing
 
 1. Review [TEST_PLAN.md](./TEST_PLAN.md) - Testing strategy
 2. Study [TESTING.md](./TESTING.md) - Testing implementation
 3. Check [CI_CD_TESTING.md](./CI_CD_TESTING.md) - Automated testing
-4. Use [Storybook](https://SergeiGolos.github.io/wheel-of-gains/storybook/) - Component testing
+4. Use [Storybook](https://wheel-of-gains.golos.work/storybook/) - Component testing
 
 ### For DevOps Engineers
 
@@ -103,4 +103,4 @@ Welcome to the comprehensive documentation for Wheel of Gains! This index helps 
 
 ---
 
-**🏠 [Back to Main README](./README.md)** | **🎮 [Try the App](https://SergeiGolos.github.io/wheel-of-gains)** | **📖 [Component Docs](https://SergeiGolos.github.io/wheel-of-gains/storybook/)**
+**🏠 [Back to Main README](./README.md)** | **🎮 [Try the App](https://wheel-of-gains.golos.work)** | **📖 [Component Docs](https://wheel-of-gains.golos.work/storybook/)**

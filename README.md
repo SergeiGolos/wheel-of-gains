@@ -6,7 +6,7 @@ Spin the wheel to randomly select your next workout challenge from multiple cura
 
 ## 🚀 Live Demo
 
-Visit the live application: [Wheel of Gains on GitHub Pages](https://SergeiGolos.github.io/wheel-of-gains)
+Visit the live application: [Wheel of Gains](https://wheel-of-gains.golos.work)
 
 ![Wheel of Gains App](https://github.com/user-attachments/assets/0a6ce836-3cc5-47e6-9fb5-463bd3890f67)
 
@@ -109,7 +109,7 @@ This project has evolved from a Proof of Concept (POC) to a production-ready app
 
 ### For Users
 
-Simply visit the [live application](https://SergeiGolos.github.io/wheel-of-gains) and start spinning!
+Simply visit the [live application](https://wheel-of-gains.golos.work) and start spinning!
 
 ### For Developers
 
@@ -219,7 +219,7 @@ This project includes comprehensive documentation for different audiences:
 ### For Users
 
 - **[Main README](./README.md)** - This file, project overview and getting started
-- **[Live Application](https://SergeiGolos.github.io/wheel-of-gains)** - Try the app directly
+- **[Live Application](https://wheel-of-gains.golos.work)** - Try the app directly
 
 ### For Developers
 
@@ -241,8 +241,8 @@ This project includes comprehensive documentation for different audiences:
 
 ### Live Documentation
 
-- **[Component Library (Storybook)](https://SergeiGolos.github.io/wheel-of-gains/storybook/)** - Interactive component documentation
-- **[Project Hub](https://SergeiGolos.github.io/wheel-of-gains/)** - Central access to app and documentation
+- **[Component Library (Storybook)](https://wheel-of-gains.golos.work/storybook/)** - Interactive component documentation
+- **[Project Hub](https://wheel-of-gains.golos.work/)** - Central access to app and documentation
 
 ## 🤝 Contributing
 
@@ -252,8 +252,8 @@ We welcome contributions! This project is designed to be beginner-friendly with 
 
 1. **Explore the codebase**:
 
-   - Check out the [live application](https://SergeiGolos.github.io/wheel-of-gains)
-   - Review [component documentation](https://SergeiGolos.github.io/wheel-of-gains/storybook/) in Storybook
+   - Check out the [live application](https://wheel-of-gains.golos.work)
+   - Review [component documentation](https://wheel-of-gains.golos.work/storybook/) in Storybook
    - Read the [testing documentation](./TESTING.md)
 
 2. **Find an issue**:
@@ -376,4 +376,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Ready to spin your way to gains? [Try it now!](https://SergeiGolos.github.io/wheel-of-gains)** 🚀
+**Ready to spin your way to gains? [Try it now!](https://wheel-of-gains.golos.work)** 🚀

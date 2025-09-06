@@ -119,8 +119,8 @@ Based on closed issue analysis:
 
 ### Production Links
 
-- ✅ **[Main Application](https://SergeiGolos.github.io/wheel-of-gains)** - Working production app
-- ✅ **[Component Library](https://SergeiGolos.github.io/wheel-of-gains/storybook/)** - Interactive documentation
+- ✅ **[Main Application](https://wheel-of-gains.golos.work)** - Working production app
+- ✅ **[Component Library](https://wheel-of-gains.golos.work/storybook/)** - Interactive documentation
 - ✅ **[Build Pipeline](https://github.com/SergeiGolos/wheel-of-gains/actions)** - Automated testing and deployment
 
 ### Development Resources

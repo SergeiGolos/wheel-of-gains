@@ -9,7 +9,7 @@
 - **Deployment**: GitHub Pages (Static Site Generation)
 - **Status**: Production-ready with ongoing enhancements
 - **Repository**: [SergeiGolos/wheel-of-gains](https://github.com/SergeiGolos/wheel-of-gains)
-- **Live Demo**: [https://sergeigolos.github.io/wheel-of-gains](https://sergeigolos.github.io/wheel-of-gains)
+- **Live Demo**: [https://wheel-of-gains.golos.work](https://wheel-of-gains.golos.work)
 
 ## Core Features
 

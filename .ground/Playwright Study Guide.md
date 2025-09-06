@@ -1086,26 +1086,22 @@ steps:
 
 - uses: actions/setup-node@v4  
   with:  
-  node-version: lts/\*  
-
+  node-version: lts/\*
 
 \# 3. Install project dependencies cleanly
 
 - name: Install dependencies  
-  run: npm ci  
-
+  run: npm ci
 
 \# 4. Install Playwright browsers and OS dependencies
 
 - name: Install Playwright Browsers  
-  run: npx playwright install --with-deps  
-
+  run: npx playwright install --with-deps
 
 \# 5. Run the Playwright test suite
 
 - name: Run Playwright tests  
-  run: npx playwright test  
-
+  run: npx playwright test
 
 \# 6. Upload the test report as an artifact
 
