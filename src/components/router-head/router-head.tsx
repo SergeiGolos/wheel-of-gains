@@ -16,9 +16,8 @@ export const RouterHead = component$(() => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link
         rel="icon"
-        type="image/png"
-        href="/icons/icon-32.png"
-        sizes="32x32"
+        type="image/svg+xml"
+        href="/favicon.svg"
       />
 
       {head.meta.map((m) => (

@@ -156,9 +156,8 @@ export const head: DocumentHead = {
     },
     {
       rel: "icon",
-      type: "image/png",
-      href: "/icons/icon-32.png",
-      sizes: "32x32",
+      type: "image/svg+xml",
+      href: "/favicon.svg",
     },
     {
       rel: "apple-touch-icon",
