@@ -146,15 +146,6 @@ export default component$(() => {
     }
   });
 
-  const handleCopy = $(() => {
-    if (!state.shareUrl) {
-      handleGenerateShareUrl();
-    }
-    if (state.shareUrl) {
-      navigator.clipboard.writeText(state.shareUrl);
-    }
-  });
-
   // Wheel interaction handlers
   const handleSpinStart = $(() => {
     if (state.winner) {
@@ -218,28 +209,7 @@ export default component$(() => {
                     class="bg-white w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none font-mono text-sm"
                   />
                   
-                  <div class="flex gap-2 mt-2">
-                    <button
-                      onClick$={handleShare}
-                      disabled={state.workouts.length === 0}
-                      class="rounded-md bg-blue-600 p-2 text-sm font-semibold text-white hover:bg-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors"
-                      title="Share"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-                      </svg>
-                    </button>
-                    
-                    <button
-                      onClick$={handleCopy}
-                      disabled={state.workouts.length === 0}
-                      class="rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                  
-                  <div class="text-xs text-slate-500 mt-1">
+                  <div class="text-xs text-slate-500 mt-2">
                     Press Ctrl+Enter to spin the wheel
                   </div>
                 </div>
@@ -257,10 +227,20 @@ export default component$(() => {
 
             </div>
 
-            {/* Version Info */}
-            <div class="text-center mt-8">
-              <VersionInfo showBuildDate={true} />
-            </div>
+                {/* Results & History (moved to left under input) */}
+                <div class="space-y-4 mt-6">
+                  <ResultDisplay
+                    winner={state.winner}
+                    isSpinning={state.isSpinning}
+                    onStartWorkout={handleStartWorkout}
+                  />
+                  <PreviousResults spinHistory={state.spinHistory} />
+                </div>
+
+                {/* Version Info */}
+                <div class="text-center mt-8">
+                  <VersionInfo showBuildDate={true} />
+                </div>
 
               </main>
             </div>
@@ -270,7 +250,19 @@ export default component$(() => {
                 
                 {/* Wheel - Centered with proper spacing */}
                 <div class="flex justify-center lg:justify-end">
-                  <div class="max-w-full">
+                  <div class="max-w-full relative">
+                    {/* Floating share button */}
+                    <button
+                      onClick$={handleShare}
+                      disabled={state.workouts.length === 0}
+                      class="absolute -top-3 -right-3 z-30 rounded-md bg-blue-600 p-2 text-white shadow-lg hover:bg-blue-500 focus:outline-none disabled:opacity-50"
+                      title="Share collection"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                      </svg>
+                    </button>
+
                     <Wheel
                       displayWorkouts={displayWorkouts}
                       onSpinStart={handleSpinStart}
@@ -280,16 +272,7 @@ export default component$(() => {
                   </div>
                 </div>
 
-                {/* Results & History */}
-                <div class="space-y-4">
-                  <ResultDisplay
-                    winner={state.winner}
-                    isSpinning={state.isSpinning}
-                    onStartWorkout={handleStartWorkout}
-                  />
-                  
-                  <PreviousResults spinHistory={state.spinHistory} />
-                </div>
+                {/* Right column intentionally just shows the wheel */}
               </div>
           
 
