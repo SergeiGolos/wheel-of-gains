@@ -1,4 +1,4 @@
-import { component$, useStore, useVisibleTask$, $ } from "@builder.io/qwik";
+import { component$, useStore, useVisibleTask$, useSignal, $ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { useLocation } from "@builder.io/qwik-city";
 import { Wheel } from "../components/workout/wheel";
@@ -43,6 +43,8 @@ export default component$(() => {
     error: null,
     shareUrl: null,
   });
+
+  const spinTrigger = useSignal(0);
 
   // Load from zip URL if present
   // eslint-disable-next-line qwik/no-use-visible-task
@@ -112,14 +114,6 @@ export default component$(() => {
     }
   });
 
-  const handleTitleChange = $((value: string) => {
-    state.title = value;
-    // Update document title dynamically
-    if (typeof document !== 'undefined') {
-      document.title = value ? `${value} | Wheel of Gains` : 'Wheel of Gains';
-    }
-  });
-
   const handleGenerateShareUrl = $(() => {
     if (state.workouts.length === 0) {
       state.error = "Add some workouts first!";
@@ -130,7 +124,7 @@ export default component$(() => {
       // For URL generation, we need to use the workouts array format
       // The description is used for display and parsing, but workouts array is for encoding
       const collection = {
-        title: state.title || "Custom Workout Collection",
+        title: "Custom Workout Collection",
         description: state.description,
         workouts: state.workouts
       };
@@ -140,6 +134,24 @@ export default component$(() => {
     } catch (error) {
       console.error("❌ Failed to generate share URL:", error);
       state.error = "Failed to generate share URL";
+    }
+  });
+
+  const handleShare = $(() => {
+    if (!state.shareUrl) {
+      handleGenerateShareUrl();
+    }
+    if (state.shareUrl) {
+      window.open(state.shareUrl, "_blank");
+    }
+  });
+
+  const handleCopy = $(() => {
+    if (!state.shareUrl) {
+      handleGenerateShareUrl();
+    }
+    if (state.shareUrl) {
+      navigator.clipboard.writeText(state.shareUrl);
     }
   });
 
@@ -187,82 +199,54 @@ export default component$(() => {
               <main class="space-y-6" role="main">
                 
                 {/* Create Workout Form */}
-                <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                  <div class="space-y-4">
+                <div class="space-y-4">
                 
-                {/* Title Input */}
-                <div>
-                  <label for="title" class="block text-sm font-medium text-slate-700 mb-2">
-                    Collection Title
-                  </label>
-                  <input
-                    id="title"
-                    type="text"
-                    value={state.title}
-                    onInput$={(e) => handleTitleChange((e.target as HTMLInputElement).value)}
-                    placeholder="My Awesome Workout Collection"
-                    class="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                  />
-                </div>
-
                 {/* Description/Workouts Input */}
                 <div>
-                  <label for="description" class="block text-sm font-medium text-slate-700 mb-2">
-                    Description & Workouts
-                  </label>
                   <textarea
                     id="description"
                     rows={8}
                     value={state.description}
                     onInput$={(e) => handleDescriptionChange((e.target as HTMLTextAreaElement).value)}
-                    placeholder="A great collection for building strength!
-
-Push-ups|20
-[Squats](https://example.com/squats)|30
-Burpees|10
-Plank|60"
-                    class="w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none font-mono text-sm"
+                    onKeyDown$={(e: KeyboardEvent) => {
+                      if (e.ctrlKey && e.key === 'Enter' && state.workouts.length > 0) {
+                        e.preventDefault();
+                        spinTrigger.value++;
+                      }
+                    }}
+                    placeholder="Option or [Option](link)|multiplier"
+                    class="bg-white w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none font-mono text-sm"
                   />
                   
-                  {/* Format Help */}
-                  <div class="mt-2 text-xs text-slate-500">
-                    <p class="mb-1">
-                      <strong>Workout Format:</strong> Add workouts after your description
-                    </p>
-                    <div class="bg-slate-50 rounded p-2 font-mono">
-                      <div>Plain text: <code>Push-ups</code> (multiplier: 1)</div>
-                      <div>With multiplier: <code>Push-ups|20</code></div>
-                      <div>With link: <code>[Push-ups](https://example.com)|20</code></div>
-                    </div>
+                  <div class="flex gap-2 mt-2">
+                    <button
+                      onClick$={handleShare}
+                      disabled={state.workouts.length === 0}
+                      class="rounded-md bg-blue-600 p-2 text-sm font-semibold text-white hover:bg-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors"
+                      title="Share"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                      </svg>
+                    </button>
+                    
+                    <button
+                      onClick$={handleCopy}
+                      disabled={state.workouts.length === 0}
+                      class="rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-500 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  
+                  <div class="text-xs text-slate-500 mt-1">
+                    Press Ctrl+Enter to spin the wheel
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div class="flex gap-3">
-                  <button
-                    onClick$={handleGenerateShareUrl}
-                    disabled={state.workouts.length === 0}
-                    class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors"
-                  >
-                    Generate Share URL
-                  </button>
-                  
-                  {state.shareUrl && (
-                    <button
-                      onClick$={() => navigator.clipboard.writeText(state.shareUrl!)}
-                      class="rounded-md bg-slate-600 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-500 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:outline-none transition-colors"
-                    >
-                      Copy URL
-                    </button>
-                  )}
-                </div>
 
-                {/* Debug Info */}
-                <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded">
-                  <div>Workouts: {state.workouts.length}</div>
-                  <div>Show Wheel: {state.showWheel ? 'true' : 'false'}</div>
-                  <div>Display Workouts: {displayWorkouts.length}</div>
-                </div>
+
+
 
                 {/* Error Display */}
                 {state.error && (
@@ -271,16 +255,6 @@ Plank|60"
                   </div>
                 )}
 
-                {/* Share URL Display */}
-                {state.shareUrl && (
-                  <div class="rounded-md bg-green-50 border border-green-200 p-3">
-                    <p class="text-sm font-medium text-green-800 mb-2">Share URL Generated:</p>
-                    <div class="bg-white rounded border p-2 break-all text-sm font-mono text-green-700">
-                      {state.shareUrl}
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
 
             {/* Version Info */}
@@ -301,6 +275,7 @@ Plank|60"
                       displayWorkouts={displayWorkouts}
                       onSpinStart={handleSpinStart}
                       onSpinFinish={handleSpinFinish}
+                      triggerSpin={spinTrigger.value}
                     />
                   </div>
                 </div>

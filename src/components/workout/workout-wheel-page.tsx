@@ -165,6 +165,7 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(
                 displayWorkouts={displayWorkouts.value}
                 onSpinStart={handleSpinStart}
                 onSpinFinish={handleSpinFinish}
+                triggerSpin={0}
               />
             )}
 

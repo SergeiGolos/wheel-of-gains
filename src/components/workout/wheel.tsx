@@ -7,15 +7,17 @@ interface WheelProps {
   displayWorkouts: Workout[];
   onSpinStart: QRL<() => void>;
   onSpinFinish: QRL<(winner: Workout) => void>;
+  triggerSpin?: number;
 }
 
 export const Wheel = component$<WheelProps>(
-  ({ displayWorkouts, onSpinStart, onSpinFinish }) => {
+  ({ displayWorkouts, onSpinStart, onSpinFinish, triggerSpin }) => {
     const canvasRef = useSignal<HTMLCanvasElement>();
     const isSpinning = useSignal(false);
     const currentRotation = useSignal(0);
     const announcement = useSignal("");
     const canvasSize = useSignal(500);
+    const spinTrigger = useSignal(0);
 
     // Responsive canvas sizing
     const getCanvasSize = $(() => {
@@ -191,6 +193,16 @@ export const Wheel = component$<WheelProps>(
       };
 
       requestAnimationFrame(animate);
+    });
+
+    // Watch for external spin trigger (placed after handleSpin so it's defined)
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(({ track }) => {
+      track(() => triggerSpin);
+      if (typeof triggerSpin === 'number' && triggerSpin > spinTrigger.value && !isSpinning.value && displayWorkouts.length > 0) {
+        spinTrigger.value = triggerSpin;
+        handleSpin();
+      }
     });
 
     const handleKeyDown = $((e: KeyboardEvent) => {

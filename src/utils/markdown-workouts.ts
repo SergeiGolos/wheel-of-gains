@@ -66,14 +66,14 @@ export function parseWorkoutsFromDescription(description: string): ParsedWorkout
 
   // Find the workout section (typically after a double newline or specific patterns)
   let foundWorkoutSection = false;
-  let emptyLineCount = 0;
+
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
     // Count empty lines
     if (!line) {
-      emptyLineCount++;
+ 
       continue;
     }
 
@@ -82,9 +82,6 @@ export function parseWorkoutsFromDescription(description: string): ParsedWorkout
       // Always consider the first non-empty line as start of workout section for now
       foundWorkoutSection = true;
     }
-
-    // Reset empty line count when we find content
-    emptyLineCount = 0;
 
     if (foundWorkoutSection && line && !line.startsWith('#') && !line.startsWith('//')) {
       workoutLines.push(line);

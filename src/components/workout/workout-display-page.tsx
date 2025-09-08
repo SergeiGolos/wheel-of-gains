@@ -140,6 +140,7 @@ export const WorkoutDisplayPage = component$<WorkoutDisplayPageProps>(
               displayWorkouts={displayWorkouts.value}
               onSpinStart={handleSpinStart}
               onSpinFinish={handleSpinFinish}
+              triggerSpin={0}
             />
 
             {/* Right Column */}
