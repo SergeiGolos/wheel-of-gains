@@ -3,34 +3,8 @@ import { useLocation, useNavigate } from "@builder.io/qwik-city";
 
 const NAV_ITEMS = [
   {
-    href: "/wheel-of-gains/wheel/classic/",
-    label: "Classic Mix",
-    editHref: "/wheel-of-gains/edit/",
-  },
-  {
-    href: "/wheel-of-gains/wheel/beginner/",
-    label: "Beginner",
-    editHref: "/wheel-of-gains/beginner/edit/",
-  },
-  {
-    href: "/wheel-of-gains/wheel/intermediate/",
-    label: "Intermediate",
-    editHref: "/wheel-of-gains/intermediate/edit/",
-  },
-  {
-    href: "/wheel-of-gains/wheel/advanced/",
-    label: "Advanced",
-    editHref: "/wheel-of-gains/advanced/edit/",
-  },
-  {
-    href: "/wheel-of-gains/wheel/cardio/",
-    label: "Cardio",
-    editHref: "/wheel-of-gains/cardio/edit/",
-  },
-  {
-    href: "/wheel-of-gains/wheel/strength/",
-    label: "Strength",
-    editHref: "/wheel-of-gains/strength/edit/",
+    href: "/wheel-of-gains/",
+    label: "Create Wheel",
   },
 ];
 
@@ -122,100 +96,49 @@ export const WorkoutNavigation = component$(() => {
           aria-label="Workout navigation"
         >
           <div class="p-6">
-            <div class="mb-6 flex items-center justify-between">
-              <h2 class="text-lg font-semibold text-slate-900">
-                Workout Categories
-              </h2>
-              <button
-                onClick$={toggleMenu}
-                class="rounded-md p-2 text-slate-700 hover:bg-slate-100 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
-                aria-label="Close navigation menu"
+          <div class="mb-6 flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-slate-900">
+              Workout Wheel
+            </h2>
+            <button
+              onClick$={toggleMenu}
+              class="rounded-md p-2 text-slate-700 hover:bg-slate-100 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
+              aria-label="Close navigation menu"
+            >
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  class="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <button
+                onClick$={() => handleNavigationChange(NAV_ITEMS[0].href)}
+                class={`w-full rounded-md px-3 py-2 text-left transition-colors focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none ${
+                  currentItem.href === NAV_ITEMS[0].href
+                    ? "bg-teal-100 font-medium text-teal-800"
+                    : "text-slate-700 hover:bg-slate-100"
+                }`}
+              >
+                {NAV_ITEMS[0].label}
               </button>
             </div>
-
-            <ul class="space-y-2">
-              {NAV_ITEMS.map((item) => (
-                <li
-                  key={item.href}
-                  class="rounded-lg border border-slate-200 bg-slate-50 p-2"
-                >
-                  <div class="flex items-center justify-between">
-                    <button
-                      onClick$={() => handleNavigationChange(item.href)}
-                      class={`flex-grow rounded-md px-3 py-2 text-left transition-colors focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none ${
-                        currentItem.href === item.href
-                          ? "bg-teal-100 font-medium text-teal-800"
-                          : "text-slate-700 hover:bg-slate-100"
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                    <button
-                      onClick$={() => handleNavigationChange(item.editHref)}
-                      class="ml-2 flex-shrink-0 rounded-md p-2 text-slate-500 transition-colors hover:bg-teal-50 hover:text-teal-600 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
-                      aria-label={`Edit ${item.label} workouts`}
-                      title={`Edit ${item.label}`}
-                    >
-                      <svg
-                        class="h-4 w-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/* Add New Button */}
-            <div class="mt-6 border-t border-slate-200 pt-6">
-              <button
-                onClick$={() => {
-                  handleNavigationChange("/wheel-of-gains/create/");
-                }}
-                class="flex w-full items-center justify-center gap-2 rounded-md bg-teal-600 px-4 py-3 font-medium text-white transition-colors hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
-                aria-label="Create custom workout wheel"
-              >
-                <svg
-                  class="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-                Create Custom Wheel
-              </button>
+            
+            <div class="text-center text-sm text-slate-500">
+              <p>Create your own custom workout collections and share them with others!</p>
             </div>
+          </div>
           </div>
         </nav>
       </div>
