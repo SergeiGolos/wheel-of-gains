@@ -32,27 +32,44 @@ export const Wheel = component$<WheelProps>(
     // Update canvas size on window resize
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
-      const handleResize = async () => {
-        canvasSize.value = await getCanvasSize();
-      };
+      try {
+        console.log('[DEBUG] Wheel useVisibleTask - setting up resize handler');
+        const handleResize = async () => {
+          canvasSize.value = await getCanvasSize();
+        };
 
-      getCanvasSize().then((size) => (canvasSize.value = size));
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+        getCanvasSize().then((size) => {
+          console.log('[DEBUG] Initial canvas size:', size);
+          canvasSize.value = size;
+        });
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      } catch (error) {
+        console.error('[DEBUG] Wheel resize handler failed:', error);
+      }
     });
 
     // Redraw canvas when properties change
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(({ track }) => {
-      track(() => displayWorkouts.length);
-      track(() => currentRotation.value);
-      track(() => canvasSize.value);
+      try {
+        console.log('[DEBUG] Wheel canvas redraw useVisibleTask executing');
+        track(() => displayWorkouts.length);
+        track(() => currentRotation.value);
+        track(() => canvasSize.value);
 
-      const canvas = canvasRef.value;
-      if (!canvas) return;
+        const canvas = canvasRef.value;
+        if (!canvas) {
+          console.log('[DEBUG] Canvas ref not available yet');
+          return;
+        }
 
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
+        console.log('[DEBUG] Drawing canvas with', displayWorkouts.length, 'workouts, size:', canvasSize.value);
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          console.error('[DEBUG] Could not get 2D context from canvas');
+          return;
+        }
 
       const numOptions = displayWorkouts.length;
       const arcSize = numOptions > 0 ? (2 * Math.PI) / numOptions : 0;
@@ -149,7 +166,12 @@ export const Wheel = component$<WheelProps>(
       ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
       ctx.lineWidth = 4;
       ctx.stroke();
-    });
+      
+      console.log('[DEBUG] Canvas drawing completed successfully');
+    } catch (error) {
+      console.error('[DEBUG] Canvas drawing failed:', error);
+    }
+  });
 
     const handleSpin = $(() => {
       if (isSpinning.value || displayWorkouts.length === 0) return;

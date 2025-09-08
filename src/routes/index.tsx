@@ -24,8 +24,10 @@ interface AppState {
 }
 
 export default component$(() => {
+  console.log('[DEBUG] Main component initializing...');
   const location = useLocation();
   const encodedData = location.url.searchParams.get("data") || location.url.searchParams.get("zip");
+  console.log('[DEBUG] Encoded data from URL:', !!encodedData);
   const state = useStore<AppState>({
     title: "",
     description: "",
@@ -43,26 +45,38 @@ export default component$(() => {
   // Load data from encoded URL
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
-    if (encodedData) {
-      try {
-        const collection = decodeWorkoutCollection(encodedData);
-        state.title = collection.title;
-        state.description = collection.description;
-        let workouts: Workout[] = [];
-        if (collection.workouts && collection.workouts.length > 0) {
-          workouts = collection.workouts;
-        } else {
-          const parsed = parseWorkoutsFromDescription(collection.description);
-          const defaultCat = DEFAULT_CATEGORIES.find(c => c.id === 'classic') || DEFAULT_CATEGORIES[0];
-          workouts = parsed.map(w => ({ ...w, category: defaultCat }));
+    try {
+      console.log('[DEBUG] useVisibleTask executing - checking encodedData:', !!encodedData);
+      if (encodedData) {
+        try {
+          console.log('[DEBUG] Decoding workout collection...');
+          const collection = decodeWorkoutCollection(encodedData);
+          state.title = collection.title;
+          state.description = collection.description;
+          let workouts: Workout[] = [];
+          if (collection.workouts && collection.workouts.length > 0) {
+            workouts = collection.workouts;
+          } else {
+            const parsed = parseWorkoutsFromDescription(collection.description);
+            const defaultCat = DEFAULT_CATEGORIES.find(c => c.id === 'classic') || DEFAULT_CATEGORIES[0];
+            workouts = parsed.map(w => ({ ...w, category: defaultCat }));
+          }
+          state.workouts = workouts;
+          state.showWheel = workouts.length > 0;
+          console.log('[DEBUG] Successfully loaded workout collection:', workouts.length, 'workouts');
+        } catch (error) {
+          console.error('[DEBUG] Failed to decode workout collection:', error);
+          state.error = "Failed to load workout collection";
         }
-        state.workouts = workouts;
-        state.showWheel = workouts.length > 0;
-  } catch {
-        state.error = "Failed to load workout collection";
       }
+      
+      console.log('[DEBUG] Loading spin history...');
+      state.spinHistory = loadSpinHistory();
+      console.log('[DEBUG] Loaded spin history:', state.spinHistory.length, 'items');
+    } catch (error) {
+      console.error('[DEBUG] useVisibleTask failed:', error);
+      state.error = "Failed to initialize application";
     }
-    state.spinHistory = loadSpinHistory();
   });
 
   const handleDescriptionChange = $((value: string) => {
@@ -121,8 +135,14 @@ export default component$(() => {
   // Autofocus when empty
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
-    if (state.workouts.length === 0 && descriptionRef.value) {
-      setTimeout(() => descriptionRef.value?.focus(), 0);
+    try {
+      console.log('[DEBUG] Autofocus useVisibleTask executing, workouts:', state.workouts.length);
+      if (state.workouts.length === 0 && descriptionRef.value) {
+        console.log('[DEBUG] Setting focus to textarea');
+        setTimeout(() => descriptionRef.value?.focus(), 0);
+      }
+    } catch (error) {
+      console.error('[DEBUG] Autofocus failed:', error);
     }
   });
 
