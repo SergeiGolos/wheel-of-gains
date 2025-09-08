@@ -47,6 +47,9 @@ export default component$(() => {
   useVisibleTask$(() => {
     try {
       console.log('[DEBUG] useVisibleTask executing - checking encodedData:', !!encodedData);
+      console.log('[DEBUG] Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
+      console.log('[DEBUG] User agent:', typeof navigator !== 'undefined' ? navigator.userAgent : 'SSR');
+      
       if (encodedData) {
         try {
           console.log('[DEBUG] Decoding workout collection...');
@@ -71,8 +74,13 @@ export default component$(() => {
       }
       
       console.log('[DEBUG] Loading spin history...');
-      state.spinHistory = loadSpinHistory();
-      console.log('[DEBUG] Loaded spin history:', state.spinHistory.length, 'items');
+      try {
+        state.spinHistory = loadSpinHistory();
+        console.log('[DEBUG] Loaded spin history:', state.spinHistory.length, 'items');
+      } catch (error) {
+        console.error('[DEBUG] Failed to load spin history:', error);
+        state.spinHistory = []; // Fallback to empty array
+      }
     } catch (error) {
       console.error('[DEBUG] useVisibleTask failed:', error);
       state.error = "Failed to initialize application";
@@ -151,6 +159,13 @@ export default component$(() => {
       <WorkoutNavigation />
       <div class="container mx-auto px-4 py-8">
         <div class="mx-auto max-w-6xl">
+          {/* Debug info for GitHub Pages */}
+          <noscript>
+            <div class="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-700 mb-4">
+              JavaScript is required for this application to work properly.
+            </div>
+          </noscript>
+          
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr] lg:auto-rows-min">
             {/* 1. Text input */}
             <div class="order-1 lg:order-1 space-y-4" role="main">
