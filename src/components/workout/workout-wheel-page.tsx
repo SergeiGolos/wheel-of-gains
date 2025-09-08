@@ -161,12 +161,54 @@ export const WorkoutWheelPage = component$<WorkoutWheelPageProps>(
                 />
               </div>
             ) : (
-              <Wheel
-                displayWorkouts={displayWorkouts.value}
-                onSpinStart={handleSpinStart}
-                onSpinFinish={handleSpinFinish}
-                triggerSpin={0}
-              />
+              <div class="lg:col-span-2 relative flex justify-center">
+                <Wheel
+                  displayWorkouts={displayWorkouts.value}
+                  onSpinStart={handleSpinStart}
+                  onSpinFinish={handleSpinFinish}
+                  triggerSpin={0}
+                />
+
+                {/* Overlay card when no segments are defined */}
+                {displayWorkouts.value.length === 0 && (
+                  <div class="absolute inset-0 z-30 flex items-center justify-center p-4">
+                    <div class="max-w-lg w-full rounded-lg border border-slate-200 bg-white/95 backdrop-blur-sm p-5 shadow-xl text-left">
+                      <h3 class="text-base font-semibold text-slate-800 flex items-center gap-2">
+                        <span class="inline-block rounded bg-teal-600 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">Empty Wheel</span>
+                        No wheel segments defined
+                      </h3>
+                      <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                        Define workouts (segments) using simple markdown lines. Each non-empty line becomes a wheel segment. You can optionally add a multiplier with <code class="rounded bg-slate-100 px-1 py-0.5 text-[11px] font-mono">|number</code> and use markdown links for direct URLs.
+                      </p>
+                      <div class="mt-3 rounded-md bg-slate-50 border border-slate-200 p-3 text-xs font-mono text-slate-700 whitespace-pre overflow-x-auto">
+{`Push Ups|3\n[Burpees](https://youtu.be/abcd1234)\nMountain Climbers|2\n[Jump Rope Basics](https://example.com/jumprope)|4`}
+                      </div>
+                      <ul class="mt-3 list-disc pl-5 text-xs text-slate-600 space-y-1">
+                        <li><span class="font-semibold">Plain text</span>: generates a Google search link automatically.</li>
+                        <li><span class="font-semibold">[Title](url)</span>: uses the provided URL.</li>
+                        <li><span class="font-semibold">|3</span> multiplies the segment frequency (defaults to 1).</li>
+                        <li>Comments and headings starting with <code class="bg-slate-100 px-1 py-0.5 rounded text-[10px] font-mono">#</code> or <code class="bg-slate-100 px-1 py-0.5 rounded text-[10px] font-mono">//</code> are ignored.</li>
+                      </ul>
+                      <div class="mt-4 flex flex-wrap gap-2">
+                        <button
+                          onClick$={toggleEditMode}
+                          class="inline-flex items-center rounded bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          aria-label="Add workouts manually"
+                        >
+                          Add Workouts
+                        </button>
+                        <button
+                          onClick$={toggleEditMode}
+                          class="inline-flex items-center rounded border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                          aria-label="Open editor"
+                        >
+                          Open Editor
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
 
             {/* Right Column */}

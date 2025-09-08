@@ -1,4 +1,4 @@
-import { component$, $, useSignal } from "@builder.io/qwik";
+import { component$, $, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type { QRL } from "@builder.io/qwik";
 import type { Workout } from "../../utils/workout-utils";
 import {
@@ -30,6 +30,16 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
 
     // Additional state that wasn't moved to hooks
     const invalidMultipliers = useSignal(new Set<string>());
+
+    // If there are no workouts on mount, open the new workout form and autofocus
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(() => {
+      if (workouts.length === 0) {
+        workoutForm.startNewWorkout();
+        // Also enable validation reset
+        workoutForm.showValidationErrors.value = false;
+      }
+    });
 
     // Save new workout
     const saveNewWorkout = $(() => {
@@ -190,6 +200,7 @@ export const WorkoutManager = component$<WorkoutManagerProps>(
                   })}
                   onSave={saveNewWorkout}
                   onCancel={workoutForm.cancelNewWorkout}
+                  autoFocus={true}
                 />
               ) : (
                 <>

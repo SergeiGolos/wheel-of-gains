@@ -1,4 +1,4 @@
-import { component$, $ } from "@builder.io/qwik";
+import { component$, $, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type { QRL } from "@builder.io/qwik";
 import type { Workout } from "../../../utils/workout-utils";
 import {
@@ -23,6 +23,7 @@ interface NewWorkoutFormProps {
   onCategoryChange: QRL<(value: string) => void>;
   onSave: QRL<() => void>;
   onCancel: QRL<() => void>;
+  autoFocus?: boolean;
 }
 
 export const NewWorkoutForm = component$<NewWorkoutFormProps>(
@@ -42,6 +43,17 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
     onSave,
     onCancel,
   }) => {
+    // Local ref for focusing the name input
+    const nameInputRef = useSignal<HTMLInputElement>();
+
+  // Focus the name input when requested (page load or when form opens)
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(() => {
+      if (autoFocus && nameInputRef.value && !newWorkoutName.trim()) {
+        // Focus after paint to ensure element is mounted
+        setTimeout(() => nameInputRef.value?.focus(), 0);
+      }
+    });
     // Handle URL auto-generation when name changes
     const handleNameChangeWithUrl = $((value: string) => {
       onNameChange(value);
@@ -93,6 +105,7 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
         <td class="border border-slate-200 px-3 py-2">
           <div class="space-y-2">
             <input
+              ref={nameInputRef}
               type="text"
               value={newWorkoutName}
               onChange$={(e) =>
