@@ -24,8 +24,10 @@ interface AppState {
 }
 
 export default component$(() => {
+  console.log('[DEBUG] Main component initializing...');
   const location = useLocation();
   const encodedData = location.url.searchParams.get("data") || location.url.searchParams.get("zip");
+  console.log('[DEBUG] Encoded data from URL:', !!encodedData);
   const state = useStore<AppState>({
     title: "",
     description: "",
@@ -43,26 +45,46 @@ export default component$(() => {
   // Load data from encoded URL
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
-    if (encodedData) {
-      try {
-        const collection = decodeWorkoutCollection(encodedData);
-        state.title = collection.title;
-        state.description = collection.description;
-        let workouts: Workout[] = [];
-        if (collection.workouts && collection.workouts.length > 0) {
-          workouts = collection.workouts;
-        } else {
-          const parsed = parseWorkoutsFromDescription(collection.description);
-          const defaultCat = DEFAULT_CATEGORIES.find(c => c.id === 'classic') || DEFAULT_CATEGORIES[0];
-          workouts = parsed.map(w => ({ ...w, category: defaultCat }));
+    try {
+      console.log('[DEBUG] useVisibleTask executing - checking encodedData:', !!encodedData);
+      console.log('[DEBUG] Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
+      console.log('[DEBUG] User agent:', typeof navigator !== 'undefined' ? navigator.userAgent : 'SSR');
+      
+      if (encodedData) {
+        try {
+          console.log('[DEBUG] Decoding workout collection...');
+          const collection = decodeWorkoutCollection(encodedData);
+          state.title = collection.title;
+          state.description = collection.description;
+          let workouts: Workout[] = [];
+          if (collection.workouts && collection.workouts.length > 0) {
+            workouts = collection.workouts;
+          } else {
+            const parsed = parseWorkoutsFromDescription(collection.description);
+            const defaultCat = DEFAULT_CATEGORIES.find(c => c.id === 'classic') || DEFAULT_CATEGORIES[0];
+            workouts = parsed.map(w => ({ ...w, category: defaultCat }));
+          }
+          state.workouts = workouts;
+          state.showWheel = workouts.length > 0;
+          console.log('[DEBUG] Successfully loaded workout collection:', workouts.length, 'workouts');
+        } catch (error) {
+          console.error('[DEBUG] Failed to decode workout collection:', error);
+          state.error = "Failed to load workout collection";
         }
-        state.workouts = workouts;
-        state.showWheel = workouts.length > 0;
-  } catch {
-        state.error = "Failed to load workout collection";
       }
+      
+      console.log('[DEBUG] Loading spin history...');
+      try {
+        state.spinHistory = loadSpinHistory();
+        console.log('[DEBUG] Loaded spin history:', state.spinHistory.length, 'items');
+      } catch (error) {
+        console.error('[DEBUG] Failed to load spin history:', error);
+        state.spinHistory = []; // Fallback to empty array
+      }
+    } catch (error) {
+      console.error('[DEBUG] useVisibleTask failed:', error);
+      state.error = "Failed to initialize application";
     }
-    state.spinHistory = loadSpinHistory();
   });
 
   const handleDescriptionChange = $((value: string) => {
@@ -121,8 +143,14 @@ export default component$(() => {
   // Autofocus when empty
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
-    if (state.workouts.length === 0 && descriptionRef.value) {
-      setTimeout(() => descriptionRef.value?.focus(), 0);
+    try {
+      console.log('[DEBUG] Autofocus useVisibleTask executing, workouts:', state.workouts.length);
+      if (state.workouts.length === 0 && descriptionRef.value) {
+        console.log('[DEBUG] Setting focus to textarea');
+        setTimeout(() => descriptionRef.value?.focus(), 0);
+      }
+    } catch (error) {
+      console.error('[DEBUG] Autofocus failed:', error);
     }
   });
 
@@ -131,6 +159,13 @@ export default component$(() => {
       <WorkoutNavigation />
       <div class="container mx-auto px-4 py-8">
         <div class="mx-auto max-w-6xl">
+          {/* Debug info for GitHub Pages */}
+          <noscript>
+            <div class="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-700 mb-4">
+              JavaScript is required for this application to work properly.
+            </div>
+          </noscript>
+          
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr] lg:auto-rows-min">
             {/* 1. Text input */}
             <div class="order-1 lg:order-1 space-y-4" role="main">
