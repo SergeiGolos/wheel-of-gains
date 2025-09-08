@@ -49,7 +49,7 @@ export const NewWorkoutForm = component$<NewWorkoutFormProps>(
   // Focus the name input when requested (page load or when form opens)
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
-      if (autoFocus && nameInputRef.value && !newWorkoutName.trim()) {
+      if (nameInputRef.value && !newWorkoutName.trim()) {
         // Focus after paint to ensure element is mounted
         setTimeout(() => nameInputRef.value?.focus(), 0);
       }
