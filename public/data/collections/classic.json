@@ -1,15 +1,5 @@
 {
   "id": "classic",
   "title": "Classic Mix",
-  "description": "The original workout collection - a balanced mix to get you started!",
-  "workouts": [
-    "Simple & Sinister",
-    "ABC x3",
-    "AXE Snatch",
-    "AXE KB Swing",
-    "Snatch Test x2",
-    "AXE Macebell Touch Down x.5",
-    "AXE Macebell Uppercuts x.5",
-    "Deadlift"
-  ]
+  "description": "The original workout collection - a balanced mix to get you started!\n\nSimple & Sinister\nABC x3|3\nAXE Snatch\nAXE KB Swing\nSnatch Test x2|2\nAXE Macebell Touch Down x.5|0.5\nAXE Macebell Uppercuts x.5|0.5\nDeadlift"
 }

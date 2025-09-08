@@ -201,28 +201,24 @@ export const Wheel = component$<WheelProps>(
     });
 
     return (
-      <div class="p-1 sm:p-2 lg:col-span-2 lg:p-3">
+      <div class="p-1 sm:p-2 lg:p-3 flex justify-center">
         <h2 class="sr-only">Workout Selection Wheel</h2>
-        <div class="relative h-0 w-full pt-[100%]">
+        <div
+          class="relative"
+          style={{ width: canvasSize.value + 'px', height: canvasSize.value + 'px' }}
+        >
           <div
-            class="absolute top-[-8px] left-1/2 z-10 h-0 w-0 -translate-x-1/2 border-t-[12px] border-r-[8px] border-l-[8px] border-t-slate-600 border-r-transparent border-l-transparent sm:top-[-12px] sm:border-t-[18px] sm:border-r-[12px] sm:border-l-[12px]"
+            class="absolute -top-2 left-1/2 z-10 h-0 w-0 -translate-x-1/2 border-t-[12px] border-r-[8px] border-l-[8px] border-t-slate-600 border-r-transparent border-l-transparent sm:-top-3 sm:border-t-[18px] sm:border-r-[12px] sm:border-l-[12px]"
             aria-hidden="true"
           ></div>
-          <div
-            role="img"
-            aria-label={`Workout wheel with ${displayWorkouts.length} options`}
-            aria-describedby="wheel-instructions"
-          >
-            <canvas
-              ref={canvasRef}
-              width={canvasSize.value}
-              height={canvasSize.value}
-              class="absolute top-0 left-0 h-full w-full"
-            />
-          </div>
+          <canvas
+            ref={canvasRef}
+            width={canvasSize.value}
+            height={canvasSize.value}
+            class="h-full w-full block rounded-full shadow-sm bg-slate-100"
+          />
           <p id="wheel-instructions" class="sr-only">
-            Click the spin button to randomly select a workout from your
-            collection.
+            Click the spin button to randomly select a workout from your collection.
             {displayWorkouts.length === 0
               ? "Add workouts to your arsenal first."
               : `${displayWorkouts.length} workouts available.`}
@@ -243,7 +239,6 @@ export const Wheel = component$<WheelProps>(
           >
             SPIN
           </button>
-          {/* Live region for screen reader announcements */}
           <div aria-live="polite" aria-atomic="true" class="sr-only">
             {announcement.value}
           </div>

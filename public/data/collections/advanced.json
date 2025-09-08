@@ -1,17 +1,5 @@
 {
   "id": "advanced",
   "title": "Advanced Warriors",
-  "description": "For the fitness elite - extreme challenges await!",
-  "workouts": [
-    "Muscle-ups x.5",
-    "Pistol Squats",
-    "Handstand Push-ups x.5",
-    "One Arm Push-ups x.5",
-    "L-sits x.5",
-    "Archer Pull-ups x.5",
-    "Single Leg Burpees",
-    "Planche Push-ups x.5",
-    "Human Flag x.5",
-    "Dragon Flags x.5"
-  ]
+  "description": "For the fitness elite - extreme challenges await!\n\nMuscle-ups|0.5\nPistol Squats\nHandstand Push-ups|0.5\nOne Arm Push-ups|0.5\nL-sits|0.5\nArcher Pull-ups|0.5\nSingle Leg Burpees\nPlanche Push-ups|0.5\nHuman Flag|0.5\nDragon Flags|0.5"
 }

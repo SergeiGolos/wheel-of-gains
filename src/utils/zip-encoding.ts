@@ -18,19 +18,28 @@ export interface EncodedWorkoutCollection {
 export function encodeWorkoutCollection(
   collection: EncodedWorkoutCollection,
 ): string {
+  console.log("🔧 Encoding workout collection:", {
+    title: collection.title,
+    workoutCount: collection.workouts.length,
+    totalSize: JSON.stringify(collection).length
+  });
+
   try {
     // Convert to JSON string
     const jsonString = JSON.stringify(collection);
+    console.log("📝 JSON string length:", jsonString.length);
 
     // Compress with gzip
     const compressed = pako.gzip(jsonString);
+    console.log("🗜️ Compressed size:", compressed.length);
 
     // Convert to base64
     const base64 = btoa(String.fromCharCode(...compressed));
+    console.log("🔤 Base64 encoded, final length:", base64.length);
 
     return base64;
   } catch (error) {
-    console.error("Failed to encode workout collection:", error);
+    console.error("❌ Failed to encode workout collection:", error);
     throw new Error("Failed to encode workout collection");
   }
 }
@@ -42,12 +51,17 @@ export function encodeWorkoutCollection(
 export function decodeWorkoutCollection(
   encoded: string,
 ): EncodedWorkoutCollection {
+  console.log("🔧 Starting decode process for encoded string length:", encoded.length);
+
   try {
     // First try to decode as base64
+    console.log("🔤 Decoding base64...");
     const binaryString = atob(encoded);
+    console.log("📄 Binary string length:", binaryString.length);
 
     // Try to parse as uncompressed JSON first (for testing)
     try {
+      console.log("📝 Attempting to parse as uncompressed JSON...");
       const collection = JSON.parse(binaryString) as EncodedWorkoutCollection;
 
       // Validate the structure
@@ -56,6 +70,7 @@ export function decodeWorkoutCollection(
         collection.description &&
         Array.isArray(collection.workouts)
       ) {
+        console.log("✅ Valid uncompressed JSON structure found");
         // Validate each workout
         for (const workout of collection.workouts) {
           if (
@@ -64,15 +79,16 @@ export function decodeWorkoutCollection(
             !workout.url ||
             typeof workout.multiplier !== "number"
           ) {
+            console.error("❌ Invalid workout structure:", workout);
             throw new Error("Invalid workout structure");
           }
         }
-        console.log("Decoded uncompressed JSON collection:", collection.title);
+        console.log("✅ Decoded uncompressed JSON collection:", collection.title, "with", collection.workouts.length, "workouts");
         return collection;
       }
     } catch {
       // If JSON parsing fails, try gzip decompression
-      console.log("Not uncompressed JSON, trying gzip decompression...");
+      console.log("📝 Not uncompressed JSON, trying gzip decompression...");
     }
 
     // Convert binary string to Uint8Array for gzip decompression
@@ -80,11 +96,15 @@ export function decodeWorkoutCollection(
     for (let i = 0; i < binaryString.length; i++) {
       bytes[i] = binaryString.charCodeAt(i);
     }
+    console.log("🔄 Converting to Uint8Array, length:", bytes.length);
 
     // Decompress with gzip
+    console.log("🗜️ Decompressing with gzip...");
     const decompressed = pako.ungzip(bytes, { to: "string" });
+    console.log("📄 Decompressed string length:", decompressed.length);
 
     // Parse JSON
+    console.log("📝 Parsing decompressed JSON...");
     const collection = JSON.parse(decompressed) as EncodedWorkoutCollection;
 
     // Validate the structure
@@ -93,9 +113,15 @@ export function decodeWorkoutCollection(
       !collection.description ||
       !Array.isArray(collection.workouts)
     ) {
+      console.error("❌ Invalid workout collection structure:", {
+        hasTitle: !!collection.title,
+        hasDescription: !!collection.description,
+        hasWorkouts: Array.isArray(collection.workouts)
+      });
       throw new Error("Invalid workout collection structure");
     }
 
+    console.log("✅ Valid gzipped collection structure found");
     // Validate each workout
     for (const workout of collection.workouts) {
       if (
@@ -104,14 +130,15 @@ export function decodeWorkoutCollection(
         !workout.url ||
         typeof workout.multiplier !== "number"
       ) {
+        console.error("❌ Invalid workout structure:", workout);
         throw new Error("Invalid workout structure");
       }
     }
 
-    console.log("Decoded gzipped collection:", collection.title);
+    console.log("✅ Decoded gzipped collection:", collection.title, "with", collection.workouts.length, "workouts");
     return collection;
   } catch (error) {
-    console.error("Failed to decode workout collection:", error);
+    console.error("❌ Failed to decode workout collection:", error);
     throw new Error("Failed to decode workout collection");
   }
 }
@@ -123,12 +150,16 @@ export function createShareableUrl(
   collection: EncodedWorkoutCollection,
   baseUrl?: string,
 ): string {
+  console.log("🔗 Creating shareable URL for collection:", collection.title);
+
   const encoded = encodeWorkoutCollection(collection);
+  console.log("📦 Encoded data length:", encoded.length);
 
   // If baseUrl is not provided, construct it from current location
   if (!baseUrl) {
     const currentUrl = new URL(window.location.href);
     baseUrl = `${currentUrl.protocol}//${currentUrl.host}`;
+    console.log("🏠 Using current location base URL:", baseUrl);
 
     // Determine the base path from current location
     const currentPath = currentUrl.pathname;
@@ -136,14 +167,18 @@ export function createShareableUrl(
       ? "/wheel-of-gains/"
       : "/";
 
-    return `${baseUrl}${basePath}zip?data=${encodeURIComponent(encoded)}`;
+    const finalUrl = `${baseUrl}${basePath}?data=${encodeURIComponent(encoded)}`;
+    console.log("🔗 Generated shareable URL:", finalUrl);
+    return finalUrl;
   }
 
   // Legacy support: if baseUrl is provided, assume it includes the full path
   const path = baseUrl.includes("/wheel-of-gains")
-    ? "/zip"
-    : "/wheel-of-gains/zip";
-  return `${baseUrl}${path}?data=${encodeURIComponent(encoded)}`;
+    ? ""
+    : "";
+  const finalUrl = `${baseUrl}${path}?data=${encodeURIComponent(encoded)}`;
+  console.log("🔗 Generated legacy shareable URL:", finalUrl);
+  return finalUrl;
 }
 
 /**
@@ -152,11 +187,22 @@ export function createShareableUrl(
 export function extractDataFromUrl(
   url: string = window.location.href,
 ): string | null {
+  console.log("🔍 Extracting data from URL:", url);
+
   try {
     const urlObj = new URL(url);
-    return urlObj.searchParams.get("data");
+    const data = urlObj.searchParams.get("data");
+
+    if (data) {
+      console.log("📦 Found encoded data, length:", data.length);
+      console.log("🔤 Decoded data preview:", data.substring(0, 50) + (data.length > 50 ? "..." : ""));
+    } else {
+      console.log("❌ No data parameter found in URL");
+    }
+
+    return data;
   } catch (error) {
-    console.error("Failed to extract data from URL:", error);
+    console.error("❌ Failed to extract data from URL:", error);
     return null;
   }
 }
