@@ -8,14 +8,14 @@ Transform the Wheel of Gains application from a predefined-collection model to a
 
 ### FR-001: Two-State System
 **Requirement**: The application must operate in exactly two states based on URL parameters:
-- **State 1**: Create Mode (accessed via `/zip` without data parameter)  
-- **State 2**: Wheel Mode (accessed via `/zip?data=...` with encoded data)
+- **State 1**: Create Mode (accessed via `/` without zip parameter)  
+- **State 2**: Wheel Mode (accessed via `/?zip=...` with encoded data)
 
 **Rationale**: Simplifies user experience and eliminates confusion between predefined and custom collections
 
 **Acceptance Criteria**:
-- Visiting `/zip` without parameters displays create mode
-- Visiting `/zip?data=...` with valid data displays wheel mode  
+- Visiting `/` without parameters displays create mode
+- Visiting `/?zip=...` with valid data displays wheel mode  
 - Invalid data gracefully falls back to create mode with error message
 - State detection happens instantly without loading delays
 
@@ -68,15 +68,15 @@ Transform the Wheel of Gains application from a predefined-collection model to a
 
 **Changes Required**:
 - Remove routes: `/beginner`, `/intermediate`, `/advanced`, `/cardio`, `/strength`
-- Deprecate route: `/create` (functionality moved to `/zip` create mode)
-- Update root route: `/` redirects to `/zip` create mode
-- Maintain route: `/zip` with enhanced two-state functionality
+- Deprecate route: `/create` (functionality moved to `/` create mode)
+- Update root route: `/` with enhanced two-state functionality  
+- Maintain compatibility: Existing shared URLs continue to work
 
 **Acceptance Criteria**:
-- Old category routes return 404 or redirect to `/zip`
+- Old category routes return 404 or redirect to `/`
 - Navigation no longer references category routes
 - Root page directs users to create their first wheel
-- `/create` redirects to `/zip` with backward compatibility
+- `/create` redirects to `/` with backward compatibility
 - All internal links updated to new route structure
 
 ## Non-Functional Requirements
@@ -199,7 +199,7 @@ interface Workout {
 **Requirement**: Existing share URLs must continue functioning
 
 **Support**:
-- Current `/zip?data=...` URLs work unchanged
+- Current `/?zip=...` URLs work unchanged
 - Bookmarked category routes redirect gracefully  
 - Error messages guide users to create mode
 - Existing encoded collections decode properly

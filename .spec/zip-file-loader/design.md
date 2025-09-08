@@ -17,7 +17,7 @@ The current system maintains multiple predefined workout collections (classic, b
 - **Workout Collections**: Predefined collections in `src/utils/workout-collections.ts`
 - **Zip Encoding**: Base64 + gzip compression in `src/utils/zip-encoding.ts`
 - **Create Route**: Custom wheel creation at `/create`
-- **Zip Route**: Data loading at `/zip?data=...`
+- **Root Route**: Single entry point handling both create and wheel modes
 - **Category Routes**: Individual collection routes (`/beginner`, `/advanced`, etc.)
 
 ### Current Data Flow
@@ -27,19 +27,37 @@ User → Create Route → Custom Collection → Generate ZIP URL
 User → ZIP URL → Decode Data → WorkoutDisplayPage (with fallback)
 ```
 
+## Routing Strategy
+
+### Root Route Approach
+The design uses the root route (`/`) as the single entry point for both create and wheel modes. This approach offers several advantages:
+
+- **Intuitive Discovery**: Users naturally navigate to the root to start creating workouts
+- **Clean URLs**: Shared URLs look like `/?zip=data` rather than `/zip?data=...`
+- **Simplified Navigation**: No need to explain or document a separate `/zip` route
+- **Better SEO**: Root route gets maximum search engine attention
+
+### Query Parameter Strategy  
+The system uses the `zip` query parameter to distinguish between modes:
+
+- **No parameter** (`/`): Create Mode - Users can build custom workout collections
+- **With parameter** (`/?zip=...`): Wheel Mode - Displays decoded shared collections
+
+This approach keeps the URL structure clean while making the functionality immediately clear from the parameter name.
+
 ## Proposed Solution
 
 ### New Two-State Architecture
 
 #### State 1: Create Mode (No ZIP Parameter)
-When accessing `/zip` without a `data` parameter:
+When accessing `/` without a `zip` parameter:
 - Display a streamlined workout creation interface
 - Allow users to add workouts with multipliers
 - Generate shareable ZIP-encoded URLs in real-time
 - Provide immediate preview of the wheel
 
 #### State 2: Wheel Mode (ZIP Parameter Present)
-When accessing `/zip?data=...`:
+When accessing `/?zip=...`:
 - Decode and validate the workout collection
 - Display the interactive spinning wheel
 - Handle decoding errors gracefully
@@ -104,7 +122,7 @@ const NAV_ITEMS = [
 **Proposed Navigation**
 ```typescript
 const NAV_ITEMS = [
-  { href: "/wheel-of-gains/zip", label: "Create Wheel" },
+  { href: "/wheel-of-gains/", label: "Create Wheel" },
   // Simplified single-entry navigation
   // Additional helpful links could be added:
   // { href: "/wheel-of-gains/help", label: "Help" },
@@ -114,15 +132,15 @@ const NAV_ITEMS = [
 
 #### Route Consolidation
 - **Eliminate**: Individual category routes (`/beginner`, `/intermediate`, etc.)
-- **Consolidate**: Move `/create` functionality into `/zip` create mode
-- **Simplify**: Single route handles both states based on URL parameters
+- **Consolidate**: Move `/create` functionality into root (`/`) create mode
+- **Simplify**: Root route handles both states based on query parameters
 
 #### Component Architecture
 ```typescript
-// src/routes/zip/index.tsx
+// src/routes/index.tsx
 export default component$(() => {
   const location = useLocation();
-  const encodedData = location.url.searchParams.get("data");
+  const encodedData = location.url.searchParams.get("zip");
   
   if (!encodedData) {
     return <CreateWheelMode />;
@@ -153,7 +171,7 @@ interface WheelModeState {
 
 ```mermaid
 graph TD
-    A[User visits /zip] --> B{Has ?data param?}
+    A[User visits /] --> B{Has ?zip param?}
     B -->|No| C[Create Mode]
     B -->|Yes| D[Wheel Mode]
     
@@ -176,14 +194,14 @@ graph TD
 ### Migration Strategy
 
 #### Phase 1: Route Consolidation
-- Merge `/create` functionality into `/zip` create mode
-- Update navigation to point to `/zip` instead of `/create`
-- Add redirects from old category routes to `/zip` create mode
+- Merge `/create` functionality into root (`/`) create mode
+- Update navigation to point to `/` instead of `/create`
+- Add redirects from old category routes to `/` create mode
 
 #### Phase 2: Collection Removal
 - Remove predefined workout collections
 - Remove category route components
-- Update main landing page to use `/zip` create mode
+- Update main landing page to use root (`/`) create mode
 
 #### Phase 3: Cleanup
 - Remove unused workout collection utilities
@@ -225,7 +243,7 @@ interface WheelModeProps {
 /cardio             → Cardio collection
 /strength           → Strength collection
 /create             → Custom creation interface
-/zip?data=...       → Decode shared collection
+/?zip=...           → Decode shared collection
 ```
 
 #### Proposed (After)  
@@ -300,8 +318,8 @@ interface WheelModeProps {
 ## Implementation Checklist
 
 ### Phase 1: Create Mode Integration
-- [ ] Move create functionality into `/zip` route
-- [ ] Implement state detection (data parameter presence)
+- [ ] Move create functionality into root (`/`) route
+- [ ] Implement state detection (zip parameter presence)
 - [ ] Update navigation links
 - [ ] Test URL generation and sharing
 
