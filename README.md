@@ -140,13 +140,13 @@ Simply visit the [live application](https://wheel-of-gains.golos.work) and start
    ```
 
 4. **Open in browser**:
-   Navigate to `http://localhost:5173/wheel-of-gains/`
+   Navigate to `http://localhost:5173/`
 
 #### Development Commands
 
 ```bash
 # Development
-npm run dev               # Start dev server (localhost:5173/wheel-of-gains/)
+npm run dev               # Start dev server (localhost:5173/)
 npm run start            # Alternative dev server with auto-open
 
 # Code Quality

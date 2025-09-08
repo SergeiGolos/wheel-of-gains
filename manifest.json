@@ -2,7 +2,7 @@
   "name": "Wheel of Gains",
   "short_name": "WheelGains",
   "description": "Random workout selector to spice up your fitness routine",
-  "start_url": "/wheel-of-gains/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#f1f5f9",
   "theme_color": "#0f172a",

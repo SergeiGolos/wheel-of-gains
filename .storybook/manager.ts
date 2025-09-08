@@ -4,7 +4,7 @@ addons.setConfig({
   theme: {
     base: "light",
     brandTitle: `Wheel of Gains v${typeof __APP_VERSION__ !== "undefined" ? __APP_VERSION__ : "1.0.0"}`,
-    brandUrl: "https://sergeigolos.github.io/wheel-of-gains/",
+    brandUrl: "https://wheel-of-gains.golos.work/",
   },
 });
 

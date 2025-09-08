@@ -414,7 +414,7 @@ src/
 
 #### 2.1 Development Environment
 
-- **URL**: `http://localhost:5173/wheel-of-gains/`
+- **URL**: `http://localhost:5173/`
 - **Purpose**: Active development testing
 - **Data**: Test data sets, mock collections
 
@@ -426,7 +426,7 @@ src/
 
 #### 2.3 Production Environment
 
-- **URL**: `https://sergeigolos.github.io/wheel-of-gains/`
+- **URL**: `https://wheel-of-gains.golos.work/`
 - **Purpose**: Live user experience validation
 - **Data**: Real user workflows, production monitoring
 

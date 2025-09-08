@@ -10,9 +10,9 @@ This project uses [Storybook](https://storybook.js.org/) to develop, test, and d
 
 The Storybook is automatically deployed to GitHub Pages alongside the main application:
 
-- **Live Storybook**: https://sergeigolos.github.io/wheel-of-gains/storybook/
-- **Main Application**: https://sergeigolos.github.io/wheel-of-gains/wheel-of-gains/
-- **Project Hub**: https://sergeigolos.github.io/wheel-of-gains/
+- **Live Storybook**: https://wheel-of-gains.golos.work/storybook/
+- **Main Application**: https://wheel-of-gains.golos.work/wheel-of-gains/
+- **Project Hub**: https://wheel-of-gains.golos.work/
 
 The deployment includes:
 
@@ -286,7 +286,7 @@ npm run build && npm run build-storybook
 **Deployment Structure**:
 
 ```
-https://sergeigolos.github.io/wheel-of-gains/
+https://wheel-of-gains.golos.work/
 ├── index.html                  # Project hub with navigation
 ├── wheel-of-gains/            # Main Qwik application
 │   ├── index.html

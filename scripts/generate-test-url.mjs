@@ -17,7 +17,7 @@ try {
   console.log("Encoded data:", encoded);
 
   // Create URL
-  const testUrl = `http://localhost:5173/wheel-of-gains/zip?data=${encodeURIComponent(encoded)}`;
+  const testUrl = `http://localhost:5173/zip?data=${encodeURIComponent(encoded)}`;
   console.log("\nTest URL:");
   console.log(testUrl);
 

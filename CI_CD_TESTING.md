@@ -69,7 +69,7 @@ The pipeline validates:
 After successful testing and building, the deployed site includes:
 
 ```
-https://sergeigolos.github.io/wheel-of-gains/
+https://wheel-of-gains.golos.work/
 ├── index-hub.html           # Project hub with navigation
 ├── wheel-of-gains/          # Main Qwik application
 │   ├── index.html
