@@ -41,8 +41,6 @@ export default component$(() => {
 });
 
 const CreateWheelMode = component$(() => {
-  const location = useLocation();
-  
   const state = useStore<CreateWheelState>({
     title: "",
     description: "",
