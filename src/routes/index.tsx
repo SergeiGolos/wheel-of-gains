@@ -72,6 +72,15 @@ export default component$(() => {
           }
           state.workouts = workouts;
           state.showWheel = workouts.length > 0;
+          // Build share URL in the background after loading
+          try {
+            state.shareUrl = state.workouts.length > 0
+              ? createShareableUrl({ title: state.title || 'Custom Workout Collection', description: state.description, workouts: state.workouts })
+              : null;
+          } catch (e) {
+            console.error('[DEBUG] Failed to generate share URL after decode:', e);
+            state.shareUrl = null;
+          }
           console.log('[DEBUG] Successfully loaded workout collection:', workouts.length, 'workouts');
         } catch (error) {
           console.error('[DEBUG] Failed to decode workout collection:', error);
@@ -101,9 +110,19 @@ export default component$(() => {
       state.workouts = parsed.map(w => ({ ...w, category: defaultCat }));
       state.showWheel = state.workouts.length > 0;
       state.error = null;
+      // Continuously keep the share URL up-to-date while typing
+      try {
+        state.shareUrl = state.workouts.length > 0
+          ? createShareableUrl({ title: state.title || 'Custom Workout Collection', description: state.description, workouts: state.workouts })
+          : null;
+      } catch (e) {
+        console.error('[DEBUG] Failed to generate share URL on input:', e);
+        state.shareUrl = null;
+      }
   } catch {
       state.error = "Failed to parse workouts from description";
       state.showWheel = false;
+      state.shareUrl = null;
     }
   });
 
