@@ -1,6 +1,7 @@
 import { component$, useStore, useVisibleTask$, useSignal, $ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { routeLoader$ } from "@builder.io/qwik-city";
+import type { StaticGenerateHandler } from "@builder.io/qwik-city";
 import { Wheel } from "../../components/workout/wheel";
 import { PreviousResults } from "../../components/workout/previous-results";
 import { ResultDisplay } from "../../components/ui/result-display";
@@ -10,6 +11,7 @@ import { parseWorkoutsFromDescription } from "../../utils/markdown-workouts";
 import type { Workout, SpinResult } from "../../utils/workout-utils";
 import { loadSpinHistory, saveSpinHistory, DEFAULT_CATEGORIES } from "../../utils/workout-utils";
 import { loadWorkoutContent, type WorkoutContent } from "../../utils/content-loader";
+import { AVAILABLE_WORKOUTS } from "../../utils/content-loader";
 
 interface AppState {
   title: string;
@@ -253,6 +255,13 @@ export default component$(() => {
     </div>
   );
 });
+
+// Tell the static generator which [name] params to generate at build time
+export const onStaticGenerate: StaticGenerateHandler = async () => {
+  return {
+    params: AVAILABLE_WORKOUTS.map((name) => ({ name })),
+  };
+};
 
 export const head: DocumentHead = ({ resolveValue }) => {
   const workoutData = resolveValue(useWorkoutData);
