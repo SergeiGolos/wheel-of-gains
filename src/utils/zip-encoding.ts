@@ -12,6 +12,24 @@ export interface EncodedWorkoutCollection {
   workouts: Workout[];
 }
 
+// --- Base64 URL-safe helpers (backward-compatible) ---
+function toBase64Url(b64: string): string {
+  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function fromBase64Url(b64url: string): string {
+  let b64 = b64url.replace(/-/g, "+").replace(/_/g, "/");
+  // pad to multiple of 4
+  while (b64.length % 4) b64 += "=";
+  return b64;
+}
+
+function base64DecodeToBinaryString(encoded: string): string {
+  // Accept both standard base64 and base64url inputs
+  const normalized = /[-_]/.test(encoded) ? fromBase64Url(encoded) : encoded;
+  return atob(normalized);
+}
+
 /**
  * Encode workout collection to base64 gzipped string
  */
@@ -33,14 +51,30 @@ export function encodeWorkoutCollection(
     const compressed = pako.gzip(jsonString);
     console.log("🗜️ Compressed size:", compressed.length);
 
-    // Convert to base64
-    const base64 = btoa(String.fromCharCode(...compressed));
-    console.log("🔤 Base64 encoded, final length:", base64.length);
+    // Convert to URL-safe base64
+    const b64 = btoa(String.fromCharCode(...compressed));
+    const base64url = toBase64Url(b64);
+    console.log("🔤 Base64url encoded, final length:", base64url.length);
 
-    return base64;
+    return base64url;
   } catch (error) {
     console.error("❌ Failed to encode workout collection:", error);
     throw new Error("Failed to encode workout collection");
+  }
+}
+
+/**
+ * Encode only the description string (most compact share format)
+ */
+export function encodeDescriptionString(description: string): string {
+  try {
+    const compressed = pako.gzip(description);
+    const b64 = btoa(String.fromCharCode(...compressed));
+    const base64url = toBase64Url(b64);
+    return base64url;
+  } catch (error) {
+    console.error("❌ Failed to encode description string:", error);
+    throw new Error("Failed to encode description string");
   }
 }
 
@@ -55,8 +89,8 @@ export function decodeWorkoutCollection(
 
   try {
     // First try to decode as base64
-    console.log("🔤 Decoding base64...");
-    const binaryString = atob(encoded);
+  console.log("🔤 Decoding base64 (accepting base64url)...");
+  const binaryString = base64DecodeToBinaryString(encoded);
     console.log("📄 Binary string length:", binaryString.length);
 
     // Try to parse as uncompressed JSON first (for testing)
@@ -103,40 +137,52 @@ export function decodeWorkoutCollection(
     const decompressed = pako.ungzip(bytes, { to: "string" });
     console.log("📄 Decompressed string length:", decompressed.length);
 
-    // Parse JSON
-    console.log("📝 Parsing decompressed JSON...");
-    const collection = JSON.parse(decompressed) as EncodedWorkoutCollection;
+    // Try JSON parse; if it fails, treat as compact description payload
+    try {
+      console.log("📝 Parsing decompressed JSON...");
+      const collection = JSON.parse(decompressed) as EncodedWorkoutCollection;
 
-    // Validate the structure
-    if (
-      !collection.title ||
-      !collection.description ||
-      !Array.isArray(collection.workouts)
-    ) {
-      console.error("❌ Invalid workout collection structure:", {
-        hasTitle: !!collection.title,
-        hasDescription: !!collection.description,
-        hasWorkouts: Array.isArray(collection.workouts)
-      });
-      throw new Error("Invalid workout collection structure");
-    }
-
-    console.log("✅ Valid gzipped collection structure found");
-    // Validate each workout
-    for (const workout of collection.workouts) {
+      // Validate the structure
       if (
-        !workout.id ||
-        !workout.name ||
-        !workout.url ||
-        typeof workout.multiplier !== "number"
+        !collection.title ||
+        !collection.description ||
+        !Array.isArray(collection.workouts)
       ) {
-        console.error("❌ Invalid workout structure:", workout);
-        throw new Error("Invalid workout structure");
+        console.error("❌ Invalid workout collection structure:", {
+          hasTitle: !!collection.title,
+          hasDescription: !!collection.description,
+          hasWorkouts: Array.isArray(collection.workouts)
+        });
+        throw new Error("Invalid workout collection structure");
       }
-    }
 
-    console.log("✅ Decoded gzipped collection:", collection.title, "with", collection.workouts.length, "workouts");
-    return collection;
+      console.log("✅ Valid gzipped collection structure found");
+      // Validate each workout
+      for (const workout of collection.workouts) {
+        if (
+          !workout.id ||
+          !workout.name ||
+          !workout.url ||
+          typeof workout.multiplier !== "number"
+        ) {
+          console.error("❌ Invalid workout structure:", workout);
+          throw new Error("Invalid workout structure");
+        }
+      }
+
+      console.log("✅ Decoded gzipped collection:", collection.title, "with", collection.workouts.length, "workouts");
+      return collection;
+  } catch {
+      console.log("🧾 Not JSON after gzip — treating as compact description payload.");
+      const description = decompressed;
+      const fallback: EncodedWorkoutCollection = {
+        title: "",
+        description,
+        workouts: []
+      };
+      console.log("✅ Decoded compact description payload (length):", description.length);
+      return fallback;
+    }
   } catch (error) {
     console.error("❌ Failed to decode workout collection:", error);
     throw new Error("Failed to decode workout collection");
@@ -152,7 +198,8 @@ export function createShareableUrl(
 ): string {
   console.log("🔗 Creating shareable URL for collection:", collection.title);
 
-  const encoded = encodeWorkoutCollection(collection);
+  // Prefer the most compact form: encode just the description string
+  const encoded = encodeDescriptionString(collection.description);
   console.log("📦 Encoded data length:", encoded.length);
 
   // If baseUrl is not provided, construct it from current location
@@ -167,7 +214,7 @@ export function createShareableUrl(
       ? "/wheel-of-gains/"
       : "/";
 
-    const finalUrl = `${baseUrl}${basePath}?data=${encodeURIComponent(encoded)}`;
+  const finalUrl = `${baseUrl}${basePath}?data=${encodeURIComponent(encoded)}`;
     console.log("🔗 Generated shareable URL:", finalUrl);
     return finalUrl;
   }
