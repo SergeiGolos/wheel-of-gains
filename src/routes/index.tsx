@@ -6,7 +6,7 @@ import { PreviousResults } from "../components/workout/previous-results";
 import { ResultDisplay } from "../components/ui/result-display";
 import { WorkoutNavigation } from "../components/navigation/workout-navigation";
 import { VersionInfo } from "../components/ui/version-info";
-import { decodeWorkoutCollection, createShareableUrl } from "../utils/zip-encoding";
+import { decodeWorkoutCollection, createShareableUrl, extractDataFromUrl } from "../utils/zip-encoding";
 import { parseWorkoutsFromDescription } from "../utils/markdown-workouts";
 import type { Workout, SpinResult } from "../utils/workout-utils";
 import { loadSpinHistory, saveSpinHistory, DEFAULT_CATEGORIES } from "../utils/workout-utils";
@@ -26,8 +26,10 @@ interface AppState {
 export default component$(() => {
   console.log('[DEBUG] Main component initializing...');
   const location = useLocation();
-  const encodedData = location.url.searchParams.get("data") || location.url.searchParams.get("zip");
-  console.log('[DEBUG] Encoded data from URL:', !!encodedData);
+  // Note: On SSG builds, location.url may not include the runtime query string.
+  // We'll re-read from window inside useVisibleTask$ as a fallback.
+  const initialEncodedData = location.url.searchParams.get("data") || location.url.searchParams.get("zip");
+  console.log('[DEBUG] Encoded data from URL (initial SSR/location):', !!initialEncodedData);
   const state = useStore<AppState>({
     title: "",
     description: "",
@@ -46,14 +48,18 @@ export default component$(() => {
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     try {
-      console.log('[DEBUG] useVisibleTask executing - checking encodedData:', !!encodedData);
-      console.log('[DEBUG] Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
+    console.log('[DEBUG] useVisibleTask executing - checking encodedData (initial):', !!initialEncodedData);
+    console.log('[DEBUG] Current URL:', typeof window !== 'undefined' ? window.location.href : 'SSR');
       console.log('[DEBUG] User agent:', typeof navigator !== 'undefined' ? navigator.userAgent : 'SSR');
       
-      if (encodedData) {
+    // Read encoded data: prefer location (when present), else fallback to window URL parsing
+    const runtimeEncodedData = initialEncodedData || extractDataFromUrl() || undefined;
+    console.log('[DEBUG] Encoded data resolved at runtime:', !!runtimeEncodedData);
+
+    if (runtimeEncodedData) {
         try {
           console.log('[DEBUG] Decoding workout collection...');
-          const collection = decodeWorkoutCollection(encodedData);
+      const collection = decodeWorkoutCollection(runtimeEncodedData);
           state.title = collection.title;
           state.description = collection.description;
           let workouts: Workout[] = [];
