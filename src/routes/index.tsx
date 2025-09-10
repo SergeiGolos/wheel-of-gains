@@ -28,8 +28,8 @@ export default component$(() => {
   const location = useLocation();
   // Note: On SSG builds, location.url may not include the runtime query string.
   // We'll re-read from window inside useVisibleTask$ as a fallback.
-  const initialEncodedData = location.url.searchParams.get("data") || location.url.searchParams.get("zip");
-  console.log('[DEBUG] Encoded data from URL (initial SSR/location):', !!initialEncodedData);
+  const initialEncodedData = location.url.searchParams.get("z") || location.url.searchParams.get("data") || location.url.searchParams.get("zip");
+  console.log('[DEBUG] Encoded data from URL (initial SSR/location, z|data|zip):', !!initialEncodedData);
   const state = useStore<AppState>({
     title: "",
     description: "",

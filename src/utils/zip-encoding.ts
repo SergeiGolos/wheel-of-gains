@@ -214,7 +214,7 @@ export function createShareableUrl(
       ? "/wheel-of-gains/"
       : "/";
 
-  const finalUrl = `${baseUrl}${basePath}?data=${encodeURIComponent(encoded)}`;
+  const finalUrl = `${baseUrl}${basePath}?z=${encodeURIComponent(encoded)}`;
     console.log("🔗 Generated shareable URL:", finalUrl);
     return finalUrl;
   }
@@ -223,7 +223,7 @@ export function createShareableUrl(
   const path = baseUrl.includes("/wheel-of-gains")
     ? ""
     : "";
-  const finalUrl = `${baseUrl}${path}?data=${encodeURIComponent(encoded)}`;
+  const finalUrl = `${baseUrl}${path}?z=${encodeURIComponent(encoded)}`;
   console.log("🔗 Generated legacy shareable URL:", finalUrl);
   return finalUrl;
 }
@@ -238,13 +238,13 @@ export function extractDataFromUrl(
 
   try {
     const urlObj = new URL(url);
-    const data = urlObj.searchParams.get("data");
+  const data = urlObj.searchParams.get("z") || urlObj.searchParams.get("data") || urlObj.searchParams.get("zip");
 
     if (data) {
       console.log("📦 Found encoded data, length:", data.length);
       console.log("🔤 Decoded data preview:", data.substring(0, 50) + (data.length > 50 ? "..." : ""));
     } else {
-      console.log("❌ No data parameter found in URL");
+      console.log("❌ No z/data/zip parameter found in URL");
     }
 
     return data;

@@ -33,7 +33,7 @@ User → ZIP URL → Decode Data → WorkoutDisplayPage (with fallback)
 The design uses the root route (`/`) as the single entry point for both create and wheel modes. This approach offers several advantages:
 
 - **Intuitive Discovery**: Users naturally navigate to the root to start creating workouts
-- **Clean URLs**: Shared URLs look like `/?zip=data` rather than `/zip?data=...`
+- **Clean URLs**: Shared URLs look like `/?z=...` (short) rather than `/zip?data=...`
 - **Simplified Navigation**: No need to explain or document a separate `/zip` route
 - **Better SEO**: Root route gets maximum search engine attention
 
@@ -250,7 +250,7 @@ interface WheelModeProps {
 ```
 /                    → Redirect to /zip (create mode)
 /zip                 → Create mode (no data parameter)
-/zip?data=...       → Wheel mode (decode and display)
+/zip?z=...          → Wheel mode (decode and display)
 ```
 
 ### Error Handling
